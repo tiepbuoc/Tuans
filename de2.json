@@ -895,7 +895,7 @@
           },
           {
             "id": 59,
-            "question": "He s[ucceeded] in achieving the scholarship of that company. He could be an official staff member after the course. (OPPOSITE)",
+            "question": "He [succeeded] in achieving the scholarship of that company. He could be an official staff member after the course. (OPPOSITE)",
             "options": [
               "managed",
               "failed",
