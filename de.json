@@ -8,7 +8,7 @@
         "Thái Lan.",
         "Phi-lip-pin."
       ],
-      "dap_an_dung": 1
+      "dap_an_dung": 0
     },
     {
       "cau_hoi": "Trong giai đoạn đầu xâm lược Việt Nam (1858-1859) Pháp đã sử dụng chiến thuật",
@@ -733,7 +733,7 @@
         },
         {
           "noi_dung": "Phong trào Tây Sơn đã dẫn tới thành lập vương triều Tây Sơn với nhiều chính sách tiến bộ.",
-          "dap_an": true
+          "dap_an": false
         }
       ]
     },
