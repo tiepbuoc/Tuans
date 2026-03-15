@@ -1108,11 +1108,11 @@
           {
             "id": 79,
             "question": "Rearrange the following sentences in the correct order: events that happened / His historical novels / in the early 19th century. / based on / are",
-            "answer": "His historical novels are based on events that happened in the early 19th century. ",
+            "answer": "His historical novels are based on events that happened in the early 19th century.",
             "is_rearrangement": true,
             "data": {
-              "original_answer": "41532",
-              "note": "ĐÁP ÁN: 41532"
+              "original_answer": "25413",
+              "note": "ĐÁP ÁN: 25413"
             }
           },
           {
