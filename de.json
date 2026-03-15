@@ -160,7 +160,10 @@
     {
       "cau_hoi": "Kế sách dùng cọc nhọn đóng xuống sông để chế ngự thuyền chiến của địch đã được sử dụng đầu tiên trong cuộc kháng chiến nào sau đây?",
       "dap_an": [
-        "A. Kháng chiến chống quân Nam Hán thế kỷ X."
+        "A. Kháng chiến chống quân Nam Hán thế kỷ X.",
+        "B. Kháng chiến chống quân Nguyên thế kỷ XIII.",
+        "C. Kháng chiến chống Minh thế kỷ XIV",
+        "D. Kháng chiến chống Thanh thế kỷ XVIII"
       ],
       "dap_an_dung": 0
     },
