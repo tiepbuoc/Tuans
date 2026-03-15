@@ -1,0 +1,1596 @@
+{
+  "exam": {
+    "parts": [
+      {
+        "name": "Pronunciation",
+        "type": "multiple_choice",
+        "questions": [
+          {
+            "id": 1,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "landscape",
+              "option",
+              "explore",
+              "value"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "explore (ĐÚNG)"
+            }
+          },
+          {
+            "id": 2,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "heritage",
+              "monument",
+              "confidence",
+              "mechanic"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "mechanic (ĐÚNG)"
+            }
+          },
+          {
+            "id": 3,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "cultural",
+              "festival",
+              "motivate",
+              "historic"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "historic (ĐÚNG)"
+            }
+          },
+          {
+            "id": 4,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "restore",
+              "manage",
+              "limestone",
+              "formal"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "restore (ĐÚNG)"
+            }
+          },
+          {
+            "id": 5,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "ancient",
+              "college",
+              "preserve",
+              "temple"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "preserve (ĐÚNG)"
+            }
+          },
+          {
+            "id": 6,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "prepare",
+              "degree",
+              "follow",
+              "repair"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "follow (ĐÚNG)"
+            }
+          },
+          {
+            "id": 7,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "brochure",
+              "formal",
+              "manage",
+              "become"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "become (ĐÚNG)"
+            }
+          },
+          {
+            "id": 8,
+            "question": "Choose the word whose stress pattern is different from that of the others.",
+            "options": [
+              "develop",
+              "educate",
+              "sensible",
+              "technical"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "develop (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Grammar and Vocabulary - Multiple Choice",
+        "type": "multiple_choice",
+        "questions": [
+          {
+            "id": 9,
+            "question": "My brother wasn't offered the job because he didn't have the right ______.",
+            "options": [
+              "qualifications",
+              "trades",
+              "apprentices",
+              "skilled people"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "qualifications (ĐÚNG)"
+            }
+          },
+          {
+            "id": 10,
+            "question": "My father was proud of ___________ many beautiful places in Viet Nam.",
+            "options": [
+              "having visited",
+              "visited",
+              "have visited",
+              "has visited"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "having visited (ĐÚNG)"
+            }
+          },
+          {
+            "id": 11,
+            "question": "_________ teenagers to study local heritages, Can Tho university hosted several trips to other provinces.",
+            "options": [
+              "To encourage",
+              "Encouraging",
+              "To encouraging",
+              "Encouraged"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "To encourage (ĐÚNG)"
+            }
+          },
+          {
+            "id": 12,
+            "question": "For newcomers, the first place ___________ in Cần Thơ is the bustling Cái Răng Floating Market.",
+            "options": [
+              "visiting",
+              "to visiting",
+              "to visit",
+              "is visited"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "to visit (ĐÚNG)"
+            }
+          },
+          {
+            "id": 13,
+            "question": "_______________ helps protect and restore heritage by raising money for cultural projects.",
+            "options": [
+              "Limestone",
+              "Crowdfunding",
+              "Valley",
+              "State"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Crowdfunding (ĐÚNG)"
+            }
+          },
+          {
+            "id": 14,
+            "question": "Marleen is the only girl _______________ her opinion about going to historical sites.",
+            "options": [
+              "to raise",
+              "raising",
+              "raised",
+              "raises"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "to raise (ĐÚNG)"
+            }
+          },
+          {
+            "id": 15,
+            "question": "_______________ a perfect trip to famous heritages, they visited many tourism websites.",
+            "options": [
+              "Planning",
+              "To plan",
+              "To planning",
+              "Planned"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "To plan (ĐÚNG)"
+            }
+          },
+          {
+            "id": 16,
+            "question": "Exploring ancient temples and pagodas has become a _______________ activity for tourists who visit the Mekong Delta.",
+            "options": [
+              "trending",
+              "festive",
+              "folk",
+              "ancient"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "trending (ĐÚNG)"
+            }
+          },
+          {
+            "id": 17,
+            "question": "Quin always concerned about the group project, but he never gave voice _______________ it.",
+            "options": [
+              "for",
+              "at",
+              "in",
+              "to"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "to (ĐÚNG)"
+            }
+          },
+          {
+            "id": 18,
+            "question": "In an effort to __________________ cultural diversity, the festival featured performances of folk singing from mixed heritage communities.",
+            "options": [
+              "recommend",
+              "punish",
+              "preserve",
+              "reduce"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "preserve (ĐÚNG)"
+            }
+          },
+          {
+            "id": 19,
+            "question": "Son Doong Cave is the largest cave __________________ in Phong Nha-Ke Bang National Park.",
+            "options": [
+              "discover",
+              "discovering",
+              "to discover",
+              "to be discovered"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "to be discovered (ĐÚNG)"
+            }
+          },
+          {
+            "id": 20,
+            "question": "Bình and Minh is planning their meeting: Bình: \"What time can we meet tomorrow?\" The local: \"Would 11a.m ________________?.\"",
+            "options": [
+              "fit you",
+              "match you",
+              "hit you",
+              "suit you"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "suit you (ĐÚNG)"
+            }
+          },
+          {
+            "id": 21,
+            "question": "To talk to the career advisor, you should ________________ an appointment first.",
+            "options": [
+              "make",
+              "take",
+              "do",
+              "have"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "make (ĐÚNG)"
+            }
+          },
+          {
+            "id": 22,
+            "question": "After high school, many students choose to pursue __________________ education, which includes universities and colleges.",
+            "options": [
+              "vocational",
+              "higher",
+              "basic",
+              "primary"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "higher (ĐÚNG)"
+            }
+          },
+          {
+            "id": 23,
+            "question": "A(n) ________________ is a program where individuals receive training for a specific job while working.",
+            "options": [
+              "internship",
+              "gap year",
+              "apprenticeship",
+              "vocation"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "apprenticeship (ĐÚNG)"
+            }
+          },
+          {
+            "id": 24,
+            "question": "Before enrolling in a university, many institutions require students to pass an ____________________.",
+            "options": [
+              "exit exam",
+              "online test",
+              "interview",
+              "entrance exam"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "entrance exam (ĐÚNG)"
+            }
+          },
+          {
+            "id": 25,
+            "question": "In the job market, having a specific set of skills and __________________ can increase your employment opportunities.",
+            "options": [
+              "hobbies",
+              "qualifications",
+              "secrets",
+              "ideas"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "qualifications (ĐÚNG)"
+            }
+          },
+          {
+            "id": 26,
+            "question": "A __________________ is an informational booklet that provides details about educational programs and institutions.",
+            "options": [
+              "novel",
+              "brochure",
+              "letter",
+              "report"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "brochure (ĐÚNG)"
+            }
+          },
+          {
+            "id": 27,
+            "question": "He regrets __________________ so much money on unnecessary things.",
+            "options": [
+              "spend",
+              "to spend",
+              "having spent",
+              "spent"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "having spent (ĐÚNG)"
+            }
+          },
+          {
+            "id": 28,
+            "question": "__________________ finished all my homework, I had some free time to relax.",
+            "options": [
+              "Having",
+              "Have",
+              "Had",
+              "Has"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Having (ĐÚNG)"
+            }
+          },
+          {
+            "id": 29,
+            "question": "__________________ her fears, she gave an excellent speech.",
+            "options": [
+              "Having overcome",
+              "Having been overcome",
+              "Not having overcome",
+              "Not having been overcome"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Having overcome (ĐÚNG)"
+            }
+          },
+          {
+            "id": 30,
+            "question": "Independent thinkers aren't afraid to __________________ unique opinions in discussions.",
+            "options": [
+              "carry out",
+              "come up with",
+              "make use of",
+              "get around"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "come up with (ĐÚNG)"
+            }
+          },
+          {
+            "id": 31,
+            "question": "To maintain independence, avoid __________________ into the habit of procrastination.",
+            "options": [
+              "getting",
+              "to get",
+              "get",
+              "got"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "getting (ĐÚNG)"
+            }
+          },
+          {
+            "id": 32,
+            "question": "It was the sound of the distant thunder ___________________ made the hikers decide to turn back.",
+            "options": [
+              "that",
+              "where",
+              "who",
+              "whose"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "that (ĐÚNG)"
+            }
+          },
+          {
+            "id": 33,
+            "question": "Knowing how to use public transportation is essential to get _______________ in the city.",
+            "options": [
+              "onto",
+              "into",
+              "around",
+              "within"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "around (ĐÚNG)"
+            }
+          },
+          {
+            "id": 34,
+            "question": "__________________ skills refer to the ability to evaluate options, then make choices that are effective and appropriate in a given situation.",
+            "options": [
+              "Time-management",
+              "Money-management",
+              "Decision-making",
+              "Self-motivated"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Decision-making (ĐÚNG)"
+            }
+          },
+          {
+            "id": 35,
+            "question": "It was Henry ________________ showed me how to earn my parent's trust.",
+            "options": [
+              "who",
+              "which",
+              "that",
+              "A&C are correct."
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "A&C are correct. (ĐÚNG)"
+            }
+          },
+          {
+            "id": 36,
+            "question": "Emily makes __________________ online resources to research and learn new things.",
+            "options": [
+              "use of",
+              "ends meet",
+              "up with",
+              "around"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "use of (ĐÚNG)"
+            }
+          },
+          {
+            "id": 37,
+            "question": "Sarah __________________ the habit of tidying up her room before going to bed each night.",
+            "options": [
+              "gets into",
+              "drives into",
+              "goes into",
+              "brings into"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "gets into (ĐÚNG)"
+            }
+          },
+          {
+            "id": 38,
+            "question": "Lisa carries ________________ her duty of helping with household chores such as washing dishes.",
+            "options": [
+              "on",
+              "off",
+              "to",
+              "out"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "out (ĐÚNG)"
+            }
+          },
+          {
+            "id": 39,
+            "question": "Teenagers become __________________ when they start making their own decisions.",
+            "options": [
+              "independence",
+              "dependent",
+              "independent",
+              "dependence"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "independent (ĐÚNG)"
+            }
+          },
+          {
+            "id": 40,
+            "question": "_______________________ taught me how to rinse the rice correctly.",
+            "options": [
+              "It is my mother that",
+              "It was my mother who",
+              "My mother who",
+              "My mother that"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "It was my mother who (ĐÚNG)"
+            }
+          },
+          {
+            "id": 41,
+            "question": "She specializes in __________________ novels set in 18th-century England.",
+            "options": [
+              "history",
+              "historical",
+              "ancient",
+              "past"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "historical (ĐÚNG)"
+            }
+          },
+          {
+            "id": 42,
+            "question": "It is not easy at all to get a good job without any ________________ qualifications.",
+            "options": [
+              "academic",
+              "social",
+              "great",
+              "favorite"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "academic (ĐÚNG)"
+            }
+          },
+          {
+            "id": 43,
+            "question": "________________ education is a popular option for school-leavers who don't go to university.",
+            "options": [
+              "Vocational",
+              "Academic",
+              "Secondary",
+              "Formal"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Vocational (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Closest in Meaning",
+        "type": "multiple_choice",
+        "questions": [
+          {
+            "id": 44,
+            "question": "The Taj Mahal Complex, which includes the tomb, mosque, guest house, and main entryway, was named a World Legacy Location in 1983 and has kept the [original] characteristics of the structures. (CLOSEST)",
+            "options": [
+              "primitive",
+              "perfect",
+              "distinctive",
+              "initial"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "initial (ĐÚNG)"
+            }
+          },
+          {
+            "id": 45,
+            "question": "All buildings are kept in their original state. It's a great place to [explore]. (CLOSEST)",
+            "options": [
+              "change",
+              "defeat",
+              "discover",
+              "broaden"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "discover (ĐÚNG)"
+            }
+          },
+          {
+            "id": 46,
+            "question": "Visitors can enjoy mountain climbing in addition to exploring the caverns and grottoes and observing the local [flora and fauna]. (CLOSEST)",
+            "options": [
+              "flowers and grass",
+              "flowers and plants",
+              "plants and animals",
+              "plants and vegetation"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "plants and animals (ĐÚNG)"
+            }
+          },
+          {
+            "id": 47,
+            "question": "The Taj Mahal is a gigantic white marble mausoleum in Arga, IndiIt is regarded as an [outstanding] work of art. (CLOSEST)",
+            "options": [
+              "notable",
+              "momentous",
+              "unforgettable",
+              "attractive"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "notable (ĐÚNG)"
+            }
+          },
+          {
+            "id": 48,
+            "question": "In order to resolve the issue, we need to identify the [specific] root cause of the problem. (CLOSEST)",
+            "options": [
+              "particular",
+              "common",
+              "general",
+              "different"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "particular (ĐÚNG)"
+            }
+          },
+          {
+            "id": 49,
+            "question": "What makes you think you are [qualified] for this job? Did you take the course for that major at university? (CLOSEST)",
+            "options": [
+              "equipped",
+              "capable",
+              "suitable",
+              "proficient"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "capable (ĐÚNG)"
+            }
+          },
+          {
+            "id": 50,
+            "question": "At last, Huong made a [determined] effort to get a scholarship so that he could have chance to study overseas. (CLOSEST)",
+            "options": [
+              "tenacious",
+              "serious",
+              "unresolved",
+              "necessary"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "serious (ĐÚNG)"
+            }
+          },
+          {
+            "id": 51,
+            "question": "In spite of poverty and dreadful conditions, they still manage to keep their [self-respect]. (CLOSEST)",
+            "options": [
+              "self-reliant",
+              "self-restraint",
+              "self-esteem",
+              "self-assured"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "self-esteem (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Opposite in Meaning",
+        "type": "multiple_choice",
+        "questions": [
+          {
+            "id": 52,
+            "question": "The people's committee of Lam Dong province took prompt action and [effectively] resolved the issue of erosion from the hills to the center of Da Lat city. (OPPOSITE)",
+            "options": [
+              "uneffectively",
+              "indifferently",
+              "ineffectively",
+              "unefficiently"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "ineffectively (ĐÚNG)"
+            }
+          },
+          {
+            "id": 53,
+            "question": "The residents of HCM city seemed fully [satisfied] with the result of expanding The Walking Street in District 1. (OPPOSITE)",
+            "options": [
+              "pleased",
+              "contented",
+              "disappointed",
+              "joyful"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "disappointed (ĐÚNG)"
+            }
+          },
+          {
+            "id": 54,
+            "question": "In the majority of nations, mass tourism creates a growing [threat] to the preservation of historic sites. (OPPOSITE)",
+            "options": [
+              "risk",
+              "danger",
+              "protection",
+              "insecurity"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "protection (ĐÚNG)"
+            }
+          },
+          {
+            "id": 55,
+            "question": "In Ha Long Bay, visitors may see and do a lot for an [affordable] cost. (OPPOSITE)",
+            "options": [
+              "costive",
+              "exorbitant",
+              "reasonable",
+              "stingy"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "exorbitant (ĐÚNG)"
+            }
+          },
+          {
+            "id": 56,
+            "question": "The Thang Long Royal Citadel was initially constructed during the Ly Line and afterwards expanded by [subsequent] dynasties. (OPPOSITE)",
+            "options": [
+              "successive",
+              "preceding",
+              "nearby",
+              "surrounding"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "preceding (ĐÚNG)"
+            }
+          },
+          {
+            "id": 57,
+            "question": "We should increase efforts to [preserve] Ca Tru because nowadays there are very few Ca Tru musicians left. (OPPOSITE)",
+            "options": [
+              "protect",
+              "defend",
+              "destroy",
+              "guard"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "destroy (ĐÚNG)"
+            }
+          },
+          {
+            "id": 58,
+            "question": "Due to its [unique] construction methods, the Ho Dynasty's Citadel's main stone parts are still intact. (OPPOSITE)",
+            "options": [
+              "common",
+              "special",
+              "ancient",
+              "admirable"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "common (ĐÚNG)"
+            }
+          },
+          {
+            "id": 59,
+            "question": "He s[ucceeded] in achieving the scholarship of that company. He could be an official staff member after the course. (OPPOSITE)",
+            "options": [
+              "managed",
+              "failed",
+              "tried",
+              "covered"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "failed (ĐÚNG)"
+            }
+          },
+          {
+            "id": 60,
+            "question": "After graduation, the students can [immediately] find a job without waiting for the qualification. (OPPOSITE)",
+            "options": [
+              "later",
+              "alternatively",
+              "shortly",
+              "urgently"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "later (ĐÚNG)"
+            }
+          },
+          {
+            "id": 61,
+            "question": "The maintenance of this company is [dependent on] international investment. (OPPOSITE)",
+            "options": [
+              "affective",
+              "self-reliant",
+              "self-restricted",
+              "reliant"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "self-reliant (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Word Form - Fill in the blank",
+        "type": "fill_in_the_blank",
+        "questions": [
+          {
+            "id": 62,
+            "question": "My parents thought I didn't have the _______________ to deal with difficult situations.",
+            "answer": "confidence",
+            "data": {
+              "original_word": "CONFIDENT",
+              "note": "ĐÁP ÁN: confidence"
+            }
+          },
+          {
+            "id": 63,
+            "question": "Money-management app taught me how to be _______________ with money.",
+            "answer": "responsible",
+            "data": {
+              "original_word": "RESPONSIBILITY",
+              "note": "ĐÁP ÁN: responsible"
+            }
+          },
+          {
+            "id": 64,
+            "question": "There are some necessary skills that you should learn to achieve _______________ for the future.",
+            "answer": "independence",
+            "data": {
+              "original_word": "DEPEND",
+              "note": "ĐÁP ÁN: independence"
+            }
+          },
+          {
+            "id": 65,
+            "question": "It's the ________________ for learning that makes people study hard.",
+            "answer": "motivation",
+            "data": {
+              "original_word": "MOTIVATE",
+              "note": "ĐÁP ÁN: motivation"
+            }
+          },
+          {
+            "id": 66,
+            "question": "They take responsibility for their own learning and ________________ seek out resources and opportunities to improve their knowledge and skills.",
+            "answer": "actively",
+            "data": {
+              "original_word": "ACTIVE",
+              "note": "ĐÁP ÁN: actively"
+            }
+          },
+          {
+            "id": 67,
+            "question": "It's the money -________________ app that taught me how to be responsible with money.",
+            "answer": "management",
+            "data": {
+              "original_word": "MANAGE",
+              "note": "ĐÁP ÁN: management"
+            }
+          },
+          {
+            "id": 68,
+            "question": "As part of our school ________________ program, we need to plan a field trip to a heritage site in Viet Nam.",
+            "answer": "cultural",
+            "data": {
+              "original_word": "CULTURE",
+              "note": "ĐÁP ÁN: cultural"
+            }
+          },
+          {
+            "id": 69,
+            "question": "You'll learn about urban lifestyles and traditions from the 15th to the 19th century and will see examples of ancient ________________.",
+            "answer": "architecture",
+            "data": {
+              "original_word": "ARCHITECT",
+              "note": "ĐÁP ÁN: architecture"
+            }
+          },
+          {
+            "id": 70,
+            "question": "Without our heritage, we would lose touch with our past, and our future ________________ would not have a sense of their roots.",
+            "answer": "generation",
+            "data": {
+              "original_word": "GENERATE",
+              "note": "ĐÁP ÁN: generation"
+            }
+          },
+          {
+            "id": 71,
+            "question": "Two 10th grade students suggested forming ________________ societies or local groups who have a keen interest in their history and heritage.",
+            "answer": "historical",
+            "data": {
+              "original_word": "HISTORY",
+              "note": "ĐÁP ÁN: historical"
+            }
+          },
+          {
+            "id": 72,
+            "question": "Trang An is a ________________ landscape complex that includes limestone karst mountains, caves, rivers, and rice paddies.",
+            "answer": "scenic",
+            "data": {
+              "original_word": "SCENERY",
+              "note": "ĐÁP ÁN: scenic"
+            }
+          },
+          {
+            "id": 73,
+            "question": "The complex has been recognized as an important site for ________________ conservation and ecotourism.",
+            "answer": "diversity",
+            "data": {
+              "original_word": "DIVERSE",
+              "note": "ĐÁP ÁN: diversity"
+            }
+          },
+          {
+            "id": 74,
+            "question": "There are a lot of ________________ opportunities for school-leavers today.",
+            "answer": "educational",
+            "data": {
+              "original_word": "EDUCATE",
+              "note": "ĐÁP ÁN: educational"
+            }
+          },
+          {
+            "id": 75,
+            "question": "Many school-leavers choose to go to university to study ________________ subjects.",
+            "answer": "academic",
+            "data": {
+              "original_word": "ACADEMY",
+              "note": "ĐÁP ÁN: academic"
+            }
+          },
+          {
+            "id": 76,
+            "question": "It's possible that students may need certain ________________ or prerequisites to apply for this course, such as a high school diploma or previous experience in cooking.",
+            "answer": "qualification",
+            "data": {
+              "original_word": "QUALIFIED",
+              "note": "ĐÁP ÁN: qualification"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Sentence Rearrangement",
+        "type": "fill_in_the_blank",
+        "questions": [
+          {
+            "id": 77,
+            "question": "Rearrange the following sentences in the correct order: at university. / help students / Good life skills / become more independent / can",
+            "answer": "Good life skills can help students become more independent at university.",
+            "is_rearrangement": true,
+            "data": {
+              "original_answer": "53142",
+              "note": "ĐÁP ÁN: 53142"
+            }
+          },
+          {
+            "id": 78,
+            "question": "Rearrange the following sentences in the correct order: not having / My mother / regretted / university. / gone to",
+            "answer": "My mother regretted not having gone to university.",
+            "is_rearrangement": true,
+            "data": {
+              "original_answer": "31254",
+              "note": "ĐÁP ÁN: 31254"
+            }
+          },
+          {
+            "id": 79,
+            "question": "Rearrange the following sentences in the correct order: events that happened / His historical novels / in the early 19th century. / based on / are",
+            "answer": "His historical novels are based on events that happened in the early 19th century.",
+            "is_rearrangement": true,
+            "data": {
+              "original_answer": "41532",
+              "note": "ĐÁP ÁN: 41532"
+            }
+          },
+          {
+            "id": 80,
+            "question": "Rearrange the following sentences in the correct order: is / wildlife habitats. / the best way / A boat tour / to experience",
+            "answer": "A boat tour is the best way to experience wildlife habitats.",
+            "is_rearrangement": true,
+            "data": {
+              "original_answer": "25314",
+              "note": "ĐÁP ÁN: 25314"
+            }
+          },
+          {
+            "id": 81,
+            "question": "Rearrange the following sentences in the correct order: that took / earning / It was / a long time. / my parents' trust",
+            "answer": "It was earning my parents' trust that took a long time.",
+            "is_rearrangement": true,
+            "data": {
+              "original_answer": "35124",
+              "note": "ĐÁP ÁN: 35124"
+            }
+          },
+          {
+            "id": 82,
+            "question": "Rearrange the following sentences in the correct order: not good / or money. / my time / I'm / / at managing",
+            "answer": "I'm not good at managing my time or money.",
+            "is_rearrangement": true,
+            "data": {
+              "original_answer": "25413",
+              "note": "ĐÁP ÁN: 25413"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Error Identification and Correction",
+        "type": "error_correction",
+        "questions": [
+          {
+            "id": 83,
+            "question": "After years [of] studying, she is [proud] of having [achieve] her dream of [getting] a master's degree in law.",
+            "error_position": 2,
+            "error_word": "achieve",
+            "correction": "achieved",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "achieve (ĐÚNG)"
+            }
+          },
+          {
+            "id": 84,
+            "question": "[Have] studied hard [for] the exams, [the] student felt confident [during] the test.",
+            "error_position": 0,
+            "error_word": "Have",
+            "correction": "Having",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Have (ĐÚNG)"
+            }
+          },
+          {
+            "id": 85,
+            "question": "[Having passed] all their final [exam], they [celebrated] [with] a big party.",
+            "error_position": 1,
+            "error_word": "exam",
+            "correction": "exams",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "exam (ĐÚNG)"
+            }
+          },
+          {
+            "id": 86,
+            "question": "Having [gotten] [the] first place in class, she felt [extreme] [happy].",
+            "error_position": 2,
+            "error_word": "extreme",
+            "correction": "extremely",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "extreme (ĐÚNG)"
+            }
+          },
+          {
+            "id": 87,
+            "question": "She [forgot] [to have] told me [about] her favourite university. She was studying hard to apply [for] it.",
+            "error_position": 1,
+            "error_word": "to have",
+            "correction": "having",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "to have (ĐÚNG)"
+            }
+          },
+          {
+            "id": 88,
+            "question": "It [is] doing babysitting [as] a part-time job [where] helps students [earn] some pocket money.",
+            "error_position": 2,
+            "error_word": "where",
+            "correction": "that",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "where (ĐÚNG)"
+            }
+          },
+          {
+            "id": 89,
+            "question": "It [is] Tuan who [got] around by [riding] a bike [with] me yesterday.",
+            "error_position": 0,
+            "error_word": "is",
+            "correction": "was",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "is (ĐÚNG)"
+            }
+          },
+          {
+            "id": 90,
+            "question": "It [was] yesterday [when] my teacher [gave] a presentation on [how] to develop decision-making skills.",
+            "error_position": 1,
+            "error_word": "when",
+            "correction": "that",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "when (ĐÚNG)"
+            }
+          },
+          {
+            "id": 91,
+            "question": "Our school [organised] a [field] trip [for visit] the Trang An Scenic Landscape [Complex] last summer.",
+            "error_position": 2,
+            "error_word": "for visit",
+            "correction": "to visit",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "for visit (ĐÚNG)"
+            }
+          },
+          {
+            "id": 92,
+            "question": "The floating market boats [are] an interesting way [to explore] the local [culture] and [buying] fresh products.",
+            "error_position": 3,
+            "error_word": "buying",
+            "correction": "buy",
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "buying (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Cloze Test 1",
+        "type": "cloze_test",
+        "passage": "In the US, students talk about 'going to college' even if the institution they attend is a university. Most colleges often provide classes only for undergraduate students (1) a bachelor's degree. Community colleges offer two-year courses leading to an associate's degree, and afterwards, students transfer (2) a different college or university to continue their studies. Universities are larger and also offer courses for graduate students who study in graduate school. American high school students who want to study at a university or college have to take a (3) test, such as a SAT or the ACT and then apply directly to between three and six colleges in their last year of high school. (4) are many private colleges and universities but most students choose a public institution (5) _____ the costs are lower. All universities charge tuition, and students pay extra for room and boarStudents whose families cannot afford the full amount apply for financial aid package which may be a combination of grants from the government, a scholarship, a student loan and work-study (= a part-time job at college).",
+        "questions": [
+          {
+            "id": 93,
+            "question": "Choose the best answer for gap (1)",
+            "options": [
+              "studying",
+              "taking",
+              "following",
+              "pursuing"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "studying (ĐÚNG)"
+            }
+          },
+          {
+            "id": 94,
+            "question": "Choose the best answer for gap (2)",
+            "options": [
+              "in",
+              "to",
+              "for",
+              "at"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "to (ĐÚNG)"
+            }
+          },
+          {
+            "id": 95,
+            "question": "Choose the best answer for gap (3)",
+            "options": [
+              "standard",
+              "standards",
+              "standardized",
+              "standardizing"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "standardized (ĐÚNG)"
+            }
+          },
+          {
+            "id": 96,
+            "question": "Choose the best answer for gap (4)",
+            "options": [
+              "There",
+              "These",
+              "Those",
+              "They"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "There (ĐÚNG)"
+            }
+          },
+          {
+            "id": 97,
+            "question": "Choose the best answer for gap (5)",
+            "options": [
+              "because",
+              "although",
+              "so",
+              "but"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "because (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Cloze Test 2",
+        "type": "cloze_test",
+        "passage": "Like any other universities, the Open University can give you a degree. (1) , you don't have to stop working to study. It can also open up a whole variety of interest. If you have never studied before, you will enjoy the special, new pleasure of (2) your knowledge. You will make friends of all kinds. You may also find (3) your qualification provides new career opportunities. You don't actually go to the Open University for lectures, but study at home using television, radio and computer software. You can (4) one class a month if you wish at an Open University centre. Of course, there are exams to take, as in (5) university. If you would like to know more, all you have to do is complete the form below. It could be the start of a wonderful new period in your life.",
+        "questions": [
+          {
+            "id": 98,
+            "question": "Choose the best answer for gap (1)",
+            "options": [
+              "Therefore",
+              "However",
+              "So",
+              "Moreover"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "However (ĐÚNG)"
+            }
+          },
+          {
+            "id": 99,
+            "question": "Choose the best answer for gap (2)",
+            "options": [
+              "growing",
+              "changing",
+              "adding",
+              "increasing"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "increasing (ĐÚNG)"
+            }
+          },
+          {
+            "id": 100,
+            "question": "Choose the best answer for gap (3)",
+            "options": [
+              "which",
+              "who",
+              "that",
+              "where"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "that (ĐÚNG)"
+            }
+          },
+          {
+            "id": 101,
+            "question": "Choose the best answer for gap (4)",
+            "options": [
+              "attend",
+              "give",
+              "learn",
+              "study"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "attend (ĐÚNG)"
+            }
+          },
+          {
+            "id": 102,
+            "question": "Choose the best answer for gap (5)",
+            "options": [
+              "most",
+              "some",
+              "any",
+              "many"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "any (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Cloze Test 3",
+        "type": "cloze_test",
+        "passage": "Building Confidence in Teens \n\nConfidence is one's belief in their own ability. Confident people rationally believe they are capable of doing things well and therefore aren't afraid to do those things or even try new things. Teens (1) are confident to grow up have a good (2) [of self and become happy adults.] Parents can help teens build their confidence throughout their adolescence by following these tips. Provide a sate home environment and firm but fart disciplines This is a foundation that your teens This is a foundation that your teen's confidence can stand on. Give your teen choices. One of the things that confidence helps teens do is making a decision. You can help teens make decision by offering them choices as often as possible. (3) your teen to try new things. Be available to take them where they need to go and do so without complaining. Become your teen's biggest fan, (4) it is in sports, or in school. Allow your teen to fail, do not fix their problems for them. If they need you to help talk the problem through, ask open ended questions so that they come to their own conclusions. Praise your teen when praise is suitable. We know that too (5) praise is not good either, but suitable praise is necessary for your teen's self-confidence.",
+        "questions": [
+          {
+            "id": 103,
+            "question": "Choose the best answer for gap (1)",
+            "options": [
+              "when",
+              "who",
+              "which",
+              "where"
+            ],
+            "correct_option": 1,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "who (ĐÚNG)"
+            }
+          },
+          {
+            "id": 104,
+            "question": "Choose the best answer for gap (2)",
+            "options": [
+              "feeling",
+              "state",
+              "sense",
+              "ability"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "sense (ĐÚNG)"
+            }
+          },
+          {
+            "id": 105,
+            "question": "Choose the best answer for gap (3)",
+            "options": [
+              "Believe",
+              "Prefer",
+              "Like",
+              "Encourage"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Encourage (ĐÚNG)"
+            }
+          },
+          {
+            "id": 106,
+            "question": "Choose the best answer for gap (4)",
+            "options": [
+              "and",
+              "however",
+              "whether",
+              "but"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "and (ĐÚNG)"
+            }
+          },
+          {
+            "id": 107,
+            "question": "Choose the best answer for gap (5)",
+            "options": [
+              "much",
+              "many",
+              "all",
+              "some"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "much (ĐÚNG)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Cloze Test 4",
+        "type": "cloze_test",
+        "passage": "Preserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) __________ safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) __________ with a particular heritage. This process helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage. Secondly, active conservation measures must be implemented to protect physical heritage. This includes regular (3) __________, restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (4) __________, promoting public awareness and engagement through educational programs, guided tours, and cultural events can (5) __________ a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.",
+        "questions": [
+          {
+            "id": 108,
+            "question": "Choose the best answer for gap (1)",
+            "options": [
+              "of",
+              "for",
+              "at",
+              "in"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "in (ĐÚNG)"
+            }
+          },
+          {
+            "id": 109,
+            "question": "Choose the best answer for gap (2)",
+            "options": [
+              "equipped",
+              "collaborated",
+              "connected",
+              "associated"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "associated (ĐÚNG)"
+            }
+          },
+          {
+            "id": 110,
+            "question": "Choose the best answer for gap (3)",
+            "options": [
+              "maintain",
+              "maintaining",
+              "maintained",
+              "maintenance"
+            ],
+            "correct_option": 3,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "maintenance (ĐÚNG)"
+            }
+          },
+          {
+            "id": 111,
+            "question": "Choose the best answer for gap (4)",
+            "options": [
+              "However",
+              "Moreover",
+              "Therefore",
+              "Otherwise"
+            ],
+            "correct_option": 2,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "Therefore (ĐÚNG)"
+            }
+          },
+          {
+            "id": 112,
+            "question": "Choose the best answer for gap (5)",
+            "options": [
+              "foster",
+              "enhance",
+              "enlarge",
+              "widen"
+            ],
+            "correct_option": 0,
+            "data": {
+              "original_mark": "ĐÚNG",
+              "note": "foster (ĐÚNG)"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
