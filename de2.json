@@ -1019,10 +1019,10 @@
           {
             "id": 70,
             "question": "Without our heritage, we would lose touch with our past, and our future ________________ would not have a sense of their roots.",
-            "answer": "generation",
+            "answer": "generations",
             "data": {
               "original_word": "GENERATE",
-              "note": "ĐÁP ÁN: generation"
+              "note": "ĐÁP ÁN: generations"
             }
           },
           {
@@ -1073,10 +1073,10 @@
           {
             "id": 76,
             "question": "It's possible that students may need certain ________________ or prerequisites to apply for this course, such as a high school diploma or previous experience in cooking.",
-            "answer": "qualification",
+            "answer": "qualifications",
             "data": {
               "original_word": "QUALIFIED",
-              "note": "ĐÁP ÁN: qualification"
+              "note": "ĐÁP ÁN: qualifications"
             }
           }
         ]
