@@ -1137,7 +1137,7 @@
           },
           {
             "id": 82,
-            "question": "Rearrange the following sentences in the correct order: not good / or money. / my time / I'm / / at managing",
+            "question": "Rearrange the following sentences in the correct order: not good / or money. / my time / I'm / at managing",
             "answer": "I'm not good at managing my time or money.",
             "is_rearrangement": true,
             "data": {
