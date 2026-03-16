@@ -93,7 +93,10 @@
     {
       "cau_hoi": "Trong lịch sử, Việt Nam luôn phải tiến hành các cuộc chiến tranh bảo vệ tổ quốc vì lý do nào sau đây?",
       "dap_an": [
-        "Do có vị trí địa chiến lược quan trọng."
+        "Do có vị trí địa chiến lược quan trọng.",
+        "trình độ dân trí thấp",
+        "nền văn hóa lạc hậu",
+        "nền kinh tế lạc hậu"
       ],
       "dap_an_dung": 0
     },
@@ -148,14 +151,14 @@
       "dap_an_dung": 2
     },
     {
-      "cau_hoi": "\"Đánh cho để dài tóĐánh cho để đen răng. Đánh cho nó chích luân bất phản. Đánh cho nó phiến giáp bất hoàn. Đánh cho sử tri Nam quốc anh hùng chi hữu chủ\" là lời hịch trong cuộc kháng chiến nào sau đây?",
+      "cau_hoi": "\"Đánh cho để dài tóc Đánh cho để đen răng. Đánh cho nó chích luân bất phản. Đánh cho nó phiến giáp bất hoàn. Đánh cho sử tri Nam quốc anh hùng chi hữu chủ\" là lời hịch trong cuộc kháng chiến nào sau đây?",
       "dap_an": [
         "Kháng chiến chống Nguyên thời Trần.",
         "Kháng chiến chống Pháp thời Nguyễn.",
         "Kháng chiến chống Thanh thời Tây Sơn.",
         "Kháng chiến chống quân Tống thời Lý."
       ],
-      "dap_an_dung": 0
+      "dap_an_dung": 2
     },
     {
       "cau_hoi": "Kế sách dùng cọc nhọn đóng xuống sông để chế ngự thuyền chiến của địch đã được sử dụng đầu tiên trong cuộc kháng chiến nào sau đây?",
@@ -717,7 +720,7 @@
   ],
   "dung_sai": [
     {
-      "doan_tu_lieu": "Phong trào Tây Sơn là sự hội tụ và phát triển đến đỉnh cao của phong trào nông dân khởi nghĩa chống áp bức phong kiến cuối thế kỉ XVIII. Phong trào đã lật đổ các chính quyền chúa Nguyễn, chúa Trịnh, xóa bỏ ranh giới Đàng Trong và Đàng Ngoài, đặt nền móng cho việc khôi phục nền thống nhất đất nướVới chiến thắng chống quân xâm lược Xiêm, Thanh, phong trào Tây Sơn đã giải quyết đồng thời hai nhiệm vụ đấu tranh giai cấp và đấu tranh giải phóng dân tộĐể lại những bài học quý báu về tư tưởng và nghệ thuật quân sự chống ngoại xâm. (SGK Lịch sử 11, bộ Chân trời sáng tạo, trang 61)",
+      "doan_tu_lieu": "Phong trào Tây Sơn là sự hội tụ và phát triển đến đỉnh cao của phong trào nông dân khởi nghĩa chống áp bức phong kiến cuối thế kỉ XVIII. Phong trào đã lật đổ các chính quyền chúa Nguyễn, chúa Trịnh, xóa bỏ ranh giới Đàng Trong và Đàng Ngoài, đặt nền móng cho việc khôi phục nền thống nhất đất nước với chiến thắng chống quân xâm lược Xiêm, Thanh, phong trào Tây Sơn đã giải quyết đồng thời hai nhiệm vụ đấu tranh giai cấp và đấu tranh giải phóng dân tộc để lại những bài học quý báu về tư tưởng và nghệ thuật quân sự chống ngoại xâm. (SGK Lịch sử 11, bộ Chân trời sáng tạo, trang 61)",
       "cau_hoi": [
         {
           "noi_dung": "Phong trào Tây Sơn đã hoàn thành việc thống nhất đất nước cả về lãnh thổ lẫn nhà nước.",
@@ -767,7 +770,7 @@
         },
         {
           "noi_dung": "Khởi nghĩa Lam Sơn đã chấm dứt thời kỳ Bắc thuộc lần thứ hai trong lịch sử dân tộc.",
-          "dap_an": true
+          "dap_an": false
         },
         {
           "noi_dung": "Khác với nhà Hồ, nghĩa quân Lam Sơn đã tập hợp được sức mạnh đoàn kết dân tộc.",
