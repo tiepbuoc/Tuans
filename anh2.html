@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập Tiếng Anh - Trắc nghiệm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .quiz-header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header .progress {
+            color: #666;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            padding: 12px 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            font-size: 1em;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .option-btn.correct-answer {
+            background: #27ae60;
+            border-color: #1e8449;
+            color: white;
+        }
+
+        .option-btn.wrong-answer {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+        }
+
+        .option-btn.disabled-opt {
+            cursor: default;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .prev-btn {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        .next-btn {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #e67e22;
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            font-size: 0.9em;
+        }
+
+        .score-board {
+            background: white;
+            border-radius: 15px;
+            padding: 12px 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 600px) {
+            .question-card {
+                padding: 18px;
+            }
+            .question-text {
+                font-size: 1em;
+            }
+            .option-btn {
+                padding: 10px 14px;
+                font-size: 0.9em;
+            }
+            .nav-btn {
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-header">
+            <h1>📚 Ôn tập Tiếng Anh</h1>
+            <p>Stress patterns, Vocabulary, Grammar, Reading Comprehension</p>
+            <div class="progress" id="progress">Đang tải...</div>
+        </div>
+
+        <div class="question-card" id="questionCard">
+            <div style="text-align:center; padding:40px;">Đang tải câu hỏi...</div>
+        </div>
+
+        <div class="score-board" id="scoreBoard">
+            📊 Đã trả lời: 0 / 0 câu
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentIndex = 0;
+        let userAnswers = [];
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch('english_questions.json');
+                const data = await response.json();
+                questions = shuffleArray(data.questions);
+                initUserAnswers();
+                renderQuestion();
+                updateProgress();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('questionCard').innerHTML = '<div style="color:red;padding:20px;">Không thể tải dữ liệu. Vui lòng đảm bảo file english_questions.json cùng thư mục.</div>';
+            }
+        }
+
+        function initUserAnswers() {
+            userAnswers = questions.map(() => ({
+                answered: false,
+                isCorrect: false,
+                selected: null,
+                showExplanation: false
+            }));
+        }
+
+        function updateProgress() {
+            const total = questions.length;
+            const answeredCount = userAnswers.filter(a => a.answered).length;
+            document.getElementById('progress').innerHTML = `Câu ${currentIndex + 1} / ${total} | Đã trả lời: ${answeredCount}/${total}`;
+            document.getElementById('scoreBoard').innerHTML = `📊 Đã trả lời: ${answeredCount} / ${total} câu | ${answeredCount === total ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
+        }
+
+        function renderQuestion() {
+            const q = questions[currentIndex];
+            const card = document.getElementById('questionCard');
+            const userAns = userAnswers[currentIndex];
+
+            if (!q) return;
+
+            let html = `<div class="question-text">${escapeHtml(q.text)}</div>`;
+            html += `<div class="options" id="optionsContainer">`;
+            
+            q.options.forEach((opt, idx) => {
+                let additionalClass = '';
+                if (userAns.answered) {
+                    if (userAns.selected === idx) {
+                        additionalClass = (idx === q.correct) ? 'correct-answer' : 'wrong-answer';
+                    }
+                    if (idx === q.correct && userAns.selected !== idx) {
+                        additionalClass = 'correct-answer';
+                    }
+                    additionalClass += ' disabled-opt';
+                }
+                html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${userAns.answered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+            });
+            
+            html += `</div>`;
+            html += `<div class="nav-buttons">
+                        <button class="nav-btn prev-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
+                        <button class="nav-btn reset-btn" id="resetBtn">🔄 Làm lại toàn bộ</button>
+                        <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
+                    </div>`;
+
+            if (userAns.answered && q.explanation) {
+                html += `<div class="explanation">💡 Giải thích: ${escapeHtml(q.explanation)}</div>`;
+            }
+
+            card.innerHTML = html;
+
+            if (!userAns.answered) {
+                document.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        if (userAnswers[currentIndex].answered) return;
+                        const selectedIdx = parseInt(btn.dataset.optIndex);
+                        handleAnswer(currentIndex, selectedIdx);
+                    });
+                });
+            }
+
+            document.getElementById('prevBtn')?.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    renderQuestion();
+                    updateProgress();
+                }
+            });
+            document.getElementById('nextBtn')?.addEventListener('click', () => {
+                if (currentIndex < questions.length - 1) {
+                    currentIndex++;
+                    renderQuestion();
+                    updateProgress();
+                }
+            });
+            document.getElementById('resetBtn')?.addEventListener('click', () => {
+                if (confirm('Làm lại toàn bộ? Tất cả câu trả lời sẽ bị xóa.')) {
+                    initUserAnswers();
+                    currentIndex = 0;
+                    renderQuestion();
+                    updateProgress();
+                }
+            });
+        }
+
+        function handleAnswer(qIndex, selectedIdx) {
+            const q = questions[qIndex];
+            userAnswers[qIndex] = {
+                answered: true,
+                isCorrect: (selectedIdx === q.correct),
+                selected: selectedIdx,
+                showExplanation: true
+            };
+            renderQuestion();
+            updateProgress();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        loadQuestions();
+    </script>
+</body>
+</html>
