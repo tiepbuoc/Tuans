@@ -1,0 +1,895 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "text": "Biện pháp mà Hồ Quý Ly chuẩn bị để đối phó với nhà Minh là",
+      "options": [
+        "A. cải cách văn hoá, xã hội, giáo dục.",
+        "B. xây dựng toà thành Tây Đô kiên cố.",
+        "C. buộc vua Trần nhường ngôi cho mình.",
+        "D. ban hành chính sách hạn điền, hạn nô."
+      ],
+      "correct": 1,
+      "explanation": "Hồ Quý Ly xây dựng thành Tây Đô (thành nhà Hồ) kiên cố để phòng thủ."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "text": "Đâu là cuộc khởi nghĩa nông dân diễn ra để chống lại nhà Trần?",
+      "options": [
+        "A. Khởi nghĩa Ngô Bệ (Hải Dương).",
+        "B. Khởi nghĩa Phan Bá Vành (Thái Bình).",
+        "C. Khởi nghĩa Yên Thế (Bắc Giang).",
+        "D. Khởi nghĩa Lam Sơn (Thanh Hoá)."
+      ],
+      "correct": 0,
+      "explanation": "Khởi nghĩa Ngô Bệ ở Hải Dương là cuộc khởi nghĩa nông dân chống nhà Trần."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "text": "Năm 1400, Hồ Quý Ly buộc vua Trần nhường ngôi và lập ra triều đại",
+      "options": ["A. Lê sơ.", "B. Nguyễn.", "C. Hồ.", "D. Lý."],
+      "correct": 2,
+      "explanation": "Hồ Quý Ly lập ra triều Hồ năm 1400."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "text": "Một trong những chính sách của Hồ Quý Ly sau khi lên ngôi năm (1400) là",
+      "options": [
+        "A. tổ chức kháng chiến chống quân Xiêm.",
+        "B. tạo ra cục diện chiến tranh Nam-Bắc triều.",
+        "C. mở rộng lãnh thổ Đại Việt về phía Nam.",
+        "D. đã thực hiện nhiều chính sách cải cách."
+      ],
+      "correct": 3,
+      "explanation": "Hồ Quý Ly thực hiện nhiều cải cách trên các lĩnh vực."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "text": "Lĩnh vực nào sau đây không có trong các chính sách cải cách của Hồ Quý Ly?",
+      "options": [
+        "A. Văn hoá - giáo dục.",
+        "B. Chính trị - quân sự.",
+        "C. Kinh tế - xã hội.",
+        "D. Thể thao - du lịch."
+      ],
+      "correct": 3,
+      "explanation": "Thể thao - du lịch không phải lĩnh vực cải cách của Hồ Quý Ly."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách của Hồ Quý Ly diễn ra trong hoàn cảnh là",
+      "options": [
+        "A. Đại Việt lâm vào khủng hoảng trầm trọng.",
+        "B. Nhà Trần đang giai đoạn phát triển thịnh đạt.",
+        "C. Giặc Tống sang xâm lược nước ta lần thứ nhất.",
+        "D. Chế độ phong kiến Việt Nam phát triển nhanh."
+      ],
+      "correct": 0,
+      "explanation": "Nhà Trần suy yếu, khủng hoảng trầm trọng."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "text": "Nhằm hạn chế sự phát triển của chế độ sở hữu ruộng đất lớn trong các điền trang, thái ấp của quý tộc nhà Trần, nhà Hồ thực hiện",
+      "options": [
+        "A. phát hành tiền giấy.",
+        "B. chính sách hạn điền.",
+        "C. cải cách giáo dục.",
+        "D. thống nhất đo lường."
+      ],
+      "correct": 1,
+      "explanation": "Chính sách hạn điền hạn chế ruộng đất tư hữu lớn."
+    },
+    {
+      "id": 24,
+      "type": "multiple_choice",
+      "text": "Sau khi ép vua Trần nhường ngôi (năm 1400), Hồ Quý Ly đã đặt tên nước là",
+      "options": ["A. Đại Nam.", "B. Đại Việt.", "C. Đại Ngu.", "D. Vạn Xuân."],
+      "correct": 2,
+      "explanation": "Hồ Quý Ly đổi tên nước thành Đại Ngu."
+    },
+    {
+      "id": 25,
+      "type": "multiple_choice",
+      "text": "Mục đích chính trong việc xây dựng thành Tây Đô của Hồ Quý Ly là",
+      "options": [
+        "A. tăng cường phòng thủ đất nước.",
+        "B. chuẩn bị để tiến đánh Chăm pa.",
+        "C. tích trữ lương thảo cho nhân dân.",
+        "D. chuẩn bị tấn công vào nhà Minh."
+      ],
+      "correct": 0,
+      "explanation": "Thành Tây Đô được xây để phòng thủ đất nước."
+    },
+    {
+      "id": 26,
+      "type": "multiple_choice",
+      "text": "Nguyên nhân chủ yếu nào đã dẫn tới tình trạng mất mùa, đói kém dưới thời nhà Trần vào nửa sau thế kỷ XIV?",
+      "options": [
+        "A. Chính sách quân điền bộc lộ hạn chế.",
+        "B. Triều đình không quan tâm đến sản xuất.",
+        "C. Chiến tranh với nhà Minh và Chăm pa.",
+        "D. Nông dân không quan tâm đến sản xuất."
+      ],
+      "correct": 1,
+      "explanation": "Triều đình nhà Trần suy yếu, không quan tâm sản xuất."
+    },
+    {
+      "id": 27,
+      "type": "multiple_choice",
+      "text": "Vì sao mâu thuẫn giữa nông dân với địa chủ phong kiến dưới thời nhà Trần từ nửa sau thế kỷ XIV ngày càng gay gắt?",
+      "options": [
+        "A. Bị áp bức bóc lột nặng nề.",
+        "B. Thiên tai, hạn hán xảy ra.",
+        "C. Chiến tranh với nhà Minh.",
+        "D. Quân Chăm pa tấn công."
+      ],
+      "correct": 0,
+      "explanation": "Nông dân bị áp bức bóc lột nặng nề."
+    },
+    {
+      "id": 28,
+      "type": "multiple_choice",
+      "text": "Biểu hiện nào cho thấy mâu thuẫn giữa nông dân với triều đình phong kiến dưới thời Trần từ nửa sau thế kỷ XIV ngày càng gay gắt?",
+      "options": [
+        "A. Các cuộc khởi nghĩa nông dân liên tiếp nổ ra.",
+        "B. Thiên tai, hạn hán, bão lũ xảy ra thường xuyên.",
+        "C. Chiến tranh với nhà Minh gây tổn thất rất lớn.",
+        "D. Nông dân phiêu tán, không quan tâm sản xuất."
+      ],
+      "correct": 0,
+      "explanation": "Nhiều cuộc khởi nghĩa nông dân nổ ra."
+    },
+    {
+      "id": 29,
+      "type": "multiple_choice",
+      "text": "Biểu hiện nào cho thấy sự suy yếu nghiêm trọng của nhà Trần cuối thế kỷ XIV?",
+      "options": [
+        "A. Khởi nghĩa của công nhân liên tiếp nổ ra do, thiên tai, đói kém, mất mùa.",
+        "B. Thiên tai xảy ra thường xuyên do hệ thống đê điều không được quan tâm.",
+        "C. Không còn khả năng bảo vệ đất nước trước sự xâm lược của ngoại bang.",
+        "D. Phải chấp nhận cống nạp cho nhà Thanh ngày càng nặng nề và khắt khe."
+      ],
+      "correct": 2,
+      "explanation": "Nhà Trần bất lực trước các cuộc tấn công từ bên ngoài."
+    },
+    {
+      "id": 30,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Mặc cho đời sống của nhân dân sa sút nghiêm trọng, tầng lớp vua, quan, quý tộc nhà Trần ngày càng ăn chơi, hưởng lạc. Trong triều, trung thần thì ít mà kẻ gian nịnh, cơ hội thì nhiều. Triều Trần suy yếu đến mức không còn khả năng bảo vệ sự an toàn của đất nước, bất lực trước các cuộc tấn công của Chăm-pa và những yêu sách ngang ngược của nhà Minh (Trung Quốc). Hồ Quý Ly - một quý tộc thuộc dòng họ ngoại của nhà Trần từng bước thâu tóm quyền lực, buộc vua Trần nhường ngôi, lập ra triều Hồ (1400).\"\n(SGK Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, trang 61)",
+      "statements": [
+        "A. Đầu thế kỷ XIV nhà Trần rơi vào khủng trầm trọng, sâu sắc về kinh tế, xã hội.",
+        "B. Sự suy yếu của nhà Trần là cơ hội cho các thế lực bên ngoài dòm ngó Đại Việt.",
+        "C. Nhà Hồ là triều đại đầu tiên đã tổ chức kháng chiến chống ngoại xâm thất bại.",
+        "D. Việc Hồ Quý Ly lập ra nhà Hồ là hợp quy luật lịch sử vì nhà Trần đã suy yếu."
+      ],
+      "correct": [false, true, false, true],
+      "explanation": "A sai vì khủng hoảng cuối thế kỷ XIV, đầu thế kỷ XV. C sai vì nhà Hồ thất bại nhưng không phải triều đại đầu tiên thất bại."
+    },
+    {
+      "id": 31,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Cuộc cải cách của Hồ Quý Ly và triều Hồ có nhiều điểm tiến bộ, đã đưa đất nước thoát khỏi tình trạng khủng hoảng, củng cố quyền lực của chính quyền trung ương. Chính sách hạn điền, hạn nô đã làm suy yếu thế lực của tầng lớp quý tộc, tôn thất triều Trần, đồng thời tăng nguồn thu nhập cho Nhà nước, tăng cường quyền lực của Nhà nước quân chủ trung ương tập quyền. Những cải cách trên lĩnh vực văn hoá, giáo dục của Hồ Quý Ly và triều Hồ thể hiện tư tưởng tiến bộ nhằm xây dựng một nền văn hoá, giáo dục mang bản sắc dân tộc. Cuộc cải cách có ý nghĩa trong việc bước đầu ổn định tình hình xã hội, củng cố tiềm lực của đất nước đề chuẩn bị đối phó với giặc ngoại xâm. Tuy nhiên, những cải cách của Hồ Quý Ly và triều Hồ vẫn còn chưa triệt để và kết quả trong thực tế còn hạn chế.\"\n(SGK Lịch sử 11, Bộ Kết nối tri thức với cuộc sống, trang 63)",
+      "statements": [
+        "A. Hồ Quý Ly tiến hành cải cách trong bối cảnh đất nước đang rơi vào khủng hoảng.",
+        "B. Những cải cách của Hồ Quý Ly đã đụng chạm đến quyền lợi của giai cấp thống trị.",
+        "C. Hồ Quý Ly là người Việt đầu tiên thực hiện các chính sách cải cách trong lịch sử.",
+        "D. Cuộc cải cách của Hồ Quý Ly thất bại do thiếu tính kiên quyết và không triệt để."
+      ],
+      "correct": [true, true, false, false],
+      "explanation": "C sai vì trước Hồ Quý Ly đã có nhiều cuộc cải cách. D sai vì thất bại do điều kiện lịch sử, không phải do thiếu kiên quyết."
+    },
+    {
+      "id": 32,
+      "type": "multiple_choice",
+      "text": "Vị vua nào trong lịch sử Việt Nam được sử gia Ngô Sỹ Liên đánh giá là 'anh hùng tài lược'?",
+      "options": ["A. Lý Nhân Tông.", "B. Trần Nhân Tông.", "C. Lê Thánh Tông.", "D. Đinh Tiên Hoàng."],
+      "correct": 2,
+      "explanation": "Lê Thánh Tông được Ngô Sỹ Liên đánh giá là anh hùng tài lược."
+    },
+    {
+      "id": 33,
+      "type": "multiple_choice",
+      "text": "Tình hình nước Đại Việt như thế nào khi Lê Thánh Tông lên ngôi vua?",
+      "options": ["A. Khủng hoảng.", "B. Hỗn loạn.", "C. Ổn định.", "D. Suy yếu."],
+      "correct": 2,
+      "explanation": "Nước Đại Việt ổn định khi Lê Thánh Tông lên ngôi."
+    },
+    {
+      "id": 34,
+      "type": "multiple_choice",
+      "text": "Đâu là biện pháp tuyển chọn quan lại chủ yếu dưới sự trị vì của vua Lê Thánh Tông?",
+      "options": ["A. Tiến cử.", "B. Khoa cử.", "C. Tuyển cử.", "D. Đề cử."],
+      "correct": 1,
+      "explanation": "Lê Thánh Tông tuyển chọn quan lại chủ yếu qua khoa cử."
+    },
+    {
+      "id": 35,
+      "type": "multiple_choice",
+      "text": "Bộ luật được biên soạn dưới thời Lê Thánh Tông là",
+      "options": ["A. Hình thư.", "B. Hình luật.", "C. Hồng Đức.", "D. Gia Long."],
+      "correct": 2,
+      "explanation": "Bộ luật Hồng Đức được ban hành dưới thời Lê Thánh Tông."
+    },
+    {
+      "id": 36,
+      "type": "multiple_choice",
+      "text": "Bộ sử nổi tiếng được biên soạn dưới thời Lê sơ là",
+      "options": ["A. Việt Nam sử lược.", "B. Đại Việt sử ký toàn thư.", "C. Việt sử tiêu án.", "D. Đại Việt sử ký."],
+      "correct": 1,
+      "explanation": "Đại Việt sử ký toàn thư được biên soạn dưới thời Lê sơ."
+    },
+    {
+      "id": 37,
+      "type": "multiple_choice",
+      "text": "Theo quy định của luật Hồng Đức, đối tượng nào sau đây được chú trọng bảo vệ?",
+      "options": ["A. Sản xuất nông nghiệp.", "B. Sản xuất công nghiệp.", "C. Tầng lớp thương nhân.", "D. Những người ca hát."],
+      "correct": 0,
+      "explanation": "Luật Hồng Đức bảo vệ sản xuất nông nghiệp."
+    },
+    {
+      "id": 38,
+      "type": "multiple_choice",
+      "text": "Vua Lê Thánh Tông đã đề ra chính sách nào sau đây để thúc đẩy kinh tế nông nghiệp Đại Việt phát triển?",
+      "options": ["A. Chế độ quân điền.", "B. Lễ cày tịch điền.", "C. Cải cách điền địa.", "D. Chính sách hạn điền."],
+      "correct": 0,
+      "explanation": "Chế độ quân điền thúc đẩy nông nghiệp phát triển."
+    },
+    {
+      "id": 39,
+      "type": "multiple_choice",
+      "text": "Đơn vị hành chính nhỏ nhất thời Lê sơ là",
+      "options": ["A. phủ.", "B. huyện.", "C. châu.", "D. xã."],
+      "correct": 3,
+      "explanation": "Xã là đơn vị hành chính nhỏ nhất thời Lê sơ."
+    },
+    {
+      "id": 40,
+      "type": "multiple_choice",
+      "text": "Trong tổ chức quân đội thời Lê sơ, chức năng của cấm binh là",
+      "options": [
+        "A. bảo vệ đảo, quần đảo, bờ biển.",
+        "B. bảo vệ biên giới với nhà Minh.",
+        "C. bảo vệ kinh thành Thăng Long.",
+        "D. thường trực để đánh quân Minh."
+      ],
+      "correct": 2,
+      "explanation": "Cấm binh bảo vệ kinh thành Thăng Long."
+    },
+    {
+      "id": 41,
+      "type": "multiple_choice",
+      "text": "Vị vua thời Lê Sơ đã cho dựng bia tiến sỹ là",
+      "options": ["A. Lý Nhân Tông.", "B. Trần Nhân Tông.", "C. Lê Thánh Tông.", "D. Đinh Tiên Hoàng."],
+      "correct": 2,
+      "explanation": "Lê Thánh Tông cho dựng bia Tiến sỹ năm 1484."
+    },
+    {
+      "id": 42,
+      "type": "multiple_choice",
+      "text": "Một trong những nội dung cải cách của vua Lê Thánh Tông về kinh tế là chế độ quân điền, nguyên tắc để chia ruộng đất là",
+      "options": [
+        "A. ruộng xã nào chia cho dân xã đó.",
+        "B. chia nhiều ruộng cho người nghèo.",
+        "C. chia theo số lượng nhân khẩu.",
+        "D. lấy chiến công làm tiêu chuẩn."
+      ],
+      "correct": 0,
+      "explanation": "Nguyên tắc: ruộng xã nào chia cho dân xã đó."
+    },
+    {
+      "id": 43,
+      "type": "multiple_choice",
+      "text": "Từ thế kỷ XI đến thế kỷ XV, bộ máy nhà nước quân chủ chuyên chế trung ương tập quyền của quốc gia Đại Việt được hoàn chỉnh dưới triều đại nào?",
+      "options": ["A. Nhà Lý.", "B. Nhà Trần.", "C. Nhà Hồ.", "D. Nhà Lê sơ."],
+      "correct": 3,
+      "explanation": "Bộ máy nhà nước hoàn chỉnh nhất dưới thời Lê sơ."
+    },
+    {
+      "id": 44,
+      "type": "multiple_choice",
+      "text": "Nội dung cơ bản của các bộ luật thời Lý - Trần - Lê là",
+      "options": [
+        "A. bảo vệ lợi ích của nhân dân, đặc biệt là dân nghèo.",
+        "B. bảo vệ đặc quyền, đặc lợi của giai cấp thống trị.",
+        "C. bảo vệ đất đai, lãnh thổ và an ninh của Tổ quốc.",
+        "D. bảo vệ tính mạng và tài sản của nông dân làng xã."
+      ],
+      "correct": 1,
+      "explanation": "Các bộ luật thời phong kiến bảo vệ quyền lợi của giai cấp thống trị."
+    },
+    {
+      "id": 45,
+      "type": "multiple_choice",
+      "text": "Những năm 60 của thế kỷ XV, vua Lê Thánh Tông tiến hành một cuộc cải cách trong nhiều lĩnh vực, trọng tâm là",
+      "options": ["A. kinh tế.", "B. giáo dục.", "C. hành chính.", "D. văn hóa."],
+      "correct": 2,
+      "explanation": "Trọng tâm cải cách của Lê Thánh Tông là hành chính."
+    },
+    {
+      "id": 46,
+      "type": "multiple_choice",
+      "text": "Ý nào dưới đây không phải là nội dung trong cuộc cải cách của vua Lê Thánh Tông ở thế kỷ XV?",
+      "options": [
+        "A. Bãi bỏ chức vụ Tể tướng.",
+        "B. Cả nước chia thành 13 đạo.",
+        "C. Đặt ra chức vụ Đô ngự sử.",
+        "D. Không công khai lập Thái tử."
+      ],
+      "correct": 3,
+      "explanation": "Việc lập Thái tử vẫn được thực hiện, không phải nội dung cải cách."
+    },
+    {
+      "id": 47,
+      "type": "multiple_choice",
+      "text": "Năm 1460, sau khi lên ngôi, vua Lê Thánh Tông đã tiến hành",
+      "options": [
+        "A. cuộc cải cách trên nhiều lĩnh vực.",
+        "B. mở cuộc tiến công sang Trung Quốc.",
+        "C. công cuộc thống nhất đất nước.",
+        "D. khuyến khích phát triển ngoại thương."
+      ],
+      "correct": 0,
+      "explanation": "Lê Thánh Tông tiến hành cải cách toàn diện."
+    },
+    {
+      "id": 48,
+      "type": "multiple_choice",
+      "text": "Tổ chức bộ máy chính quyền địa phương thời Lê sơ từ sau cải cách của vua Lê Thánh Tông lần lượt là",
+      "options": [
+        "A. đạo thừa tuyên, phủ, huyện, châu, xã.",
+        "B. phủ Thừa Thiên, châu, huyện, xã, làng.",
+        "C. đạo thừa tuyên, phủ, châu, hương, xã.",
+        "D. phủ Thừa Thiên, huyện, châu, xã, làng."
+      ],
+      "correct": 0,
+      "explanation": "Cấp hành chính: đạo thừa tuyên → phủ → huyện/châu → xã."
+    },
+    {
+      "id": 49,
+      "type": "multiple_choice",
+      "text": "Quân đội dưới thời vua Lê Thánh Tông được chia ra thành hai bộ phận, gồm",
+      "options": ["A. thân binh và tân binh.", "B. tân binh và ngoại binh.", "C. thủy binh và bộ binh.", "D. cấm binh và ngoại binh."],
+      "correct": 3,
+      "explanation": "Quân đội chia làm cấm binh (bảo vệ kinh thành) và ngoại binh (bảo vệ biên giới)."
+    },
+    {
+      "id": 50,
+      "type": "multiple_choice",
+      "text": "Để rèn luyện quân đội, nhà Lê sơ ngoài việc duyệt binh sĩ hàng năm còn có quy định nào sau đây?",
+      "options": [
+        "A. Mua sắm vũ khí phương Tây trang bị cho quân đội.",
+        "B. Thường xuyên huấn luyện theo kiểu phương Tây.",
+        "C. Cứ 3 năm tổ chức một kỳ thi khảo hạch võ nghệ.",
+        "D. Mời võ sĩ phương Tây huấn luyện cho quân đội."
+      ],
+      "correct": 2,
+      "explanation": "Định kỳ 3 năm tổ chức khảo hạch võ nghệ."
+    },
+    {
+      "id": 51,
+      "type": "multiple_choice",
+      "text": "Việc bãi bỏ chức Tể tướng và các chức Đại hành khiển của vua Lê Thánh Tông ở thế kỷ XV nhằm mục đích gì?",
+      "options": [
+        "A. Tăng cường quyền lực tuyệt đối cho nhà vua.",
+        "B. Bảo vệ quyền lợi chân chính của nhân dân.",
+        "C. Tăng cường quyền lực cho quan địa phương.",
+        "D. Bảo vệ quyền lợi cho nhà vua và các quan lại."
+      ],
+      "correct": 0,
+      "explanation": "Bãi bỏ Tể tướng để tập trung quyền lực vào tay vua."
+    },
+    {
+      "id": 52,
+      "type": "multiple_choice",
+      "text": "Việc chia đất nước thành 13 đạo thừa tuyên của vua Lê Thánh Tông ở thế kỷ XV nhằm mục đích gì?",
+      "options": [
+        "A. Xóa bỏ đi xu hướng phân tán quyền lực.",
+        "B. Bảo vệ quyền lợi chân chính của nhân dân.",
+        "C. Tăng cường quyền lực cho quan địa phương.",
+        "D. Bảo vệ quyền lợi cho nhà vua và quan lại."
+      ],
+      "correct": 0,
+      "explanation": "Chia 13 đạo để quản lý tập trung, xóa bỏ phân tán quyền lực."
+    },
+    {
+      "id": 53,
+      "type": "multiple_choice",
+      "text": "Việc tuyển chọn quan lại bằng hình thức khoa cử đã đem lại tác dụng nào sau đây đối với triều đình nhà Lê sơ?",
+      "options": [
+        "A. Kinh tế công nghiệp phát triển nhanh.",
+        "B. Triều đình không dùng lầm người kém.",
+        "C. Giữ ổn định đất nước về mặt chính trị.",
+        "D. Đưa Đạo giáo lên hàng địa vị độc tôn."
+      ],
+      "correct": 2,
+      "explanation": "Khoa cử giúp chính trị ổn định, chọn được người tài."
+    },
+    {
+      "id": 54,
+      "type": "multiple_choice",
+      "text": "Năm 1484 vua Lê Thánh cho dựng bia Tiến sỹ nhằm mục đích gì?",
+      "options": [
+        "A. Khuyến khích học hành, thi cử để làm quan.",
+        "B. Để bảo vệ quyền lợi chân chính của nhân dân.",
+        "C. Nhằm tăng cường quyền lực cho các quan lại.",
+        "D. Bảo vệ quyền lợi cho nhà vua và các quan lại."
+      ],
+      "correct": 0,
+      "explanation": "Dựng bia Tiến sỹ để khuyến khích học tập và thi cử."
+    },
+    {
+      "id": 55,
+      "type": "multiple_choice",
+      "text": "Mục đích chính của phép 'quân điền' trong lĩnh vực nông nghiệp dưới thời Lê sơ là gì?",
+      "options": [
+        "A. Hạn chế ruộng đất tư của các quý tộc.",
+        "B. Nhằm phát triển kinh tế nông nghiệp.",
+        "C. Đảm bảo thực hiện người cày có ruộng.",
+        "D. Đẩy mạnh việc khai hoang ruộng đất."
+      ],
+      "correct": 1,
+      "explanation": "Quân điền nhằm phát triển nông nghiệp, ổn định xã hội."
+    },
+    {
+      "id": 56,
+      "type": "multiple_choice",
+      "text": "Điểm tích cực trong bộ máy nhà nước sau những cải cách của vua Lê Thánh Tông ở thế kỷ XV là",
+      "options": [
+        "A. các cơ quan giám sát lẫn nhau.",
+        "B. bộ máy nhà nước quá cồng kềnh.",
+        "C. tập trung quyền lực vào tay vua.",
+        "D. tăng cường sức mạnh quân sự."
+      ],
+      "correct": 0,
+      "explanation": "Các cơ quan giám sát lẫn nhau giúp hạn chế tham nhũng."
+    },
+    {
+      "id": 57,
+      "type": "multiple_choice",
+      "text": "Đặc điểm nổi bật nhất của bộ máy nhà nước thời Lê sơ so với các triều đại Lý - Trần - Hồ là gì?",
+      "options": [
+        "A. Bộ máy quan lại cồng kềnh và quan liêu.",
+        "B. Quyền lực tập trung tuyệt đối vào tay vua.",
+        "C. Hoàng đế đã là người đứng đầu đất nước.",
+        "D. Quyền lực của quan địa phương tăng lên."
+      ],
+      "correct": 1,
+      "explanation": "Thời Lê sơ, quyền lực tập trung tuyệt đối vào tay vua."
+    },
+    {
+      "id": 58,
+      "type": "multiple_choice",
+      "text": "Sau khi vua Lê Thái Tổ băng hà (1433) các quyền thần có trong tay quyền lực lớn đã thao túng triều đình, đây là hậu quả của việc",
+      "options": [
+        "A. các công thần chống đối không quy thuận.",
+        "B. các vua tiếp theo lên ngôi khi còn nhỏ tuổi.",
+        "C. các thế lực phong kiến đã liên kết với nhau.",
+        "D. sự chi phối, thao túng của quý tộc nhà Trần."
+      ],
+      "correct": 1,
+      "explanation": "Các vua kế vị còn nhỏ tuổi nên quyền thần thao túng triều đình."
+    },
+    {
+      "id": 59,
+      "type": "multiple_choice",
+      "text": "Vì sao vua Lê Thánh Tông chú trọng đến giáo dục - khoa cử trong các chính sách cải cách của mình vào thế kỷ XV?",
+      "options": [
+        "A. Nhà vua nhận thức được tầm quan trọng của việc tuyển chọn nhân tài.",
+        "B. Do yêu cầu cấp thiết của việc khôi phục lại đất nước sau chiến tranh.",
+        "C. Giáo dục - khoa cử sớm phát triển, đạt nhiều thành tựu từ thời nhà Hồ.",
+        "D. Số lượng người đi học, đi thi tăng nhanh cả về số lượng và chất lượng."
+      ],
+      "correct": 0,
+      "explanation": "Lê Thánh Tông coi trọng nhân tài qua giáo dục - khoa cử."
+    },
+    {
+      "id": 60,
+      "type": "multiple_choice",
+      "text": "\"Đời vua Thái Tổ, Thái Tông\nThóc lúa đầy đồng, trâu chẳng buồn ăn\"\nHai câu thơ trên thể hiện điều gì?",
+      "options": [
+        "A. Nông nghiệp phát triển thịnh đạt.",
+        "B. Quyền lợi của nhân dân được bảo vệ.",
+        "C. Tình hình chính trị ổn định, ít mâu thuẫn.",
+        "D. Quyền lực tập trung vào tay nhà vua."
+      ],
+      "correct": 0,
+      "explanation": "Thơ ca ngợi nông nghiệp thịnh vượng thời Lê sơ."
+    },
+    {
+      "id": 61,
+      "type": "multiple_choice",
+      "text": "Về chính sách giáo dục - khoa cử, cuộc cải cách của vua Lê Thánh Tông có điểm nào giống với cuộc cải cách của Hồ Quý Ly?",
+      "options": [
+        "A. Chấn chỉnh giáo dục - khoa cử, tuyển chọn nhân tài.",
+        "B. Dựng bia Tiến sỹ để vinh danh những người đỗ đạt.",
+        "C. Tổ chức kỳ thi Hội mỗi năm một lần tuyển người tài.",
+        "D. Xây dựng Văn miếu cho con em dân thường vào học."
+      ],
+      "correct": 0,
+      "explanation": "Cả hai đều chấn chỉnh giáo dục, trọng dụng nhân tài."
+    },
+    {
+      "id": 62,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Năm 1471, nhằm tăng cường sự kiểm soát chỉ đạo của vua đối với các triều thần, tăng cường tính hiệu lực và hiệu quả của bộ máy quan lại, Lê Thánh Tông đã bãi bỏ một số chức quan đại thần có công nhưng không có học thức, thay vào đó bằng các văn quan được tuyển chọn qua thi cử nhằm hạn chế chia bè, kéo cánh trong triều đình, hạn chế sự thao túng quyền lực của các công thần. Việc ông trực tiếp quản lí các bộ đã hạn chế sự cồng kềnh, quan liêu của bộ máy hành chính.\" (Phan Huy Lê, Lịch sử Việt Nam, tập 2, trang 91)",
+      "statements": [
+        "a) Đoạn trích cung cấp thông tin về một số biện pháp cải cách của vua Lê Thánh Tông trên lĩnh vực chính trị, quân sự.",
+        "b) Một số quan lại đương chức nhưng không có học thức đã bị Lê Thánh Tông bãi bỏ, thay thế vào đó là những người được tuyển chọn qua hình thức khoa cử.",
+        "c) Năm 1471, vua Lê Thánh Tông đã thực hiện một số biện pháp thể hiện sự trọng dụng đặc biệt đối với bộ phận công thần trong triều.",
+        "d) Những cải cách của Lê Thánh Tông năm 1471 đã khiến quyền lực được tập trung cao độ vào trong tay nhà vua."
+      ],
+      "correct": [false, true, false, true],
+      "explanation": "a sai vì chỉ đề cập chính trị, không phải quân sự. c sai vì bãi bỏ chứ không trọng dụng công thần."
+    },
+    {
+      "id": 63,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Năm 1477, Lê Thánh Tông ban hành chế độ quân điền, chia ruộng đất công làng xã cho người dân, từ quan tam phẩm trở xuống đến binh lính, dân đinh, cư dân trong thôn xã theo tỉ lệ. Chính sách quân điền phủ định quyền chi phối ruộng đất công của làng xã theo tục lệ, buộc làng xã phải tuân thủ những nguyên tắc quy định về phân chia và hưởng thụ bộ phận ruộng đất công theo quy định của nhà nước. Trên nguyên tắc, ruộng đất công làng xã không được đem mua bán, chuyển nhượng, quyền đó thuộc về vua. Vua trở thành người chủ lớn nhất trong cả nước và nông dân làng xã trở thành tá điền của nhà nước, làng xã quản lí ruộng đất cho nhà nước trung ương và nhà vua.\" (Phan Huy Lê, Lịch sử Việt Nam, tập 2, trang 109)",
+      "statements": [
+        "a) Đoạn trích cung cấp thông tin về một số biện pháp cải cách của vua Lê Thánh Tông trên lĩnh vực kinh tế.",
+        "b) Chế độ quân điền mà vua Lê Thánh Tông ban hành có điểm tích cực là đảm bảo cho người dân có ruộng đất để cày cấy, canh tác.",
+        "c) Với chính sách quân điền, nhà nước Lê sơ trở thành thế lực địa chủ tối cao, làng xã biến thành đơn vị thay mặt nhà nước quản lý ruộng đất.",
+        "d) Trong bối cảnh lịch sử lúc bấy giờ, chính sách quân điền gây ra nhiều hệ quả tiêu cực hơn là tích cực."
+      ],
+      "correct": [true, true, false, false],
+      "explanation": "c đúng theo đoạn tư liệu. d sai vì chính sách quân điền mang lại nhiều tích cực."
+    },
+    {
+      "id": 64,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Con gái hứa gả chồng mà chưa thành hôn nếu người con trai bị ác tật hay phạm tội hoặc phá tán gia sản thì cho phép người con gái kêu quan mà trả lại đồ lễ. Nếu người con gái bị ác tật hay phạm tội thì không phải trả lại đồ lễ, trái luật bị phạt 80 trượng\" (Điều 322).\n\"Phá trộm đê làm thiệt hại nhà cửa, lúa má của dân thì xử tội đồ hay tội lưu và bắt đền thiệt hại\" (Điều 596).\n(Quốc triều hình luật, NXB Chính trị Quốc gia Sự thật, 2017, tr.113-114, 190)",
+      "statements": [
+        "a) Quốc triều hình luật là bộ luật tiêu biểu của quốc gia Đại Việt được ban hành dưới triều vua Lê Thánh Tông.",
+        "b) Điều 322 của bộ Quốc triều hình luật là một điều luật tiến bộ, đã bảo vệ quyền lợi của người phụ nữ trong xã hội.",
+        "c) Điều 596 của bộ Quốc triều hình luật là một trong những điều luật quy định hình thức xử phạt của phạm nhân vi phạm trên lĩnh vực chính trị.",
+        "d) Với điều 596, ta có thể thấy rằng, bộ Quốc triều hình luật hướng tới bảo vệ những quyền lợi chân chính của nhân dân, nhất là nông dân."
+      ],
+      "correct": [true, true, false, true],
+      "explanation": "c sai vì Điều 596 liên quan đến phá đê, thiệt hại nông nghiệp, không phải chính trị."
+    },
+    {
+      "id": 65,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách hành chính lớn nhất dưới triều Nguyễn (1802 - 1945) được tiến hành dưới thời vua",
+      "options": ["A. Gia Long.", "B. Minh Mạng.", "C. Tự Đức.", "D. Hàm Nghi."],
+      "correct": 1,
+      "explanation": "Vua Minh Mạng tiến hành cải cách hành chính lớn nhất triều Nguyễn."
+    },
+    {
+      "id": 66,
+      "type": "multiple_choice",
+      "text": "Để khắc phục tình trạng phân quyền, thiếu thống nhất của triều đình nhà Nguyễn, vua Minh Mạng đã tiến hành",
+      "options": [
+        "A. chia cả nước thành ba vùng.",
+        "B. cuộc cải cách hành chính.",
+        "C. bãi bỏ chế độ tập quyền.",
+        "D. cải tổ tổ chức hành chính."
+      ],
+      "correct": 1,
+      "explanation": "Minh Mạng thực hiện cải cách hành chính để khắc phục phân quyền."
+    },
+    {
+      "id": 67,
+      "type": "multiple_choice",
+      "text": "Trọng tâm cuộc cải cách của vua Minh Mạng (nửa đầu thế kỉ XIX) là về lĩnh vực",
+      "options": ["A. kinh tế.", "B. văn hóa.", "C. hành chính.", "D. quân sự."],
+      "correct": 2,
+      "explanation": "Trọng tâm cải cách Minh Mạng là hành chính."
+    },
+    {
+      "id": 68,
+      "type": "multiple_choice",
+      "text": "Trong bộ máy chính quyền trung ương thời Minh Mạng, các cơ quan Nội các và Cơ mật viện có vai trò tư vấn cho nhà vua về",
+      "options": ["A. kinh tế.", "B. quân sự.", "C. giáo dục.", "D. tài chính."],
+      "correct": 1,
+      "explanation": "Cơ mật viện tư vấn quân sự cho vua Minh Mạng."
+    },
+    {
+      "id": 69,
+      "type": "multiple_choice",
+      "text": "Sau cuộc cải cách của vua Minh Mạng, cơ cấu hành chính Đại Nam được chia thành",
+      "options": [
+        "A. 30 tỉnh và một phủ Thừa Thiên.",
+        "B. trấn Bắc Thành và Gia Định thành.",
+        "C. 13 đạo Thừa tuyên và phủ Trung Đô.",
+        "D. 3 quận Giao Chỉ, Cửu Chân, Nhật Nam."
+      ],
+      "correct": 0,
+      "explanation": "Thời Minh Mạng, cả nước chia thành 30 tỉnh và phủ Thừa Thiên."
+    },
+    {
+      "id": 70,
+      "type": "multiple_choice",
+      "text": "Đối với các vùng dân tộc thiểu số, cuộc cải cách của vua Minh Mạng không có nội dung nào sau đây?",
+      "options": [
+        "A. Đổi các động, sách thành xã như vùng đồng bằng.",
+        "B. Bãi bỏ chế độ cai trị của các tù trưởng địa phương.",
+        "C. Bổ dụng quan lại của triều đình đến cai trị trực tiếp.",
+        "D. Phong tước vương cho các tù trưởng địa phương."
+      ],
+      "correct": 3,
+      "explanation": "Minh Mạng bãi bỏ tù trưởng, không phong tước vương."
+    },
+    {
+      "id": 71,
+      "type": "multiple_choice",
+      "text": "Đối với các vùng dân tộc thiểu số, cuộc cải cách của vua Minh Mạng có nội dung nào sau đây?",
+      "options": [
+        "A. Đổi các động, sách thành xã như vùng đồng bằng.",
+        "B. Duy trì chế độ cai trị của các tù trưởng địa phương.",
+        "C. Thực hiện chế độ cha truyền con nối ở địa phương.",
+        "D. Kết thông gia, mở rộng quyền lực cho các tù trưởng."
+      ],
+      "correct": 0,
+      "explanation": "Minh Mạng đổi động, sách thành xã để thống nhất quản lý."
+    },
+    {
+      "id": 72,
+      "type": "multiple_choice",
+      "text": "Trong cuộc cải cách hành chính của vua Minh Mạng (nửa đầu thế kỉ XIX), cơ quan nào sau đây có chức năng như một cơ quan hành chính trung ương?",
+      "options": ["A. Nội các.", "B. Ngự sử đài.", "C. Hàn lâm viện.", "D. Đô sát viện."],
+      "correct": 0,
+      "explanation": "Nội các là cơ quan hành chính trung ương thời Minh Mạng."
+    },
+    {
+      "id": 73,
+      "type": "multiple_choice",
+      "text": "Dưới thời vua Minh Mạng, chức quan đứng đầu tỉnh được gọi là gì?",
+      "options": ["A. Quan Thượng thư.", "B. Tổng đốc, Tuần phủ.", "C. Khâm sai đại thần.", "D. Tư mã, đại đô đốc."],
+      "correct": 1,
+      "explanation": "Đứng đầu tỉnh là Tổng đốc hoặc Tuần phủ."
+    },
+    {
+      "id": 74,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách Minh Mạng (nửa đầu thế kỉ XIX) được thực hiện trong bối cảnh",
+      "options": [
+        "A. đất nước vừa trải qua thời gian chiến tranh, bị chia cắt lâu dài.",
+        "B. bộ máy hành chính nhà nước phong kiến đã đạt đến đỉnh cao.",
+        "C. tình trạng phân quyền, thiếu thống nhất đã khắc phục triệt để.",
+        "D. vua Gia Long đã tiến hành cuộc cải cách hành chính hoàn chỉnh."
+      ],
+      "correct": 0,
+      "explanation": "Đất nước thống nhất nhưng còn nhiều hệ lụy sau chiến tranh, thiếu thống nhất."
+    },
+    {
+      "id": 75,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách Minh Mạng (thế kỉ XIX) được thực hiện trong bối cảnh nào sau đây?",
+      "options": [
+        "A. Quan lại trong bộ máy nhà nước chủ yếu do võ quan nắm giữ.",
+        "B. bộ máy hành chính nhà nước phong kiến đã đạt đến đỉnh cao.",
+        "C. tình trạng phân quyền, thiếu thống nhất đã khắc phục triệt để.",
+        "D. vua Gia Long đã tiến hành cuộc cải cách hành chính hoàn chỉnh."
+      ],
+      "correct": 0,
+      "explanation": "Thời đầu Nguyễn, quan lại chủ yếu là võ quan."
+    },
+    {
+      "id": 76,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách Minh Mạng (nửa đầu thế kỉ XIX) được thực hiện trong bối cảnh",
+      "options": [
+        "A. các thế lực chống đối của nhà Tây Sơn vẫn hoạt động mạnh.",
+        "B. bộ máy hành chính nhà nước phong kiến cơ bản đã hoàn chỉnh.",
+        "C. tình trạng phân quyền, thiếu thống nhất vẫn tồn tại đậm nét.",
+        "D. đất nước thống nhất, xã hội ổn định, tình hình kinh tế phát triển."
+      ],
+      "correct": 2,
+      "explanation": "Tình trạng phân quyền thiếu thống nhất còn đậm nét."
+    },
+    {
+      "id": 77,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách Minh Mạng (nửa đầu thế kỉ XIX) được thực hiện trong bối cảnh",
+      "options": [
+        "A. tổ chức hành chính giữa các khu vực thiếu thống nhất.",
+        "B. bộ máy hành chính nhà nước phong kiến đã hoàn chỉnh.",
+        "C. tình trạng thiếu thống nhất ở địa phương đã khắc phục.",
+        "D. chế độ quân chủ chuyên chế tập quyền đạt đến đỉnh cao."
+      ],
+      "correct": 0,
+      "explanation": "Tổ chức hành chính giữa các khu vực thiếu thống nhất."
+    },
+    {
+      "id": 78,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách của vua Minh Mạng (thế kỉ XIX) không nhằm mục đích nào sau đây?",
+      "options": [
+        "A. Khắc phục tình trạng phân quyền, thiếu thống nhất.",
+        "B. Tăng cường tính thống nhất và tiềm lực của đất nước.",
+        "C. Tập trung quyền lực và hoàn thiện bộ máy nhà nước.",
+        "D. Xóa bỏ tình trạng 'bế quan tỏa cảng' của đất nước."
+      ],
+      "correct": 3,
+      "explanation": "Không phải mục đích cải cách của Minh Mạng."
+    },
+    {
+      "id": 79,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách hành chính của vua Minh Mạng (nửa đầu thế kỉ XIX) nhằm mục đích",
+      "options": [
+        "A. hoàn thành việc thống nhất đất nước về mặt lãnh thổ.",
+        "B. tăng cường tính thống nhất và tiềm lực của đất nước.",
+        "C. xóa bỏ tình trạng cát cứ của các thế lực phong kiến.",
+        "D. xóa bỏ tình trạng 'bế quan tỏa cảng' của đất nước."
+      ],
+      "correct": 1,
+      "explanation": "Mục đích: tăng cường thống nhất và tiềm lực đất nước."
+    },
+    {
+      "id": 80,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách hành chính của vua Minh Mạng (nửa đầu thế kỉ XIX) nhằm mục đích",
+      "options": [
+        "A. hoàn thành thống nhất đất nước về mặt lãnh thổ.",
+        "B. khắc phục tình trạng phân quyền, thiếu thống nhất.",
+        "C. xóa bỏ tình trạng cát cứ của các thế lực phong kiến.",
+        "D. xóa bỏ tình trạng 'bế quan tỏa cảng' của đất nước."
+      ],
+      "correct": 1,
+      "explanation": "Mục đích: khắc phục phân quyền, thiếu thống nhất."
+    },
+    {
+      "id": 81,
+      "type": "multiple_choice",
+      "text": "Cuộc cải cách hành chính của vua Minh Mạng (nửa đầu thế kỉ XIX) nhằm mục đích",
+      "options": [
+        "A. hoàn thành cơ bản thống nhất đất nước về mặt lãnh thổ.",
+        "B. hoàn chỉnh bộ máy nhà nước ở trung ương và địa phương.",
+        "C. xóa bỏ tình trạng cát cứ của các thế lực phong kiến.",
+        "D. xóa bỏ tình trạng 'bế quan tỏa cảng' của đất nước."
+      ],
+      "correct": 1,
+      "explanation": "Mục đích: hoàn chỉnh bộ máy nhà nước."
+    },
+    {
+      "id": 82,
+      "type": "multiple_choice",
+      "text": "Trong cuộc cải cách hành chính của vua Minh Mạng (nửa đầu thế kỉ XIX), quy định của chế độ 'hồi tỵ' là gì?",
+      "options": [
+        "A. Anh, em, cha, con, thầy, trò không được làm quan cùng một chỗ.",
+        "B. Các địa phương ở xa được tuyển chọn quan lại tại chỗ, vĩnh viễn.",
+        "C. Người thân, tôn thất, dòng họ của vua không làm quan cùng chỗ.",
+        "D. Những người đỗ đạt trong thi cử được đưa về làm quan tại quê."
+      ],
+      "correct": 0,
+      "explanation": "Hồi tỵ: tránh việc người thân, thầy trò làm cùng chỗ gây thông đồng."
+    },
+    {
+      "id": 83,
+      "type": "multiple_choice",
+      "text": "Biển Đông là một trong những biển lớn và là đường vận chuyển huyết mạch của khu vực",
+      "options": [
+        "A. Châu Á - Thái Bình Dương.",
+        "B. Bắc Mĩ và eo biển Đan Mạch.",
+        "C. Châu Âu và mũi Hảo Vọng.",
+        "D. Châu Phi và châu Nam Cực."
+      ],
+      "correct": 0,
+      "explanation": "Biển Đông nằm ở vị trí chiến lược Châu Á - Thái Bình Dương."
+    },
+    {
+      "id": 84,
+      "type": "multiple_choice",
+      "text": "Biển Đông giữ vị trí chiến lược trên con đường giao thương chủ yếu giữa hai châu lục nào sau đây?",
+      "options": [
+        "A. Châu Á và Châu Âu.",
+        "B. Châu Á và Châu Phi.",
+        "C. Châu Á và Châu Mĩ.",
+        "D. Châu Á và Châu Úc."
+      ],
+      "correct": 0,
+      "explanation": "Biển Đông nối liền Ấn Độ Dương và Thái Bình Dương, tuyến đường giữa Châu Á và Châu Âu."
+    },
+    {
+      "id": 85,
+      "type": "multiple_choice",
+      "text": "Ngành kinh tế nào sau đây của Biển Đông được đẩy mạnh nhờ hệ sinh vật đa dạng dưới đáy biển và cảnh quan thiên nhiên tươi đẹp?",
+      "options": ["A. Du lịch biển.", "B. Nuôi trồng thủy, hải sản.", "C. Khai thác khoáng sản.", "D. Đánh bắt cá."],
+      "correct": 0,
+      "explanation": "Cảnh quan đẹp và sinh vật đa dạng thuận lợi cho du lịch biển."
+    },
+    {
+      "id": 86,
+      "type": "multiple_choice",
+      "text": "Cả hai quần đảo Hoàng Sa và Trường Sa đều tạo thuận lợi để Việt Nam phát triển ngành kinh tế nào sau đây?",
+      "options": ["A. Nông nghiệp lúa nước.", "B. Lâm nghiệp.", "C. Công nghiệp chế tạo.", "D. Khai thác hải sản."],
+      "correct": 3,
+      "explanation": "Vùng biển quần đảo có nguồn hải sản phong phú."
+    },
+    {
+      "id": 87,
+      "type": "multiple_choice",
+      "text": "Ở Biển Đông, nguồn tài nguyên thiên nhiên nào sau đây có trữ lượng vào loại lớn nhất thế giới?",
+      "options": ["A. Muối biển.", "B. Băng cháy.", "C. Dầu khí.", "D. Quặng sắt."],
+      "correct": 2,
+      "explanation": "Biển Đông có trữ lượng dầu khí lớn, nằm trong top thế giới."
+    },
+    {
+      "id": 88,
+      "type": "multiple_choice",
+      "text": "Biển Đông có vị trí chiến lược quan trọng trong giao thông hàng hải quốc tế vì",
+      "options": [
+        "A. Là tuyến đường biển duy nhất trên thế giới.",
+        "B. Ít có sự hoạt động của áp thất nhiệt đới, bão.",
+        "C. Khu vực Biển Đông có nhiều eo biển quan trọng.",
+        "D. Bị nhiều cường quốc lớn chi phối, khống chế."
+      ],
+      "correct": 2,
+      "explanation": "Biển Đông có nhiều eo biển quan trọng như eo Malacca."
+    },
+    {
+      "id": 89,
+      "type": "multiple_choice",
+      "text": "Tầm quan trọng chiến lược của Biển Đông được thể hiện ở điểm nào sau đây?",
+      "options": [
+        "A. Lượng mưa thay đổi theo vĩ độ và mùa.",
+        "B. Nối Đại Tây Dương đến Ấn Độ Dương.",
+        "C. Là vùng biển chính cho tàu thuyền neo đậu.",
+        "D. Là tuyến đường giao thông biển huyết mạch."
+      ],
+      "correct": 3,
+      "explanation": "Biển Đông là tuyến đường giao thông biển huyết mạch của thế giới."
+    },
+    {
+      "id": 90,
+      "type": "multiple_choice",
+      "text": "Đối với Việt Nam, tầm quan trọng chiến lược của quần đảo Trường Sa và quần đảo Hoàng Sa được thể hiện ở điểm nào sau đây?",
+      "options": [
+        "A. Là tuyến đường vận tải chiến lược duy nhất từ Bắc đến Nam.",
+        "B. Đảm bảo nguồn an ninh lương thực cho nhân dân Việt Nam.",
+        "C. Có ý nghĩa về chiến lược quốc phòng, an ninh, kinh tế biển.",
+        "D. Nền tảng lớn nhất để Việt Nam phát triển công nghiệp nặng."
+      ],
+      "correct": 2,
+      "explanation": "Quần đảo có ý nghĩa chiến lược trong quốc phòng, an ninh và kinh tế biển."
+    },
+    {
+      "id": 91,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Biển là bộ phận cấu thành chủ quyền thiêng liêng của Tổ quốc, là không gian sinh tồn, cửa ngõ giao lưu quốc tế, gắn bó mật thiết với sự nghiệp xây dựng và bảo vệ Tổ quốc. Việt Nam phải trở thành quốc gia mạnh về biển, giàu từ biển, phát triển bền vững, thịnh vượng, an ninh và an toàn; phát triển bền vững kinh tế biển gắn liền với đảm bảo quốc phòng, an ninh, giữ vững độc lập, chủ quyền và toàn vẹn lãnh thổ, tăng cường đối ngoại, hợp tác quốc tế về biển, góp phần duy trì môi trường hòa bình, ổn định cho phát triển. Phát triển bền vững kinh tế biển Việt Nam là trách nhiệm của cả hệ thống chính trị, là quyền và nghĩa vụ của mọi tổ chức, doanh nghiệp và người dân Việt Nam.\"\n(Nghị quyết số 36-NQ/TW ngày 22-10-2018 về Chiến lược phát triển bền vững kinh tế biển Việt Nam đến năm 2030, tầm nhìn đến năm 2045)",
+      "statements": [
+        "a) Đoạn tư liệu trên đưa ra nhiều bằng chứng khẳng định quần đảo Hoàng Sa và quần đảo Trường Sa thuộc chủ quyền của Việt Nam.",
+        "b) Trách nhiệm phát triển bền vững kinh tế biển không liên quan đến những người dân sống trong khu vực đất liền.",
+        "c) Quá trình xây dựng và bảo vệ Tổ quốc của Việt Nam hiện nay có sự gắn bó mật thiết với Biển Đông.",
+        "d) Nhiệm vụ phát triển kinh tế biển với đảm bảo an ninh quốc phòng luôn có sự gắn bó mật thiết, không tách rời nhau."
+      ],
+      "correct": [false, false, true, true],
+      "explanation": "a sai vì đoạn không đưa bằng chứng cụ thể về Hoàng Sa, Trường Sa. b sai vì mọi người dân đều có trách nhiệm."
+    },
+    {
+      "id": 92,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\n\"Biển Đông là nơi cư trú của 12 nghìn loài sinh vật, trong đó có khoảng 2040 loài cá, 350 loài san hô, 662 loài rong biển, 12 loài có vú... Trong khu vực này, tập trung 221 loài cây nước mặn tạo nên diện tích rừng ngập mặn tương đối lớn.\nKhu vực thềm lục địa của biển Đông có tiềm năng dầu khí cao như bồn trũng Bru-nây, Nam Côn sơn, Hoàng Sa,...\"\n(Nguyễn Văn Âu, Địa lí tự nhiên Biển Đông, 2002, tr.33, 71-72)",
+      "statements": [
+        "a) Đoạn trích cung cấp thông tin về nguồn tài nguyên thiên nhiên phong phú ở Biển Đông.",
+        "b) Nguồn tài nguyên sinh vật ở Biển Đông rất phong phú đa dạng, nhưng chỉ có động vật mà không có thực vật.",
+        "c) Dầu khí là một trong những nguồn tài nguyên khoáng sản đặc biệt quan trọng ở Biển Đông.",
+        "d) Nguồn dầu khí ở Biển Đông chỉ có thể được khai thác ở 3 địa điểm: bồn trũng Bru-nây, Nam Côn sơn, Hoàng Sa."
+      ],
+      "correct": [true, false, true, false],
+      "explanation": "b sai vì có cả thực vật (rong biển, cây nước mặn). d sai vì còn nhiều vị trí khác, không chỉ 3 điểm đó."
+    },
+    {
+      "id": 93,
+      "type": "true_false",
+      "text": "Đọc đoạn tư liệu sau:\nĐảo Trường Sa thuộc quần đảo Trường Sa (huyện Trường Sa, tỉnh Khánh Hòa) là một trong những đảo lớn, quan trọng (cùng với đảo Song Tử Đông, Song Tử Tây, đảo Thị Tứ, đảo Loại Ta, đảo Ba Bình, đảo Nam Yết...ở quần đảo Trường Sa). Hiện nay, trên đảo Trường Sa và một số đảo khác thuộc quần đảo đã thành lập xã đảo thuộc huyện Trường Sa, tỉnh Khánh Hòa. Nhiều công trình dân sinh như sân bay, cột cờ và đài tưởng niệm, trường học, bệnh xá, chùa, cột thu tiếp sóng viễn thông....đã được xây dựng góp phần cải thiện và nâng cao đời sống của bộ đội và nhân dân trên huyện đảo, đồng thời góp phần củng cố và tăng cường cho công cuộc bảo vệ, thực thi chủ quyền của Tổ quốc trên quần đảo Trường Sa.",
+      "statements": [
+        "a) Đảo Trường Sa là đảo lớn và quan trọng duy nhất thuộc quần đảo Trường Sa.",
+        "b) Trên đảo Trường Sa hiện nay, nhà nước ta đã thành lập được xã đảo và xây dựng được nhiều công trình phục vụ đời sống nhân dân.",
+        "c) Việc thành lập các xã đảo và huyện đảo Trường Sa là một biện pháp thực thi chủ quyền biển đảo của Đảng và Nhà nước ta.",
+        "d) Việc xây dựng sân bay, trường học, bệnh viện ... trên quần đảo Trường Sa nhằm mục đích duy nhất là cải thiện và nâng cao đời sống nhân dân."
+      ],
+      "correct": [false, true, true, false],
+      "explanation": "a sai vì còn nhiều đảo lớn quan trọng khác. d sai vì ngoài cải thiện đời sống còn thực thi chủ quyền."
+    }
+  ]
+}
