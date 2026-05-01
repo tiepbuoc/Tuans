@@ -305,12 +305,6 @@
             }));
         }
 
-        function updateProgress() {
-            const total = questions.length;
-            const answeredCount = userAnswers.filter(a => a.answered).length;
-            document.getElementById('progress').innerHTML = `Câu ${currentIndex + 1} / ${total} | Đã trả lời: ${answeredCount}/${total}`;
-            document.getElementById('scoreBoard').innerHTML = `📊 Đã trả lời: ${answeredCount} / ${total} câu | ${answeredCount === total ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
-        }
 
         function renderQuestion() {
             const q = questions[currentIndex];
