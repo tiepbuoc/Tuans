@@ -451,7 +451,7 @@
     {
       "id": 57,
       "type": "multiple_choice",
-      "text": "Arrange the conversation: a. Lucy: That's great! What inspired you to pursue this career? / b. Tom: I've always dreamed of working as a software engineer. / c. Tom: I've always been fascinated by technology and solving problems.",
+      "text": "Arrange the conversation:\na. Lucy: That's great! What inspired you to pursue this career?\nb. Tom: I've always dreamed of working as a software engineer.\nc. Tom: I've always been fascinated by technology and solving problems.",
       "options": ["A. b-a-c", "B. a-b-c", "C. c-b-a", "D. b-c-a"],
       "correct": 3,
       "explanation": "Thứ tự hợp lý: b (Tom bày tỏ ước mơ) - c (Tom giải thích lý do) - a (Lucy phản hồi)."
@@ -459,7 +459,7 @@
     {
       "id": 58,
       "type": "multiple_choice",
-      "text": "Arrange the conversation: a. An: I'm thinking of going hiking if the weather is nice! / b. Jane: I totally get that. Got any fun plans for the weekend? / c. An: Hey, how's your day going? / d. An: Same here, just trying to get everything done before the weekend. / e. Jane: Not bad, just a bit busy. How about yours?",
+      "text": "Arrange the conversation:\na. An: I'm thinking of going hiking if the weather is nice!\nb. Jane: I totally get that. Got any fun plans for the weekend?\nc. An: Hey, how's your day going?\nd. An: Same here, just trying to get everything done before the weekend.\ne. Jane: Not bad, just a bit busy. How about yours?",
       "options": ["A. a-d-c-e-b", "B. b-c-e-a-d", "C. d-e-a-b-c", "D. c-e-d-b-a"],
       "correct": 3,
       "explanation": "Thứ tự hợp lý: c (An chào hỏi) - e (Jane đáp) - d (An nói về mình) - b (Jane hỏi kế hoạch) - a (An trả lời)."
@@ -467,7 +467,7 @@
     {
       "id": 59,
       "type": "multiple_choice",
-      "text": "Arrange the conversation: a. Peter: Excuse me. Can you show me the way to the nearest bank? / b. Peter: Thank you so much! / c. Local: Sure! Go straight ahead, then turn left at the second intersection. The bank is on your right.",
+      "text": "Arrange the conversation:\na. Peter: Excuse me. Can you show me the way to the nearest bank?\nb. Peter: Thank you so much!\nc. Local: Sure! Go straight ahead, then turn left at the second intersection. The bank is on your right.",
       "options": ["A. c-a-b", "B. b-c-a", "C. c-b-a", "D. a-c-b"],
       "correct": 3,
       "explanation": "Thứ tự: a (Peter hỏi đường) - c (Người địa phương chỉ đường) - b (Peter cảm ơn)."
@@ -475,7 +475,7 @@
     {
       "id": 60,
       "type": "multiple_choice",
-      "text": "Arrange the conversation: a. Grace: Well, I really appreciate that you can still hang out with me. / b. Alex: I'm so busy this week that I barely have time to eat. / c. Grace: Did you just get home? You go outside too often these days. / d. Grace: You're thinking of quitting? Great! / e. Alex: No problem. Oh, do you know anyone that has a new job opening?",
+      "text": "Arrange the conversation:\na. Grace: Well, I really appreciate that you can still hang out with me.\nb. Alex: I'm so busy this week that I barely have time to eat.\nc. Grace: Did you just get home? You go outside too often these days.\nd. Grace: You're thinking of quitting? Great!\ne. Alex: No problem. Oh, do you know anyone that has a new job opening?",
       "options": ["A. c-b-a-e-d", "B. c-e-d-b-a", "C. d-b-a-e-c", "D. d-e-a-b-c"],
       "correct": 0,
       "explanation": "Thứ tự: c (Grace hỏi) - b (Alex trả lời bận rộn) - a (Grace nói lời cảm kích) - e (Alex đáp và hỏi việc làm) - d (Grace phản hồi)."
@@ -483,7 +483,7 @@
     {
       "id": 61,
       "type": "multiple_choice",
-      "text": "Arrange the letter: Hi James, / a. But I'm a bit worried about the time commitment. / b. Thanks for inviting me to join your study group! / c. I really like the idea because it helps me stay motivated. / d. Are the meetings flexible, or do we have fixed schedules? / e. If it works for my schedule, I'd love to join! / Write back soon. / Anna",
+      "text": "Arrange the letter:\nHi James,\na. But I'm a bit worried about the time commitment.\nb. Thanks for inviting me to join your study group!\nc. I really like the idea because it helps me stay motivated.\nd. Are the meetings flexible, or do we have fixed schedules?\ne. If it works for my schedule, I'd love to join!\nWrite back soon.\nAnna",
       "options": ["A. d-b-a-c-e", "B. b-e-a-d-c", "C. b-c-a-d-e", "D. a-c-d-b-e"],
       "correct": 2,
       "explanation": "Thứ tự: b (cảm ơn lời mời) - c (thích ý tưởng) - a (lo lắng về thời gian) - d (hỏi về lịch linh hoạt) - e (khẳng định sẽ tham gia)."
@@ -491,7 +491,7 @@
     {
       "id": 62,
       "type": "multiple_choice",
-      "text": "Arrange the letter: Dear Sarah, / a. Thank you so much for the dress. It is exactly what I want for Christmas! / b. How are you? I already received the Christmas gift from you. / c. When we meet next time, I will have a special gift for you too! / d. Its colour and design suit me perfectly. I feel very happy and confident in it. / e. Hope to see you soon! / Take care, / Emily",
+      "text": "Arrange the letter:\nDear Sarah,\na. Thank you so much for the dress. It is exactly what I want for Christmas!\nb. How are you? I already received the Christmas gift from you.\nc. When we meet next time, I will have a special gift for you too!\nd. Its colour and design suit me perfectly. I feel very happy and confident in it.\ne. Hope to see you soon!\nTake care,\nEmily",
       "options": ["A. a-d-b-c-e", "B. b-a-d-c-e", "C. a-b-d-c-e", "D. b-c-d-a-e"],
       "correct": 1,
       "explanation": "Thứ tự: b (hỏi thăm và nói đã nhận quà) - a (cảm ơn món quà) - d (khen màu sắc và kiểu dáng) - c (hứa tặng quà lại) - e (lời chào kết)."
@@ -499,7 +499,7 @@
     {
       "id": 63,
       "type": "multiple_choice",
-      "text": "Arrange the paragraph: a. These skills include communication, teamwork, time management, and problem-solving. / b. In today's workplace, soft skills are just as important as technical skills. / c. Employers highly value candidates who possess strong soft skills, as they contribute to a positive and productive work environment. / d. Without these abilities, even the most skilled employees may struggle to collaborate effectively. / e. Therefore, developing soft skills should be a priority for anyone preparing to enter the workforce.",
+      "text": "Arrange the paragraph:\na. These skills include communication, teamwork, time management, and problem-solving.\nb. In today's workplace, soft skills are just as important as technical skills.\nc. Employers highly value candidates who possess strong soft skills, as they contribute to a positive and productive work environment.\nd. Without these abilities, even the most skilled employees may struggle to collaborate effectively.\ne. Therefore, developing soft skills should be a priority for anyone preparing to enter the workforce.",
       "options": ["A. b-a-d-c-e", "B. a-b-c-d-e", "C. b-c-a-d-e", "D. b-a-c-d-e"],
       "correct": 3,
       "explanation": "Thứ tự: b (câu chủ đề về soft skills) - a (liệt kê các kỹ năng) - c (nhà tuyển dụng đánh giá cao) - d (hậu quả nếu thiếu) - e (kết luận)."
@@ -507,7 +507,7 @@
     {
       "id": 64,
       "type": "multiple_choice",
-      "text": "Arrange the letter: Dear Sir or Madam, / a. I am very adaptable, reliable and excellent at multitasking. / b. I would be grateful if you consider me for the IT position. / c. I believe that I am perfectly suited for this role. Last year, I gained valuable experience working part-time at a local computer repair center. / d. I can work independently or as part of a team as I have experience working in a collaborative environment. / e. I am writing to apply for the IT support technician position advertised in the local newspaper on Tuesday 5th July. / I look forward to hearing from you soon. / Billy.",
+      "text": "Arrange the letter:\nDear Sir or Madam,\na. I am very adaptable, reliable and excellent at multitasking.\nb. I would be grateful if you consider me for the IT position.\nc. I believe that I am perfectly suited for this role. Last year, I gained valuable experience working part-time at a local computer repair center.\nd. I can work independently or as part of a team as I have experience working in a collaborative environment.\ne. I am writing to apply for the IT support technician position advertised in the local newspaper on Tuesday 5th July.\nI look forward to hearing from you soon.\nBilly.",
       "options": ["A. d-b-a-c-e", "B. e-c-a-d-b", "C. a-d-b-c-e", "D. e-d-b-a-c"],
       "correct": 1,
       "explanation": "Thứ tự: e (giới thiệu lý do viết thư) - c (tin rằng phù hợp và kinh nghiệm) - a (kỹ năng cá nhân) - d (kỹ năng làm việc nhóm) - b (yêu cầu xem xét)."
@@ -515,7 +515,7 @@
     {
       "id": 65,
       "type": "multiple_choice",
-      "text": "Complete the passage: It is not surprising that almost all first-year students have a lot of problems when they must live (1) __________ at university.",
+      "text": "Read the passage and choose the best answer:\n\nIt is not surprising that almost all first-year students have a lot of problems when they must live (1) __________ at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) __________ high school where the homework is quite simple and just about what is taught in class, the college or university assignments require the students to do more research for its requirements and to complete within a given time. Another issue which often makes students stressed is that they don't have (3) __________ money to pay for things. One reason for that problem is that some students don't (4) __________ enough financial support from their parents to pay for both tuition fee and living costs. Another reason is that some students don't spend money in the right way. It's possible for college or university students to thoroughly solve the problems above. For example, they can plan carefully for their assignments or essays, make use (5) __________ modern technologies to study faster. Besides, they can work part-time to support themselves financially.\n\nQuestion (1):",
       "options": ["A. dependent", "B. dependently", "C. independent", "D. independently"],
       "correct": 3,
       "explanation": "live independently (sống độc lập) - trạng từ bổ nghĩa cho động từ live."
@@ -523,7 +523,7 @@
     {
       "id": 66,
       "type": "multiple_choice",
-      "text": "Complete the passage: (2) __________ high school where the homework is quite simple...",
+      "text": "Read the same passage as question 65.\n\nQuestion (2):",
       "options": ["A. Like", "B. Unlike", "C. Dislike", "D. Similar"],
       "correct": 1,
       "explanation": "Unlike (không giống như) - so sánh sự khác biệt giữa đại học và phổ thông."
@@ -531,7 +531,7 @@
     {
       "id": 67,
       "type": "multiple_choice",
-      "text": "Complete the passage: Another issue is that they don't have (3) __________ money to pay for things.",
+      "text": "Read the same passage as question 65.\n\nQuestion (3):",
       "options": ["A. much", "B. little", "C. enough", "D. lots of"],
       "correct": 2,
       "explanation": "enough money (đủ tiền) - phù hợp với ngữ cảnh thiếu tiền."
@@ -539,7 +539,7 @@
     {
       "id": 68,
       "type": "multiple_choice",
-      "text": "Complete the passage: One reason is that some students don't (4) __________ enough financial support from their parents.",
+      "text": "Read the same passage as question 65.\n\nQuestion (4):",
       "options": ["A. give", "B. donate", "C. receive", "D. distribute"],
       "correct": 2,
       "explanation": "receive support (nhận hỗ trợ) - sinh viên nhận từ bố mẹ."
@@ -547,7 +547,7 @@
     {
       "id": 69,
       "type": "multiple_choice",
-      "text": "Complete the passage: they can make use (5) __________ modern technologies to study faster.",
+      "text": "Read the same passage as question 65.\n\nQuestion (5):",
       "options": ["A. of", "B. on", "C. with", "D. in"],
       "correct": 0,
       "explanation": "make use of (tận dụng) là cụm từ cố định."
@@ -555,7 +555,7 @@
     {
       "id": 70,
       "type": "multiple_choice",
-      "text": "Read the text: Time management for students is a universal issue. It's essential to know (1) __________ to manage your time for classes, assignments, friends and work...",
+      "text": "Read the passage and choose the best answer:\n\nTime management for students is a universal issue. It's essential to know (1) __________ to manage your time for classes, assignments, friends and work if you have a part-time job. This is probably the most important skill that will help a student succeed. Unlike high school, where you have clearly defined class periods and a strict structure to your school day, college education (2) __________ their students to have more freedom. Unless you learn to manage your time, you may be constantly chased by (3) __________ and be left with little time to accomplish them all. Luckily, there are some strategies and tips that will help keep your assignments on track. Firstly, you need to set goals. Consider what you need to do this week, month and semester. Secondly, create a list of every task you need to complete in a certain time. Then figure (4) __________ which assignments you need to complete first and what tasks can wait. You can use sticky notes in bright colors to help remember what (5) __________. You can also use apps on your smartphone to set reminders. Once the deadline is reached, your phone will alert you with audio or visual cues.\n\nQuestion (1):",
       "options": ["A. why", "B. how", "C. what", "D. that"],
       "correct": 1,
       "explanation": "how to manage (cách quản lý) - phù hợp với ngữ cảnh."
@@ -563,7 +563,7 @@
     {
       "id": 71,
       "type": "multiple_choice",
-      "text": "Read the text: college education (2) __________ their students to have more freedom.",
+      "text": "Read the same passage as question 70.\n\nQuestion (2):",
       "options": ["A. allows", "B. lets", "C. makes", "D. has"],
       "correct": 0,
       "explanation": "allows somebody to do something (cho phép ai làm gì)."
@@ -571,7 +571,7 @@
     {
       "id": 72,
       "type": "multiple_choice",
-      "text": "Read the text: you may be constantly chased by (3) __________ and be left with little time to accomplish them all.",
+      "text": "Read the same passage as question 70.\n\nQuestion (3):",
       "options": ["A. skills", "B. recipes", "C. deadlines", "D. budgets"],
       "correct": 2,
       "explanation": "deadlines (hạn chót) - bị đuổi bởi deadline."
@@ -579,7 +579,7 @@
     {
       "id": 73,
       "type": "multiple_choice",
-      "text": "Read the text: Then figure (4) __________ which assignments you need to complete first and what tasks can wait.",
+      "text": "Read the same passage as question 70.\n\nQuestion (4):",
       "options": ["A. for", "B. at", "C. with", "D. out"],
       "correct": 3,
       "explanation": "figure out (tìm ra, xác định) là cụm động từ."
@@ -587,7 +587,7 @@
     {
       "id": 74,
       "type": "multiple_choice",
-      "text": "Read the text: use sticky notes in bright colors to help remember what (5) __________.",
+      "text": "Read the same passage as question 70.\n\nQuestion (5):",
       "options": ["A. do", "B. doing", "C. done", "D. to do"],
       "correct": 3,
       "explanation": "what to do (việc cần làm) - cấu trúc từ để hỏi + to V."
@@ -595,7 +595,7 @@
     {
       "id": 75,
       "type": "multiple_choice",
-      "text": "Read the text about My Son Sanctuary: It (1) __________ the values of history, culture, architecture and art in a long period of nine centuries.",
+      "text": "Read the passage and choose the best answer:\n\nMy Son Sanctuary was discovered in 1885 and recognized by UNESCO as World Heritage Site in December 1999. It was built during the Chăm civilization between the 4th century and 13th century. It is a stunning architectural complex of more than 70 tower structures that are believed to be temples and tombs to worship Hindu Gods. It (1) __________ the values of history, culture, architecture and art in a long period of nine centuries. Each temple has a unique structural style that reflects the (2) __________ stages of the Chăm kingdom. Unfortunately, a large part of the architecture was destroyed (3) __________ natural disasters and war-related damage. About 10 of those temple towers are in almost perfect condition. However, it is still a destination that attracts tourists from all over the world. A management board has been set up to carry out restoration and conservation of the sanctuary. They not only (4) __________ the cultural heritage values but also develop tourism, improve local (5) __________ and promote unique Vietnamese cultural identities to the world.\n\nQuestion (1):",
       "options": ["A. consists", "B. requires", "C. creates", "D. contains"],
       "correct": 3,
       "explanation": "contains (chứa đựng) - phù hợp với ngữ cảnh về giá trị."
@@ -603,7 +603,7 @@
     {
       "id": 76,
       "type": "multiple_choice",
-      "text": "Read the text: Each temple has a unique structural style that reflects the (2) __________ stages of the Chăm kingdom.",
+      "text": "Read the same passage as question 75.\n\nQuestion (2):",
       "options": ["A. historical", "B. historian", "C. history", "D. historically"],
       "correct": 0,
       "explanation": "historical stages (các giai đoạn lịch sử) - tính từ bổ nghĩa cho danh từ."
@@ -611,7 +611,7 @@
     {
       "id": 77,
       "type": "multiple_choice",
-      "text": "Read the text: a large part of the architecture was destroyed (3) __________ natural disasters and war-related damage.",
+      "text": "Read the same passage as question 75.\n\nQuestion (3):",
       "options": ["A. despite", "B. although", "C. because of", "D. as a result"],
       "correct": 2,
       "explanation": "because of (bởi vì) + danh từ/cụm danh từ."
@@ -619,7 +619,7 @@
     {
       "id": 78,
       "type": "multiple_choice",
-      "text": "Read the text: They not only (4) __________ the cultural heritage values but also develop tourism.",
+      "text": "Read the same passage as question 75.\n\nQuestion (4):",
       "options": ["A. preserve", "B. destroy", "C. damage", "D. limit"],
       "correct": 0,
       "explanation": "preserve (bảo tồn) - phù hợp với ngữ cảnh bảo vệ di sản."
@@ -627,7 +627,7 @@
     {
       "id": 79,
       "type": "multiple_choice",
-      "text": "Read the text: improve local (5) __________ and promote unique Vietnamese cultural identities to the world.",
+      "text": "Read the same passage as question 75.\n\nQuestion (5):",
       "options": ["A. history", "B. economy", "C. science", "D. weather"],
       "correct": 1,
       "explanation": "economy (kinh tế) - phát triển du lịch cải thiện kinh tế địa phương."
@@ -635,7 +635,7 @@
     {
       "id": 80,
       "type": "multiple_choice",
-      "text": "Read the passage about preserving heritage: documentation plays a crucial role (1) __________ safeguarding heritage.",
+      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) __________ safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) __________ with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) __________ promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) __________ a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (1):",
       "options": ["A. of", "B. for", "C. at", "D. in"],
       "correct": 3,
       "explanation": "play a role in (đóng vai trò trong) là cụm từ cố định."
@@ -643,7 +643,7 @@
     {
       "id": 81,
       "type": "multiple_choice",
-      "text": "Read the passage: documentation of historical records, artifacts, and oral traditions (2) __________ with a particular heritage.",
+      "text": "Read the same passage as question 80.\n\nQuestion (2):",
       "options": ["A. equipped", "B. collaborated", "C. connected", "D. associated"],
       "correct": 3,
       "explanation": "associated with (liên quan đến) - phù hợp nhất."
@@ -651,23 +651,23 @@
     {
       "id": 82,
       "type": "multiple_choice",
-      "text": "Read the passage: This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) __________ promoting public awareness...",
+      "text": "Read the same passage as question 80.\n\nQuestion (3):",
       "options": ["A. maintain", "B. maintaining", "C. maintained", "D. maintenance"],
       "correct": 2,
-      "explanation": "Câu này có vấn đề. Theo đề gốc đáp án là C (maintained)."
+      "explanation": "maintained (được duy trì) - dạng bị động phù hợp với ngữ cảnh."
     },
     {
       "id": 83,
       "type": "multiple_choice",
-      "text": "Read the passage: (4) __________ promoting public awareness and engagement through educational programs, guided tours, and cultural events can foster a sense of pride...",
+      "text": "Read the same passage as question 80.\n\nQuestion (4):",
       "options": ["A. However", "B. Moreover", "C. Therefore", "D. Otherwise"],
-      "correct": 2,
-      "explanation": "Therefore (do đó) - từ nối chỉ kết quả."
+      "correct": 1,
+      "explanation": "Moreover (hơn nữa) - từ nối bổ sung ý."
     },
     {
       "id": 84,
       "type": "multiple_choice",
-      "text": "Read the passage: can (5) __________ a sense of pride and ownership among the community.",
+      "text": "Read the same passage as question 80.\n\nQuestion (5):",
       "options": ["A. foster", "B. enhance", "C. enlarge", "D. widen"],
       "correct": 0,
       "explanation": "foster (nuôi dưỡng, thúc đẩy) - phù hợp với 'sense of pride'."
@@ -675,7 +675,7 @@
     {
       "id": 85,
       "type": "multiple_choice",
-      "text": "Read the passage about Open University: Like any other universities, the Open University can give you a degree. (1) __________, you don't have to stop working to study.",
+      "text": "Read the passage and choose the best answer:\n\nLike any other universities, the Open University can give you a degree. (1) __________, you don't have to stop working to study. It can also open up a whole variety of interest. If you have never studied before, you will enjoy the special, new pleasure of (2) __________ your knowledge. You will make friends of all kinds. You may also find (3) __________ your qualification provides new career opportunities. You don't actually go to the Open University for lectures, but study at home using television, radio and computer software. You can (4) __________ one class a month if you wish at an Open University centre. Of course, there are exams to take, as in (5) __________ university. If you would like to know more, all you have to do is complete the form below. It could be the start of a wonderful new period in your life.\n\nQuestion (1):",
       "options": ["A. Therefore", "B. However", "C. So", "D. Moreover"],
       "correct": 1,
       "explanation": "However (tuy nhiên) - chỉ sự tương phản."
@@ -683,7 +683,7 @@
     {
       "id": 86,
       "type": "multiple_choice",
-      "text": "Read the passage: you will enjoy the special, new pleasure of (2) __________ your knowledge.",
+      "text": "Read the same passage as question 85.\n\nQuestion (2):",
       "options": ["A. growing", "B. changing", "C. adding", "D. increasing"],
       "correct": 3,
       "explanation": "increasing your knowledge (tăng kiến thức) - phù hợp nhất."
@@ -691,7 +691,7 @@
     {
       "id": 87,
       "type": "multiple_choice",
-      "text": "Read the passage: You may also find (3) __________ your qualification provides new career opportunities.",
+      "text": "Read the same passage as question 85.\n\nQuestion (3):",
       "options": ["A. which", "B. who", "C. that", "D. where"],
       "correct": 2,
       "explanation": "that - mệnh đề danh từ làm tân ngữ cho find."
@@ -699,7 +699,7 @@
     {
       "id": 88,
       "type": "multiple_choice",
-      "text": "Read the passage: You can (4) __________ one class a month if you wish at an Open University centre.",
+      "text": "Read the same passage as question 85.\n\nQuestion (4):",
       "options": ["A. attend", "B. give", "C. learn", "D. study"],
       "correct": 0,
       "explanation": "attend a class (tham dự một lớp học)."
@@ -707,7 +707,7 @@
     {
       "id": 89,
       "type": "multiple_choice",
-      "text": "Read the passage: Of course, there are exams to take, as in (5) __________ university.",
+      "text": "Read the same passage as question 85.\n\nQuestion (5):",
       "options": ["A. most", "B. some", "C. any", "D. many"],
       "correct": 2,
       "explanation": "any university (bất kỳ trường đại học nào)."
