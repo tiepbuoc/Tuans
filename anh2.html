@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn tập Tiếng Anh - 4 Chế Độ (Nhóm bài đọc)</title>
+    <title>Ôn tập Tiếng Anh - 6 Chế Độ (Nhóm bài đọc)</title>
     <style>
         * {
             margin: 0;
@@ -36,10 +36,10 @@
         }
 
         .mode-btn {
-            padding: 12px 24px;
+            padding: 12px 20px;
             border: none;
             border-radius: 10px;
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -204,23 +204,6 @@
             font-size: 0.9em;
         }
 
-        .score-board {
-            background: white;
-            border-radius: 15px;
-            padding: 12px 20px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1em;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .no-questions {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
         .reading-group-info {
             background: #e8f5e9;
             padding: 8px 15px;
@@ -231,13 +214,19 @@
             text-align: center;
         }
 
+        .no-questions {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
         @media (max-width: 600px) {
             .question-card {
                 padding: 18px;
             }
             .mode-btn {
-                padding: 8px 16px;
-                font-size: 0.85em;
+                padding: 8px 12px;
+                font-size: 0.8em;
             }
             .nav-btn {
                 padding: 8px 14px;
@@ -248,24 +237,23 @@
 <body>
     <div class="container">
         <div class="mode-bar">
-            <button class="mode-btn" data-mode="stress">🔊 Trắc nghiệm Trọng âm</button>
-            <button class="mode-btn" data-mode="reading">📖 Trắc nghiệm Đoạn văn</button>
-            <button class="mode-btn" data-mode="regular">📝 Trắc nghiệm Thường</button>
-            <button class="mode-btn" data-mode="all">🎲 Trắc nghiệm Toàn bộ (Random)</button>
-            <button class="mode-btn reset-mode" id="resetAllBtn">🔄 Làm lại toàn bộ</button>
+            <button class="mode-btn" data-mode="stress">🔊 Trọng âm</button>
+            <button class="mode-btn" data-mode="reading">📖 Đoạn văn</button>
+            <button class="mode-btn" data-mode="regular">📝 Từ vựng & Ngữ pháp</button>
+            <button class="mode-btn" data-mode="error">❌ Tìm lỗi sai</button>
+            <button class="mode-btn" data-mode="arrange">🔄 Sắp xếp câu</button>
+            <button class="mode-btn" data-mode="all">🎲 Toàn bộ (Random)</button>
+            <button class="mode-btn reset-mode" id="resetAllBtn">🔄 Làm lại</button>
         </div>
 
         <div class="quiz-header">
+            <h1>📚 Ôn tập Tiếng Anh</h1>
             <div class="mode-info" id="modeInfo">Chọn chế độ làm bài</div>
             <div class="progress" id="progress">Chưa có câu hỏi</div>
         </div>
 
         <div class="question-card" id="questionCard">
             <div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>
-        </div>
-
-        <div class="score-board" id="scoreBoard">
-            📊 Chọn chế độ để bắt đầu
         </div>
     </div>
 
@@ -289,9 +277,7 @@
         const modeInfo = document.getElementById('modeInfo');
         const progress = document.getElementById('progress');
         const questionCard = document.getElementById('questionCard');
-        const scoreBoard = document.getElementById('scoreBoard');
 
-        // Hàm lấy dữ liệu từ file JSON
         async function loadQuestions() {
             try {
                 const response = await fetch('english_questions.json');
@@ -305,17 +291,14 @@
             }
         }
 
-        // Trích xuất đoạn văn từ câu hỏi đầu tiên của mỗi bài
         function extractPassagesFromQuestions() {
             for (let group of READING_GROUPS) {
                 const firstQuestion = fullQuestions.find(q => q.id === group.startId);
                 if (firstQuestion && firstQuestion.text) {
                     const text = firstQuestion.text;
-                    // Tìm đoạn văn (phần trước dòng "Question (1)")
                     const passageMatch = text.match(/^(.*?)(?=\n\nQuestion|\nQuestion|Question\s*\(\d+\))/s);
                     if (passageMatch && passageMatch[1].length > 50) {
                         group.passageFull = passageMatch[1].trim();
-                        // Loại bỏ đoạn văn khỏi text của câu hỏi đầu, chỉ giữ lại câu hỏi
                         const questionOnly = text.replace(passageMatch[1], '').trim();
                         if (questionOnly) firstQuestion.text = questionOnly;
                     } else {
@@ -325,29 +308,30 @@
             }
         }
 
-        // Lấy đoạn văn của một bài theo ID
-        function getPassageText(questionId) {
-            const group = READING_GROUPS.find(g => questionId >= g.startId && questionId <= g.endId);
-            return group ? group.passageFull : null;
-        }
-
-        // Lấy tên bài theo ID
-        function getGroupName(questionId) {
-            const group = READING_GROUPS.find(g => questionId >= g.startId && questionId <= g.endId);
-            return group ? group.name : null;
-        }
-
-        // Kiểm tra xem câu hỏi có phải là reading không
         function isReadingQuestion(q) {
             return q.id >= 65 && q.id <= 89;
         }
 
-        // Xây dựng các nhóm câu hỏi
+        function isErrorQuestion(q) {
+            return q.id >= 49 && q.id <= 56;
+        }
+
+        function isArrangeQuestion(q) {
+            return q.id >= 57 && q.id <= 64;
+        }
+
+        function isStressQuestion(q) {
+            return q.id >= 1 && q.id <= 10;
+        }
+
+        function isRegularQuestion(q) {
+            return (q.id >= 11 && q.id <= 48) || (q.id >= 31 && q.id <= 48);
+        }
+
         function buildQuestionGroups(questionList) {
             const groups = [];
-            const readingMap = new Map(); // Map<groupId, { group, questions }>
+            const readingMap = new Map();
             
-            // Phân loại câu hỏi
             for (let q of questionList) {
                 if (isReadingQuestion(q)) {
                     const groupInfo = READING_GROUPS.find(g => q.id >= g.startId && q.id <= g.endId);
@@ -359,7 +343,6 @@
                                 name: groupInfo.name,
                                 passageText: groupInfo.passageFull,
                                 questions: [],
-                                answeredCount: 0
                             });
                         }
                         readingMap.get(groupInfo.startId).questions.push(q);
@@ -371,7 +354,6 @@
                 }
             }
             
-            // Sắp xếp câu hỏi trong mỗi nhóm đọc theo id
             for (let [_, group] of readingMap) {
                 group.questions.sort((a, b) => a.id - b.id);
                 groups.push(group);
@@ -380,7 +362,6 @@
             return groups;
         }
 
-        // Random các nhóm
         function shuffleGroups(groups) {
             for (let i = groups.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -389,20 +370,27 @@
             return groups;
         }
 
-        // Lọc theo chế độ
         function filterGroupsByMode(mode) {
             let filtered = [];
-            let questionsToFilter = [...fullQuestions];
+            let questionsToFilter = [];
             
             if (mode === 'stress') {
-                questionsToFilter = fullQuestions.filter(q => q.id >= 1 && q.id <= 10);
+                questionsToFilter = fullQuestions.filter(q => isStressQuestion(q));
                 filtered = buildQuestionGroups(questionsToFilter);
             } else if (mode === 'reading') {
-                questionsToFilter = fullQuestions.filter(q => q.id >= 65 && q.id <= 89);
+                questionsToFilter = fullQuestions.filter(q => isReadingQuestion(q));
                 filtered = buildQuestionGroups(questionsToFilter);
                 filtered = filtered.filter(g => g.type === 'reading');
             } else if (mode === 'regular') {
-                questionsToFilter = fullQuestions.filter(q => (q.id >= 11 && q.id <= 64));
+                questionsToFilter = fullQuestions.filter(q => (q.id >= 11 && q.id <= 48) || (q.id >= 31 && q.id <= 48));
+                filtered = buildQuestionGroups(questionsToFilter);
+                filtered = filtered.filter(g => g.type === 'single');
+            } else if (mode === 'error') {
+                questionsToFilter = fullQuestions.filter(q => isErrorQuestion(q));
+                filtered = buildQuestionGroups(questionsToFilter);
+                filtered = filtered.filter(g => g.type === 'single');
+            } else if (mode === 'arrange') {
+                questionsToFilter = fullQuestions.filter(q => isArrangeQuestion(q));
                 filtered = buildQuestionGroups(questionsToFilter);
                 filtered = filtered.filter(g => g.type === 'single');
             } else if (mode === 'all') {
@@ -413,7 +401,6 @@
             return filtered;
         }
 
-        // Khởi tạo userAnswers
         function initUserAnswersForGroups(groups) {
             const answers = [];
             for (let g of groups) {
@@ -431,11 +418,9 @@
             return answers;
         }
 
-        // Cập nhật UI
         function updateUI() {
             if (!questionGroups.length) {
                 progress.innerHTML = '0 câu hỏi';
-                scoreBoard.innerHTML = '📊 Không có câu hỏi';
                 return;
             }
             
@@ -456,7 +441,6 @@
                 }
             }
             
-            // Tính vị trí hiện tại
             let currentPosition = 1;
             for (let i = 0; i < currentGroupIndex; i++) {
                 const g = questionGroups[i];
@@ -468,18 +452,18 @@
                 currentPosition += currentAns.currentQuestionIdx;
             }
             
-            progress.innerHTML = `Câu ${currentPosition} / ${totalQuestions} | Đã trả lời: ${answeredQuestions}/${totalQuestions}`;
-            scoreBoard.innerHTML = `📊 Đã trả lời: ${answeredQuestions} / ${totalQuestions} câu | ${answeredQuestions === totalQuestions ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
+            progress.innerHTML = `📝 Câu ${currentPosition} / ${totalQuestions} | ✅ Đã trả lời: ${answeredQuestions}/${totalQuestions}`;
             
             let modeName = '';
-            if (currentMode === 'stress') modeName = '🔊 Trắc nghiệm Trọng âm (10 câu)';
-            else if (currentMode === 'reading') modeName = '📖 Trắc nghiệm Đoạn văn (25 câu - 5 bài)';
-            else if (currentMode === 'regular') modeName = '📝 Trắc nghiệm Thường (54 câu)';
-            else if (currentMode === 'all') modeName = '🎲 Trắc nghiệm Toàn bộ (89 câu - Random nhóm)';
+            if (currentMode === 'stress') modeName = '🔊 Trọng âm (10 câu)';
+            else if (currentMode === 'reading') modeName = '📖 Đoạn văn (25 câu - 5 bài)';
+            else if (currentMode === 'regular') modeName = '📝 Từ vựng & Ngữ pháp (38 câu)';
+            else if (currentMode === 'error') modeName = '❌ Tìm lỗi sai (8 câu)';
+            else if (currentMode === 'arrange') modeName = '🔄 Sắp xếp câu (8 câu)';
+            else if (currentMode === 'all') modeName = '🎲 Toàn bộ (89 câu - Random nhóm)';
             modeInfo.innerHTML = `Đang làm: ${modeName}`;
         }
 
-        // Render câu hỏi hiện tại
         function renderCurrentQuestion() {
             if (!questionGroups.length || currentGroupIndex >= questionGroups.length) {
                 questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào</div>';
@@ -520,9 +504,9 @@
                 html += `</div>`;
                 
                 html += `<div class="nav-buttons">
-                            <button class="nav-btn prev-btn" id="prevBtn">◀ </button>
+                            <button class="nav-btn prev-btn" id="prevBtn">◀ Câu trước</button>
                             <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
-                            <button class="nav-btn next-btn" id="nextBtn"> ▶</button>
+                            <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
                         </div>`;
                 
                 if (isAnswered && question.explanation) {
@@ -565,9 +549,9 @@
                 html += `</div>`;
                 
                 html += `<div class="nav-buttons">
-                            <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 ? 'disabled' : ''}>◀ </button>
+                            <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
                             <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
-                            <button class="nav-btn next-btn" id="nextBtn"> ▶</button>
+                            <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
                         </div>`;
                 
                 if (isAnswered && question.explanation) {
@@ -669,7 +653,6 @@
             if (questionGroups.length === 0) {
                 questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào cho chế độ này</div>';
                 progress.innerHTML = '0 câu hỏi';
-                scoreBoard.innerHTML = '📊 Không có câu hỏi';
                 modeInfo.innerHTML = `Chế độ: ${mode} - Không có câu hỏi`;
                 return;
             }
@@ -690,7 +673,6 @@
             else {
                 questionCard.innerHTML = '<div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>';
                 progress.innerHTML = 'Chưa có câu hỏi';
-                scoreBoard.innerHTML = '📊 Chọn chế độ để bắt đầu';
                 modeInfo.innerHTML = 'Chọn chế độ làm bài';
             }
         }
