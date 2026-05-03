@@ -271,187 +271,117 @@
     </div>
 
     <script>
-        // Dữ liệu câu hỏi gốc
         let fullQuestions = [];
-        
-        // Cấu trúc nhóm bài đọc (theo ID range)
+
+        // Định nghĩa các nhóm bài đọc theo ID range
         const READING_GROUPS = [
-            { name: "Bài 1: Sinh viên năm nhất", startId: 65, endId: 69, passageText: null },
-            { name: "Bài 2: Quản lý thời gian", startId: 70, endId: 74, passageText: null },
-            { name: "Bài 3: Thánh địa Mỹ Sơn", startId: 75, endId: 79, passageText: null },
-            { name: "Bài 4: Bảo tồn di sản", startId: 80, endId: 84, passageText: null },
-            { name: "Bài 5: Đại học Mở", startId: 85, endId: 89, passageText: null }
+            { name: "Bài 1: Sinh viên năm nhất", startId: 65, endId: 69, passageText: null, passageFull: null },
+            { name: "Bài 2: Quản lý thời gian", startId: 70, endId: 74, passageText: null, passageFull: null },
+            { name: "Bài 3: Thánh địa Mỹ Sơn", startId: 75, endId: 79, passageText: null, passageFull: null },
+            { name: "Bài 4: Bảo tồn di sản", startId: 80, endId: 84, passageText: null, passageFull: null },
+            { name: "Bài 5: Đại học Mở", startId: 85, endId: 89, passageText: null, passageFull: null }
         ];
 
         let currentMode = null;
-        let questionGroups = [];     // Mảng các nhóm câu hỏi (mỗi nhóm là 1 bài đọc hoặc 1 câu đơn)
+        let questionGroups = [];
         let currentGroupIndex = 0;
-        let currentQuestionInGroup = 0;
         let userAnswers = [];
 
-        // DOM elements
         const modeInfo = document.getElementById('modeInfo');
         const progress = document.getElementById('progress');
         const questionCard = document.getElementById('questionCard');
         const scoreBoard = document.getElementById('scoreBoard');
 
+        // Hàm lấy dữ liệu từ file JSON
         async function loadQuestions() {
             try {
                 const response = await fetch('english_questions.json');
                 const data = await response.json();
                 fullQuestions = data.questions;
-                console.log(`Đã tải ${fullQuestions.length} câu hỏi từ file JSON`);
-                extractPassageTexts();
+                console.log(`Đã tải ${fullQuestions.length} câu hỏi`);
+                extractPassagesFromQuestions();
             } catch (error) {
-                console.error('Không tìm thấy file JSON, sử dụng dữ liệu mặc định');
-                fullQuestions = getDefaultQuestions();
-                extractPassageTexts();
+                console.error('Không tìm thấy file JSON:', error);
+                alert('Không thể tải file english_questions.json. Vui lòng kiểm tra lại.');
             }
         }
 
-        // Trích xuất đoạn văn từ câu hỏi đầu tiên của mỗi bài đọc
-        function extractPassageTexts() {
+        // Trích xuất đoạn văn từ câu hỏi đầu tiên của mỗi bài
+        function extractPassagesFromQuestions() {
             for (let group of READING_GROUPS) {
                 const firstQuestion = fullQuestions.find(q => q.id === group.startId);
-                if (firstQuestion && firstQuestion.passage) {
-                    group.passageText = firstQuestion.passage;
-                } else if (firstQuestion) {
-                    // Trích xuất đoạn văn từ text nếu có
-                    const text = firstQuestion.text || '';
-                    const passageMatch = text.match(/^(.*?)(?=\n\nQuestion|\nQuestion|$)/s);
-                    if (passageMatch && passageMatch[1].length > 100) {
-                        group.passageText = passageMatch[1].trim();
+                if (firstQuestion && firstQuestion.text) {
+                    const text = firstQuestion.text;
+                    // Tìm đoạn văn (phần trước dòng "Question (1)")
+                    const passageMatch = text.match(/^(.*?)(?=\n\nQuestion|\nQuestion|Question\s*\(\d+\))/s);
+                    if (passageMatch && passageMatch[1].length > 50) {
+                        group.passageFull = passageMatch[1].trim();
+                        // Loại bỏ đoạn văn khỏi text của câu hỏi đầu, chỉ giữ lại câu hỏi
+                        const questionOnly = text.replace(passageMatch[1], '').trim();
+                        if (questionOnly) firstQuestion.text = questionOnly;
                     } else {
-                        group.passageText = "Đoạn văn đang được cập nhật...";
+                        group.passageFull = "Đoạn văn đang được cập nhật...";
                     }
                 }
             }
         }
 
-        function getDefaultQuestions() {
-            return [
-                // Trọng âm (1-10)
-                { id: 1, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. valley', 'B. complex', 'C. habit', 'D. campaign'], correct: 3, explanation: 'campaign nhấn âm 2, còn lại âm 1' },
-                { id: 2, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. management', 'B. doctorate', 'C. advantage', 'D. confidence'], correct: 2, explanation: 'advantage nhấn âm 2, còn lại âm 1' },
-                { id: 3, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. bachelor', 'B. diploma', 'C. internship', 'D. scholarship'], correct: 1, explanation: 'diploma nhấn âm 2, còn lại âm 1' },
-                { id: 4, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. heritage', 'B. monument', 'C. citadel', 'D. awareness'], correct: 3, explanation: 'awareness nhấn âm 2, còn lại âm 1' },
-                { id: 5, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. discuss', 'B. respect', 'C. perform', 'D. manage'], correct: 3, explanation: 'manage nhấn âm 1, còn lại âm 2' },
-                { id: 6, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. bully', 'B. manage', 'C. struggle', 'D. obey'], correct: 3, explanation: 'obey nhấn âm 2, còn lại âm 1' },
-                { id: 7, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. offensive', 'B. habitat', 'C. awareness', 'D. depression'], correct: 1, explanation: 'habitat nhấn âm 1, còn lại âm 2' },
-                { id: 8, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. degree', 'B. trending', 'C. brochure', 'D. valley'], correct: 0, explanation: 'degree nhấn âm 2, còn lại âm 1' },
-                { id: 9, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. opportunity', 'B. institution', 'C. university', 'D. apprenticeship'], correct: 3, explanation: 'apprenticeship nhấn âm 2, còn lại âm 3' },
-                { id: 10, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. awareness', 'B. depression', 'C. confident', 'D. mechanic'], correct: 2, explanation: 'confident nhấn âm 1, còn lại âm 2' },
-                
-                // Trắc nghiệm thường (11-48)
-                { id: 11, type: 'regular', text: '__________ helps protect and restore heritage by raising money for cultural projects.', options: ['A. Limestone', 'B. Crowdfunding', 'C. Valley', 'D. State'], correct: 1, explanation: 'Crowdfunding - huy động vốn cộng đồng' },
-                { id: 12, type: 'regular', text: 'In an effort to __________ cultural diversity, the festival featured performances...', options: ['A. recommend', 'B. punish', 'C. preserve', 'D. reduce'], correct: 2, explanation: 'preserve - bảo tồn' },
-                { id: 13, type: 'regular', text: 'Is becoming independent as __________ as we may think?', options: ['A. challenging', 'B. curious', 'C. responsible', 'D. academic'], correct: 0, explanation: 'challenging - đầy thách thức' },
-                { id: 14, type: 'regular', text: 'Exploring ancient temples and pagodas has become a __________ activity...', options: ['A. trending', 'B. festive', 'C. folk', 'D. ancient'], correct: 0, explanation: 'trending - thịnh hành' },
-                { id: 15, type: 'regular', text: 'They do part-time jobs to gain work experience and learn how to __________ money.', options: ['A. manage', 'B. lose', 'C. plan', 'D. provide'], correct: 0, explanation: 'manage money - quản lý tiền' },
-                { id: 16, type: 'regular', text: 'This __________ app helps me create to-do lists...', options: ['A. time-management', 'B. money-management', 'C. skill-development', 'D. self-study'], correct: 0, explanation: 'time-management app - quản lý thời gian' },
-                { id: 17, type: 'regular', text: 'I have __________ of trying to complete all the housework...', options: ['A. made use', 'B. taken advantage', 'C. came up', 'D. got into the habit'], correct: 3, explanation: 'get into the habit of - có thói quen' },
-                { id: 18, type: 'regular', text: 'Many students decide to __________ a gap year...', options: ['A. make', 'B. take', 'C. give', 'D. do'], correct: 1, explanation: 'take a gap year - nghỉ một năm' },
-                { id: 19, type: 'regular', text: 'The site will be closed for six months __________ the buildings...', options: ['A. restoring', 'B. restore', 'C. restored', 'D. to restore'], correct: 3, explanation: 'to restore - để khôi phục' },
-                { id: 20, type: 'regular', text: '__________ bullying includes using offensive language...', options: ['A. Physical', 'B. Cyber', 'C. Mental', 'D. Verbal'], correct: 3, explanation: 'Verbal bullying - bắt nạt bằng lời nói' },
-                { id: 21, type: 'regular', text: 'Improving your self-__________ is one way to deal with body shaming.', options: ['A. confident', 'B. confidence', 'C. study', 'D. importance'], correct: 1, explanation: 'self-confidence - sự tự tin' },
-                { id: 22, type: 'regular', text: 'Vocational schools help students __________ practical skills...', options: ['A. gain', 'B. do', 'C. win', 'D. catch'], correct: 0, explanation: 'gain skills - đạt được kỹ năng' },
-                { id: 23, type: 'regular', text: '__________ is a growing concern as technology becomes more common...', options: ['A. Overpopulation', 'B. Policy', 'C. Self-confidence', 'D. Cyberbullying'], correct: 3, explanation: 'Cyberbullying - bắt nạt trực tuyến' },
-                { id: 24, type: 'regular', text: 'My mother remembered __________ visited this place.', options: ['A. having', 'B. have', 'C. had', 'D. has'], correct: 0, explanation: 'remember having done sth - nhớ đã làm gì' },
-                { id: 25, type: 'regular', text: 'If you don\'t want to go to university, you can __________ an apprenticeship...', options: ['A. make', 'B. stay', 'C. do', 'D. give'], correct: 2, explanation: 'do an apprenticeship - học nghề' },
-                { id: 26, type: 'regular', text: 'Thank you for __________ me your wonderful advice.', options: ['A. give', 'B. having given', 'C. being given', 'D. to have given'], correct: 1, explanation: 'having given - dạng hoàn thành' },
-                { id: 27, type: 'regular', text: 'My parents were proud of having __________ the best schools...', options: ['A. choose', 'B. choosing', 'C. chose', 'D. chosen'], correct: 3, explanation: 'having chosen - dạng hoàn thành' },
-                { id: 28, type: 'regular', text: 'It is important for school-leavers to __________ a decision...', options: ['A. take', 'B. make', 'C. do', 'D. get'], correct: 1, explanation: 'make a decision - đưa ra quyết định' },
-                { id: 29, type: 'regular', text: 'Many teenagers suffer __________ depression and anxiety...', options: ['A. with', 'B. from', 'C. of', 'D. by'], correct: 1, explanation: 'suffer from - chịu đựng' },
-                { id: 30, type: 'regular', text: '__________ studied the brochure carefully, my brother decided...', options: ['A. Having', 'B. Having been', 'C. Have', 'D. Had'], correct: 0, explanation: 'Having studied - phân từ hoàn thành' },
-                
-                // Lỗi sai (49-56)
-                { id: 49, type: 'regular', text: 'Find the underlined part that needs correction: Body-shame is the practice...', options: ['A. Body-shame', 'B. practice', 'C. offensive', 'D. about'], correct: 0, explanation: 'Body-shame → Body-shaming' },
-                { id: 50, type: 'regular', text: 'Find the underlined part that needs correction: Not have spent enough time...', options: ['A. have', 'B. didn\'t pass', 'C. on', 'D. enough'], correct: 0, explanation: 'have → having' },
-                { id: 51, type: 'regular', text: 'Find the underlined part that needs correction: My brother participated... to testing his ideas...', options: ['A. participated in', 'B. to testing', 'C. about', 'D. promoting'], correct: 1, explanation: 'to testing → to test' },
-                { id: 52, type: 'regular', text: 'Find the underlined part that needs correction: Ha Long Bay is the only... to recognize twice...', options: ['A. the only', 'B. in', 'C. to recognize', 'D. by'], correct: 2, explanation: 'to recognize → to be recognized' },
-                { id: 53, type: 'regular', text: 'Find the underlined part that needs correction: In addition to enjoy our national parks...', options: ['A. In', 'B. enjoy', 'C. protect', 'D. for'], correct: 1, explanation: 'enjoy → enjoying' },
-                { id: 54, type: 'regular', text: 'Find the underlined part that needs correction: In addition that, I\'m working on...', options: ['A. to revise', 'B. that', 'C. I\'m working', 'D. on'], correct: 1, explanation: 'that → to' },
-                { id: 55, type: 'regular', text: 'Find the underlined part that needs correction: Because poor wildlife management...', options: ['A. Because', 'B. wildlife management', 'C. rare', 'D. may not'], correct: 0, explanation: 'Because → Because of' },
-                { id: 56, type: 'regular', text: 'Find the underlined part that needs correction: Although conservation efforts...', options: ['A. Although', 'B. conservation', 'C. many', 'D. at risk'], correct: 0, explanation: 'Although → Despite' },
-                
-                // Sắp xếp (57-64)
-                { id: 57, type: 'regular', text: 'Arrange the conversation: a. Lucy: That\'s great!... b. Tom: I\'ve always dreamed... c. Tom: I\'ve always been fascinated...', options: ['A. b-a-c', 'B. a-b-c', 'C. c-b-a', 'D. b-c-a'], correct: 3, explanation: 'b-c-a' },
-                { id: 58, type: 'regular', text: 'Arrange the conversation: a. An: I\'m thinking of going hiking... b. Jane: I totally get that... c. An: Hey, how\'s your day...', options: ['A. a-d-c-e-b', 'B. b-c-e-a-d', 'C. d-e-a-b-c', 'D. c-e-d-b-a'], correct: 3, explanation: 'c-e-d-b-a' },
-                { id: 59, type: 'regular', text: 'Arrange the conversation: a. Peter: Excuse me... b. Peter: Thank you... c. Local: Sure!...', options: ['A. c-a-b', 'B. b-c-a', 'C. c-b-a', 'D. a-c-b'], correct: 3, explanation: 'a-c-b' },
-                { id: 60, type: 'regular', text: 'Arrange the conversation: a. Grace: Well, I really appreciate... b. Alex: I\'m so busy...', options: ['A. c-b-a-e-d', 'B. c-e-d-b-a', 'C. d-b-a-e-c', 'D. d-e-a-b-c'], correct: 0, explanation: 'c-b-a-e-d' },
-                { id: 61, type: 'regular', text: 'Arrange the letter: Hi James, a. But I\'m a bit worried... b. Thanks for inviting me...', options: ['A. d-b-a-c-e', 'B. b-e-a-d-c', 'C. b-c-a-d-e', 'D. a-c-d-b-e'], correct: 2, explanation: 'b-c-a-d-e' },
-                { id: 62, type: 'regular', text: 'Arrange the letter: Dear Sarah, a. Thank you so much... b. How are you?...', options: ['A. a-d-b-c-e', 'B. b-a-d-c-e', 'C. a-b-d-c-e', 'D. b-c-d-a-e'], correct: 1, explanation: 'b-a-d-c-e' },
-                { id: 63, type: 'regular', text: 'Arrange the paragraph: a. These skills include... b. In today\'s workplace...', options: ['A. b-a-d-c-e', 'B. a-b-c-d-e', 'C. b-c-a-d-e', 'D. b-a-c-d-e'], correct: 3, explanation: 'b-a-c-d-e' },
-                { id: 64, type: 'regular', text: 'Arrange the letter: Dear Sir or Madam, a. I am very adaptable... b. I would be grateful...', options: ['A. d-b-a-c-e', 'B. e-c-a-d-b', 'C. a-d-b-c-e', 'D. e-d-b-a-c'], correct: 1, explanation: 'e-c-a-d-b' },
-                
-                // Bài đọc 1 (65-69)
-                { id: 65, type: 'reading', groupId: 1, text: '(1) __________', passage: 'It is not surprising that almost all first-year students have a lot of problems when they must live (1) __________ at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) Unlike high school where the homework is quite simple and just about what is taught in class, the college or university assignments require the students to do more research for its requirements and to complete within a given time. Another issue which often makes students stressed is that they don\'t have (3) enough money to pay for things. One reason for that problem is that some students don\'t (4) receive enough financial support from their parents to pay for both tuition fee and living costs. Another reason is that some students don\'t spend money in the right way. It\'s possible for college or university students to thoroughly solve the problems above. For example, they can plan carefully for their assignments or essays, make use (5) of modern technologies to study faster. Besides, they can work part-time to support themselves financially.', options: ['A. dependent', 'B. dependently', 'C. independent', 'D. independently'], correct: 3, explanation: 'live independently - sống độc lập' },
-                { id: 66, type: 'reading', groupId: 1, text: '(2) __________', options: ['A. Like', 'B. Unlike', 'C. Dislike', 'D. Similar'], correct: 1, explanation: 'Unlike - không giống như' },
-                { id: 67, type: 'reading', groupId: 1, text: '(3) __________', options: ['A. much', 'B. little', 'C. enough', 'D. lots of'], correct: 2, explanation: 'enough money - đủ tiền' },
-                { id: 68, type: 'reading', groupId: 1, text: '(4) __________', options: ['A. give', 'B. donate', 'C. receive', 'D. distribute'], correct: 2, explanation: 'receive support - nhận hỗ trợ' },
-                { id: 69, type: 'reading', groupId: 1, text: '(5) __________', options: ['A. of', 'B. on', 'C. with', 'D. in'], correct: 0, explanation: 'make use of - tận dụng' },
-                
-                // Bài đọc 2 (70-74)
-                { id: 70, type: 'reading', groupId: 2, text: '(1) __________', passage: 'Time management for students is a universal issue. It\'s essential to know (1) __________ to manage your time for classes, assignments, friends and work if you have a part-time job. This is probably the most important skill that will help a student succeed. Unlike high school, where you have clearly defined class periods and a strict structure to your school day, college education (2) allows their students to have more freedom. Unless you learn to manage your time, you may be constantly chased by (3) deadlines and be left with little time to accomplish them all. Luckily, there are some strategies and tips that will help keep your assignments on track. Firstly, you need to set goals. Consider what you need to do this week, month and semester. Secondly, create a list of every task you need to complete in a certain time. Then figure (4) out which assignments you need to complete first and what tasks can wait. You can use sticky notes in bright colors to help remember what (5) to do. You can also use apps on your smartphone to set reminders. Once the deadline is reached, your phone will alert you with audio or visual cues.', options: ['A. why', 'B. how', 'C. what', 'D. that'], correct: 1, explanation: 'how to manage - cách quản lý' },
-                { id: 71, type: 'reading', groupId: 2, text: '(2) __________', options: ['A. allows', 'B. lets', 'C. makes', 'D. has'], correct: 0, explanation: 'allows - cho phép' },
-                { id: 72, type: 'reading', groupId: 2, text: '(3) __________', options: ['A. skills', 'B. recipes', 'C. deadlines', 'D. budgets'], correct: 2, explanation: 'deadlines - hạn chót' },
-                { id: 73, type: 'reading', groupId: 2, text: '(4) __________', options: ['A. for', 'B. at', 'C. with', 'D. out'], correct: 3, explanation: 'figure out - tìm ra' },
-                { id: 74, type: 'reading', groupId: 2, text: '(5) __________', options: ['A. do', 'B. doing', 'C. done', 'D. to do'], correct: 3, explanation: 'what to do - việc cần làm' },
-                
-                // Bài đọc 3 (75-79)
-                { id: 75, type: 'reading', groupId: 3, text: '(1) __________', passage: 'My Son Sanctuary was discovered in 1885 and recognized by UNESCO as World Heritage Site in December 1999. It was built during the Chăm civilization between the 4th century and 13th century. It is a stunning architectural complex of more than 70 tower structures that are believed to be temples and tombs to worship Hindu Gods. It (1) __________ the values of history, culture, architecture and art in a long period of nine centuries. Each temple has a unique structural style that reflects the (2) historical stages of the Chăm kingdom. Unfortunately, a large part of the architecture was destroyed (3) because of natural disasters and war-related damage. About 10 of those temple towers are in almost perfect condition. However, it is still a destination that attracts tourists from all over the world. A management board has been set up to carry out restoration and conservation of the sanctuary. They not only (4) preserve the cultural heritage values but also develop tourism, improve local (5) economy and promote unique Vietnamese cultural identities to the world.', options: ['A. consists', 'B. requires', 'C. creates', 'D. contains'], correct: 3, explanation: 'contains - chứa đựng' },
-                { id: 76, type: 'reading', groupId: 3, text: '(2) __________', options: ['A. historical', 'B. historian', 'C. history', 'D. historically'], correct: 0, explanation: 'historical - thuộc về lịch sử' },
-                { id: 77, type: 'reading', groupId: 3, text: '(3) __________', options: ['A. despite', 'B. although', 'C. because of', 'D. as a result'], correct: 2, explanation: 'because of - bởi vì' },
-                { id: 78, type: 'reading', groupId: 3, text: '(4) __________', options: ['A. preserve', 'B. destroy', 'C. damage', 'D. limit'], correct: 0, explanation: 'preserve - bảo tồn' },
-                { id: 79, type: 'reading', groupId: 3, text: '(5) __________', options: ['A. history', 'B. economy', 'C. science', 'D. weather'], correct: 1, explanation: 'economy - kinh tế' }
-            ];
+        // Lấy đoạn văn của một bài theo ID
+        function getPassageText(questionId) {
+            const group = READING_GROUPS.find(g => questionId >= g.startId && questionId <= g.endId);
+            return group ? group.passageFull : null;
         }
 
-        // Tạo nhóm câu hỏi từ danh sách fullQuestions
+        // Lấy tên bài theo ID
+        function getGroupName(questionId) {
+            const group = READING_GROUPS.find(g => questionId >= g.startId && questionId <= g.endId);
+            return group ? group.name : null;
+        }
+
+        // Kiểm tra xem câu hỏi có phải là reading không
+        function isReadingQuestion(q) {
+            return q.id >= 65 && q.id <= 89;
+        }
+
+        // Xây dựng các nhóm câu hỏi
         function buildQuestionGroups(questionList) {
             const groups = [];
-            const regularQuestions = [];
+            const readingMap = new Map(); // Map<groupId, { group, questions }>
             
             // Phân loại câu hỏi
             for (let q of questionList) {
-                if (q.type === 'reading' && q.groupId) {
-                    // Tìm hoặc tạo nhóm đọc
-                    let group = groups.find(g => g.type === 'reading' && g.groupId === q.groupId);
-                    if (!group) {
-                        const groupInfo = READING_GROUPS.find(gr => {
-                            return q.id >= gr.startId && q.id <= gr.endId;
-                        });
-                        group = {
-                            type: 'reading',
-                            groupId: q.groupId,
-                            name: groupInfo ? groupInfo.name : `Bài đọc ${q.groupId}`,
-                            passageText: q.passage || (groupInfo ? groupInfo.passageText : ''),
-                            questions: [],
-                            answeredCount: 0
-                        };
-                        groups.push(group);
+                if (isReadingQuestion(q)) {
+                    const groupInfo = READING_GROUPS.find(g => q.id >= g.startId && q.id <= g.endId);
+                    if (groupInfo) {
+                        if (!readingMap.has(groupInfo.startId)) {
+                            readingMap.set(groupInfo.startId, {
+                                type: 'reading',
+                                groupId: groupInfo.startId,
+                                name: groupInfo.name,
+                                passageText: groupInfo.passageFull,
+                                questions: [],
+                                answeredCount: 0
+                            });
+                        }
+                        readingMap.get(groupInfo.startId).questions.push(q);
+                    } else {
+                        groups.push({ type: 'single', question: q });
                     }
-                    group.questions.push(q);
-                    // Sắp xếp câu hỏi trong nhóm theo id
-                    group.questions.sort((a, b) => a.id - b.id);
                 } else {
-                    regularQuestions.push(q);
+                    groups.push({ type: 'single', question: q });
                 }
             }
             
-            // Thêm các câu thường vào groups (mỗi câu là 1 nhóm)
-            for (let q of regularQuestions) {
-                groups.push({
-                    type: 'single',
-                    question: q,
-                    answered: false
-                });
+            // Sắp xếp câu hỏi trong mỗi nhóm đọc theo id
+            for (let [_, group] of readingMap) {
+                group.questions.sort((a, b) => a.id - b.id);
+                groups.push(group);
             }
             
             return groups;
         }
 
-        // Random các nhóm (giữ nguyên thứ tự câu trong nhóm đọc)
+        // Random các nhóm
         function shuffleGroups(groups) {
             for (let i = groups.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -460,21 +390,21 @@
             return groups;
         }
 
+        // Lọc theo chế độ
         function filterGroupsByMode(mode) {
             let filtered = [];
+            let questionsToFilter = [...fullQuestions];
             
             if (mode === 'stress') {
-                const stressQuestions = fullQuestions.filter(q => q.type === 'stress' || (q.id >= 1 && q.id <= 10));
-                filtered = buildQuestionGroups(stressQuestions);
+                questionsToFilter = fullQuestions.filter(q => q.id >= 1 && q.id <= 10);
+                filtered = buildQuestionGroups(questionsToFilter);
             } else if (mode === 'reading') {
-                const readingQuestions = fullQuestions.filter(q => q.type === 'reading' || (q.id >= 65 && q.id <= 89));
-                filtered = buildQuestionGroups(readingQuestions);
-                // Lọc chỉ lấy nhóm đọc
+                questionsToFilter = fullQuestions.filter(q => q.id >= 65 && q.id <= 89);
+                filtered = buildQuestionGroups(questionsToFilter);
                 filtered = filtered.filter(g => g.type === 'reading');
             } else if (mode === 'regular') {
-                const regularQuestions = fullQuestions.filter(q => q.type === 'regular' || (q.id >= 11 && q.id <= 64));
-                filtered = buildQuestionGroups(regularQuestions);
-                // Lọc chỉ lấy câu thường (không phải reading)
+                questionsToFilter = fullQuestions.filter(q => (q.id >= 11 && q.id <= 64));
+                filtered = buildQuestionGroups(questionsToFilter);
                 filtered = filtered.filter(g => g.type === 'single');
             } else if (mode === 'all') {
                 filtered = buildQuestionGroups(fullQuestions);
@@ -484,28 +414,25 @@
             return filtered;
         }
 
+        // Khởi tạo userAnswers
         function initUserAnswersForGroups(groups) {
             const answers = [];
             for (let g of groups) {
                 if (g.type === 'reading') {
-                    const groupAnswers = {
+                    answers.push({
                         type: 'reading',
                         groupId: g.groupId,
-                        answers: new Array(g.questions.length).fill(null).map(() => ({ answered: false, selected: null })),
+                        answers: g.questions.map(() => ({ answered: false, selected: null })),
                         currentQuestionIdx: 0
-                    };
-                    answers.push(groupAnswers);
-                } else {
-                    answers.push({
-                        type: 'single',
-                        answered: false,
-                        selected: null
                     });
+                } else {
+                    answers.push({ type: 'single', answered: false, selected: null });
                 }
             }
             return answers;
         }
 
+        // Cập nhật UI
         function updateUI() {
             if (!questionGroups.length) {
                 progress.innerHTML = '0 câu hỏi';
@@ -522,9 +449,7 @@
                 if (g.type === 'reading') {
                     totalQuestions += g.questions.length;
                     for (let j = 0; j < g.questions.length; j++) {
-                        if (ans && ans.answers && ans.answers[j] && ans.answers[j].answered) {
-                            answeredQuestions++;
-                        }
+                        if (ans && ans.answers && ans.answers[j] && ans.answers[j].answered) answeredQuestions++;
                     }
                 } else {
                     totalQuestions++;
@@ -536,11 +461,8 @@
             let currentPosition = 1;
             for (let i = 0; i < currentGroupIndex; i++) {
                 const g = questionGroups[i];
-                if (g.type === 'reading') {
-                    currentPosition += g.questions.length;
-                } else {
-                    currentPosition++;
-                }
+                if (g.type === 'reading') currentPosition += g.questions.length;
+                else currentPosition++;
             }
             const currentAns = userAnswers[currentGroupIndex];
             if (currentAns && currentAns.type === 'reading') {
@@ -551,13 +473,14 @@
             scoreBoard.innerHTML = `📊 Đã trả lời: ${answeredQuestions} / ${totalQuestions} câu | ${answeredQuestions === totalQuestions ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
             
             let modeName = '';
-            if (currentMode === 'stress') modeName = '🔊 Trắc nghiệm Trọng âm';
-            else if (currentMode === 'reading') modeName = '📖 Trắc nghiệm Đoạn văn';
-            else if (currentMode === 'regular') modeName = '📝 Trắc nghiệm Thường';
-            else if (currentMode === 'all') modeName = '🎲 Trắc nghiệm Toàn bộ (Random)';
-            modeInfo.innerHTML = `Đang làm: ${modeName} | Tổng số: ${totalQuestions} câu`;
+            if (currentMode === 'stress') modeName = '🔊 Trắc nghiệm Trọng âm (10 câu)';
+            else if (currentMode === 'reading') modeName = '📖 Trắc nghiệm Đoạn văn (25 câu - 5 bài)';
+            else if (currentMode === 'regular') modeName = '📝 Trắc nghiệm Thường (54 câu)';
+            else if (currentMode === 'all') modeName = '🎲 Trắc nghiệm Toàn bộ (89 câu - Random nhóm)';
+            modeInfo.innerHTML = `Đang làm: ${modeName}`;
         }
 
+        // Render câu hỏi hiện tại
         function renderCurrentQuestion() {
             if (!questionGroups.length || currentGroupIndex >= questionGroups.length) {
                 questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào</div>';
@@ -577,20 +500,20 @@
                     <div class="reading-group-info">
                         📖 ${group.name} - Câu ${qIndex + 1}/${group.questions.length}
                     </div>
-                    <div class="passage-text">${escapeHtml(group.passageText)}</div>
-                    <div class="question-text">${escapeHtml(question.text)}</div>
                 `;
                 
+                if (group.passageText) {
+                    html += `<div class="passage-text">${escapeHtml(group.passageText)}</div>`;
+                }
+                
+                html += `<div class="question-text">${escapeHtml(question.text)}</div>`;
                 html += `<div class="options">`;
+                
                 question.options.forEach((opt, idx) => {
                     let additionalClass = '';
                     if (isAnswered) {
-                        if (qAns.selected === idx) {
-                            additionalClass = (idx === question.correct) ? 'correct-answer' : 'wrong-answer';
-                        }
-                        if (idx === question.correct && qAns.selected !== idx) {
-                            additionalClass = 'correct-answer';
-                        }
+                        if (qAns.selected === idx) additionalClass = (idx === question.correct) ? 'correct-answer' : 'wrong-answer';
+                        if (idx === question.correct && qAns.selected !== idx) additionalClass = 'correct-answer';
                         additionalClass += ' disabled-opt';
                     }
                     html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
@@ -598,9 +521,9 @@
                 html += `</div>`;
                 
                 html += `<div class="nav-buttons">
-                            <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 && qIndex === 0 ? 'disabled' : ''}>◀ </button>
+                            <button class="nav-btn prev-btn" id="prevBtn">◀ Câu trước</button>
                             <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
-                            <button class="nav-btn next-btn" id="nextBtn"> ▶</button>
+                            <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
                         </div>`;
                 
                 if (isAnswered && question.explanation) {
@@ -621,9 +544,7 @@
                 document.getElementById('prevBtn')?.addEventListener('click', () => goToPrevQuestion());
                 document.getElementById('nextBtn')?.addEventListener('click', () => goToNextQuestion());
                 document.getElementById('resetCurrentBtn')?.addEventListener('click', () => {
-                    if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) {
-                        startMode(currentMode);
-                    }
+                    if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) startMode(currentMode);
                 });
                 
             } else {
@@ -632,15 +553,12 @@
                 
                 let html = `<div class="question-text">${escapeHtml(question.text)}</div>`;
                 html += `<div class="options">`;
+                
                 question.options.forEach((opt, idx) => {
                     let additionalClass = '';
                     if (isAnswered) {
-                        if (ans.selected === idx) {
-                            additionalClass = (idx === question.correct) ? 'correct-answer' : 'wrong-answer';
-                        }
-                        if (idx === question.correct && ans.selected !== idx) {
-                            additionalClass = 'correct-answer';
-                        }
+                        if (ans.selected === idx) additionalClass = (idx === question.correct) ? 'correct-answer' : 'wrong-answer';
+                        if (idx === question.correct && ans.selected !== idx) additionalClass = 'correct-answer';
                         additionalClass += ' disabled-opt';
                     }
                     html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
@@ -649,7 +567,7 @@
                 
                 html += `<div class="nav-buttons">
                             <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
-                            <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại chế độ này</button>
+                            <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
                             <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
                         </div>`;
                 
@@ -671,32 +589,21 @@
                 document.getElementById('prevBtn')?.addEventListener('click', () => goToPrevQuestion());
                 document.getElementById('nextBtn')?.addEventListener('click', () => goToNextQuestion());
                 document.getElementById('resetCurrentBtn')?.addEventListener('click', () => {
-                    if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) {
-                        startMode(currentMode);
-                    }
+                    if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) startMode(currentMode);
                 });
             }
         }
         
         function handleReadingAnswer(selectedIdx) {
-            const group = questionGroups[currentGroupIndex];
             const ans = userAnswers[currentGroupIndex];
             const qIndex = ans.currentQuestionIdx;
-            const question = group.questions[qIndex];
-            
-            ans.answers[qIndex] = {
-                answered: true,
-                selected: selectedIdx
-            };
+            ans.answers[qIndex] = { answered: true, selected: selectedIdx };
             renderCurrentQuestion();
             updateUI();
         }
         
         function handleSingleAnswer(selectedIdx) {
-            const group = questionGroups[currentGroupIndex];
             const ans = userAnswers[currentGroupIndex];
-            const question = group.question;
-            
             ans.answered = true;
             ans.selected = selectedIdx;
             renderCurrentQuestion();
@@ -714,11 +621,8 @@
                     updateUI();
                 } else if (currentGroupIndex > 0) {
                     currentGroupIndex--;
-                    const prevGroup = questionGroups[currentGroupIndex];
                     const prevAns = userAnswers[currentGroupIndex];
-                    if (prevGroup.type === 'reading') {
-                        prevAns.currentQuestionIdx = prevGroup.questions.length - 1;
-                    }
+                    if (prevAns.type === 'reading') prevAns.currentQuestionIdx = prevAns.answers.length - 1;
                     renderCurrentQuestion();
                     updateUI();
                 }
@@ -756,11 +660,7 @@
         
         function escapeHtml(str) {
             if (!str) return '';
-            return str.replace(/&/g, '&amp;')
-                      .replace(/</g, '&lt;')
-                      .replace(/>/g, '&gt;')
-                      .replace(/"/g, '&quot;')
-                      .replace(/'/g, '&#39;');
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
         
         function startMode(mode) {
@@ -781,18 +681,14 @@
             updateUI();
             
             document.querySelectorAll('.mode-btn').forEach(btn => {
-                if (btn.dataset.mode === mode) {
-                    btn.classList.add('active');
-                } else if (btn.id !== 'resetAllBtn') {
-                    btn.classList.remove('active');
-                }
+                if (btn.dataset.mode === mode) btn.classList.add('active');
+                else if (btn.id !== 'resetAllBtn') btn.classList.remove('active');
             });
         }
         
         function resetAll() {
-            if (currentMode) {
-                startMode(currentMode);
-            } else {
+            if (currentMode) startMode(currentMode);
+            else {
                 questionCard.innerHTML = '<div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>';
                 progress.innerHTML = 'Chưa có câu hỏi';
                 scoreBoard.innerHTML = '📊 Chọn chế độ để bắt đầu';
@@ -802,16 +698,9 @@
         
         document.querySelectorAll('.mode-btn').forEach(btn => {
             if (btn.id === 'resetAllBtn') {
-                btn.addEventListener('click', () => {
-                    if (confirm('Làm lại toàn bộ? Câu trả lời sẽ bị xóa.')) {
-                        resetAll();
-                    }
-                });
+                btn.addEventListener('click', () => { if (confirm('Làm lại toàn bộ?')) resetAll(); });
             } else {
-                btn.addEventListener('click', () => {
-                    const mode = btn.dataset.mode;
-                    startMode(mode);
-                });
+                btn.addEventListener('click', () => startMode(btn.dataset.mode));
             }
         });
         
