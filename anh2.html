@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn tập Tiếng Anh - Trắc nghiệm</title>
+    <title>Ôn tập Tiếng Anh - 4 Chế Độ</title>
     <style>
         * {
             margin: 0;
@@ -13,16 +13,61 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
+        /* Mode Selection Bar */
+        .mode-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: #1e3c72;
+            color: white;
+            box-shadow: 0 4px 12px rgba(30,60,114,0.3);
+        }
+
+        .mode-btn.reset-mode {
+            background: #ff9800;
+            color: white;
+        }
+
+        .mode-btn.reset-mode:hover {
+            background: #e68900;
+        }
+
+        /* Quiz Header */
         .quiz-header {
             background: white;
             border-radius: 15px;
@@ -33,7 +78,14 @@
         }
 
         .quiz-header h1 {
-            color: #2c3e50;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .quiz-header .mode-info {
+            color: #ff9800;
+            font-weight: bold;
             margin-bottom: 10px;
         }
 
@@ -43,6 +95,7 @@
             font-size: 1.1em;
         }
 
+        /* Question Card */
         .question-card {
             background: white;
             border-radius: 20px;
@@ -52,11 +105,24 @@
         }
 
         .question-text {
-            font-size: 1.2em;
+            font-size: 1.15em;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 20px;
-            line-height: 1.4;
+            line-height: 1.5;
+        }
+
+        .passage-text {
+            background: #f0f7ff;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-size: 0.95em;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .options {
@@ -68,13 +134,14 @@
 
         .option-btn {
             padding: 12px 18px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             background: white;
             font-size: 1em;
             text-align: left;
             cursor: pointer;
             font-family: inherit;
+            transition: all 0.15s;
         }
 
         .option-btn.correct-answer {
@@ -91,17 +158,20 @@
 
         .option-btn.disabled-opt {
             cursor: default;
+            opacity: 0.9;
         }
 
+        /* Navigation */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
             gap: 15px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
-            padding: 10px 20px;
+            padding: 10px 18px;
             border: none;
             border-radius: 8px;
             font-size: 0.95em;
@@ -119,7 +189,7 @@
             color: white;
         }
 
-        .reset-btn {
+        .reset-questions-btn {
             background: #e67e22;
             color: white;
         }
@@ -149,94 +219,196 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
+        .no-questions {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
         @media (max-width: 600px) {
             .question-card {
                 padding: 18px;
             }
-            .question-text {
-                font-size: 1em;
-            }
-            .option-btn {
-                padding: 10px 14px;
-                font-size: 0.9em;
+            .mode-btn {
+                padding: 8px 16px;
+                font-size: 0.85em;
             }
             .nav-btn {
-                padding: 8px 16px;
+                padding: 8px 14px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Mode Selection Bar -->
+        <div class="mode-bar">
+            <button class="mode-btn" data-mode="stress">🔊 Trắc nghiệm Trọng âm</button>
+            <button class="mode-btn" data-mode="reading">📖 Trắc nghiệm Đoạn văn</button>
+            <button class="mode-btn" data-mode="regular">📝 Trắc nghiệm Thường</button>
+            <button class="mode-btn" data-mode="all">🎲 Trắc nghiệm Toàn bộ (Random)</button>
+            <button class="mode-btn reset-mode" id="resetAllBtn">🔄 Làm lại toàn bộ</button>
+        </div>
+
+        <!-- Quiz Header -->
         <div class="quiz-header">
-            <div class="progress" id="progress">Đang tải...</div>
+            <h1>📚 Ôn tập Tiếng Anh</h1>
+            <div class="mode-info" id="modeInfo">Chọn chế độ làm bài</div>
+            <div class="progress" id="progress">Chưa có câu hỏi</div>
         </div>
 
+        <!-- Question Card -->
         <div class="question-card" id="questionCard">
-            <div style="text-align:center; padding:40px;">Đang tải câu hỏi...</div>
+            <div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>
         </div>
 
+        <!-- Score Board -->
         <div class="score-board" id="scoreBoard">
-            📊 Đã trả lời: 0 / 0 câu
+            📊 Chọn chế độ để bắt đầu
         </div>
     </div>
 
     <script>
-        let questions = [];
+        // Dữ liệu câu hỏi (JSON sẽ được nhúng hoặc fetch)
+        let fullQuestions = [];
+
+        // Trạng thái hiện tại
+        let currentMode = null; // 'stress', 'reading', 'regular', 'all'
+        let filteredQuestions = [];
         let currentIndex = 0;
         let userAnswers = [];
 
-        function shuffleArray(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
+        // DOM elements
+        const modeInfo = document.getElementById('modeInfo');
+        const progress = document.getElementById('progress');
+        const questionCard = document.getElementById('questionCard');
+        const scoreBoard = document.getElementById('scoreBoard');
 
+        // Hàm lấy dữ liệu câu hỏi (từ file JSON hoặc nhúng)
         async function loadQuestions() {
             try {
+                // Thử fetch từ file JSON trước
                 const response = await fetch('english_questions.json');
                 const data = await response.json();
-                questions = shuffleArray(data.questions);
-                initUserAnswers();
-                renderQuestion();
-                updateProgress();
+                fullQuestions = data.questions;
+                console.log(`Đã tải ${fullQuestions.length} câu hỏi từ file JSON`);
             } catch (error) {
-                console.error('Lỗi:', error);
-                document.getElementById('questionCard').innerHTML = '<div style="color:red;padding:20px;">Không thể tải dữ liệu. Vui lòng đảm bảo file english_questions.json cùng thư mục.</div>';
+                console.error('Không tìm thấy file JSON, sử dụng dữ liệu mặc định');
+                // Dữ liệu mặc định cho các chế độ (sẽ được nhúng)
+                fullQuestions = getDefaultQuestions();
             }
         }
 
-        function initUserAnswers() {
-            userAnswers = questions.map(() => ({
+        // Dữ liệu mặc định (để demo nếu không có file JSON)
+        function getDefaultQuestions() {
+            return [
+                // Trọng âm (câu 1-10)
+                { id: 1, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. valley', 'B. complex', 'C. habit', 'D. campaign'], correct: 3, explanation: 'campaign nhấn âm 2, còn lại âm 1' },
+                { id: 2, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. management', 'B. doctorate', 'C. advantage', 'D. confidence'], correct: 2, explanation: 'advantage nhấn âm 2, còn lại âm 1' },
+                { id: 3, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. bachelor', 'B. diploma', 'C. internship', 'D. scholarship'], correct: 1, explanation: 'diploma nhấn âm 2, còn lại âm 1' },
+                { id: 4, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. heritage', 'B. monument', 'C. citadel', 'D. awareness'], correct: 3, explanation: 'awareness nhấn âm 2, còn lại âm 1' },
+                { id: 5, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. discuss', 'B. respect', 'C. perform', 'D. manage'], correct: 3, explanation: 'manage nhấn âm 1, còn lại âm 2' },
+                { id: 6, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. bully', 'B. manage', 'C. struggle', 'D. obey'], correct: 3, explanation: 'obey nhấn âm 2, còn lại âm 1' },
+                { id: 7, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. offensive', 'B. habitat', 'C. awareness', 'D. depression'], correct: 1, explanation: 'habitat nhấn âm 1, còn lại âm 2' },
+                { id: 8, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. degree', 'B. trending', 'C. brochure', 'D. valley'], correct: 0, explanation: 'degree nhấn âm 2, còn lại âm 1' },
+                { id: 9, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. opportunity', 'B. institution', 'C. university', 'D. apprenticeship'], correct: 3, explanation: 'apprenticeship nhấn âm 2, còn lại âm 3' },
+                { id: 10, type: 'stress', text: 'Choose the word which has a different stress pattern.', options: ['A. awareness', 'B. depression', 'C. confident', 'D. mechanic'], correct: 2, explanation: 'confident nhấn âm 1, còn lại âm 2' },
+                // Trắc nghiệm thường (câu 11-48)
+                { id: 11, type: 'regular', text: '__________ helps protect and restore heritage by raising money for cultural projects.', options: ['A. Limestone', 'B. Crowdfunding', 'C. Valley', 'D. State'], correct: 1, explanation: 'Crowdfunding - huy động vốn cộng đồng' },
+                { id: 12, type: 'regular', text: 'In an effort to __________ cultural diversity, the festival featured performances...', options: ['A. recommend', 'B. punish', 'C. preserve', 'D. reduce'], correct: 2, explanation: 'preserve - bảo tồn' },
+                { id: 13, type: 'regular', text: 'Is becoming independent as __________ as we may think?', options: ['A. challenging', 'B. curious', 'C. responsible', 'D. academic'], correct: 0, explanation: 'challenging - đầy thách thức' },
+                { id: 14, type: 'regular', text: 'Exploring ancient temples and pagodas has become a __________ activity...', options: ['A. trending', 'B. festive', 'C. folk', 'D. ancient'], correct: 0, explanation: 'trending - thịnh hành' },
+                { id: 15, type: 'regular', text: 'They do part-time jobs to gain work experience and learn how to __________ money.', options: ['A. manage', 'B. lose', 'C. plan', 'D. provide'], correct: 0, explanation: 'manage money - quản lý tiền' },
+                { id: 16, type: 'regular', text: 'This __________ app helps me create to-do lists...', options: ['A. time-management', 'B. money-management', 'C. skill-development', 'D. self-study'], correct: 0, explanation: 'time-management app - quản lý thời gian' },
+                { id: 17, type: 'regular', text: 'I have __________ of trying to complete all the housework...', options: ['A. made use', 'B. taken advantage', 'C. came up', 'D. got into the habit'], correct: 3, explanation: 'get into the habit of - có thói quen' },
+                { id: 18, type: 'regular', text: 'Many students decide to __________ a gap year...', options: ['A. make', 'B. take', 'C. give', 'D. do'], correct: 1, explanation: 'take a gap year - nghỉ một năm' },
+                { id: 19, type: 'regular', text: 'The site will be closed for six months __________ the buildings...', options: ['A. restoring', 'B. restore', 'C. restored', 'D. to restore'], correct: 3, explanation: 'to restore - để khôi phục' },
+                { id: 20, type: 'regular', text: '__________ bullying includes using offensive language...', options: ['A. Physical', 'B. Cyber', 'C. Mental', 'D. Verbal'], correct: 3, explanation: 'Verbal bullying - bắt nạt bằng lời nói' },
+                // Thêm các câu regular khác...
+                { id: 21, type: 'regular', text: 'Improving your self-__________ is one way to deal with body shaming.', options: ['A. confident', 'B. confidence', 'C. study', 'D. importance'], correct: 1, explanation: 'self-confidence - sự tự tin' },
+                { id: 22, type: 'regular', text: 'Vocational schools help students __________ practical skills...', options: ['A. gain', 'B. do', 'C. win', 'D. catch'], correct: 0, explanation: 'gain skills - đạt được kỹ năng' },
+                { id: 23, type: 'regular', text: '__________ is a growing concern as technology becomes more common...', options: ['A. Overpopulation', 'B. Policy', 'C. Self-confidence', 'D. Cyberbullying'], correct: 3, explanation: 'Cyberbullying - bắt nạt trực tuyến' },
+                { id: 24, type: 'regular', text: 'My mother remembered __________ visited this place.', options: ['A. having', 'B. have', 'C. had', 'D. has'], correct: 0, explanation: 'remember having done sth - nhớ đã làm gì' },
+                { id: 25, type: 'regular', text: 'If you don\'t want to go to university, you can __________ an apprenticeship...', options: ['A. make', 'B. stay', 'C. do', 'D. give'], correct: 2, explanation: 'do an apprenticeship - học nghề' },
+                { id: 26, type: 'regular', text: 'Thank you for __________ me your wonderful advice.', options: ['A. give', 'B. having given', 'C. being given', 'D. to have given'], correct: 1, explanation: 'having given - dạng hoàn thành' },
+                { id: 27, type: 'regular', text: 'My parents were proud of having __________ the best schools...', options: ['A. choose', 'B. choosing', 'C. chose', 'D. chosen'], correct: 3, explanation: 'having chosen - dạng hoàn thành' },
+                { id: 28, type: 'regular', text: 'It is important for school-leavers to __________ a decision...', options: ['A. take', 'B. make', 'C. do', 'D. get'], correct: 1, explanation: 'make a decision - đưa ra quyết định' },
+                { id: 29, type: 'regular', text: 'Many teenagers suffer __________ depression and anxiety...', options: ['A. with', 'B. from', 'C. of', 'D. by'], correct: 1, explanation: 'suffer from - chịu đựng' },
+                { id: 30, type: 'regular', text: '__________ studied the brochure carefully, my brother decided...', options: ['A. Having', 'B. Having been', 'C. Have', 'D. Had'], correct: 0, explanation: 'Having studied - phân từ hoàn thành' },
+                // Đoạn văn (câu 65-89)
+                { id: 65, type: 'reading', text: 'Read the passage and choose the best answer.\n\nIt is not surprising that almost all first-year students have a lot of problems when they must live (1) __________ at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) __________ high school where the homework is quite simple...\n\nQuestion (1):', passage: 'It is not surprising that almost all first-year students have a lot of problems when they must live (1) __________ at university...', options: ['A. dependent', 'B. dependently', 'C. independent', 'D. independently'], correct: 3, explanation: 'live independently - sống độc lập' },
+                { id: 66, type: 'reading', text: 'Read the same passage.\n\nQuestion (2):', options: ['A. Like', 'B. Unlike', 'C. Dislike', 'D. Similar'], correct: 1, explanation: 'Unlike - không giống như' },
+                { id: 67, type: 'reading', text: 'Read the same passage.\n\nQuestion (3):', options: ['A. much', 'B. little', 'C. enough', 'D. lots of'], correct: 2, explanation: 'enough money - đủ tiền' },
+                { id: 68, type: 'reading', text: 'Read the same passage.\n\nQuestion (4):', options: ['A. give', 'B. donate', 'C. receive', 'D. distribute'], correct: 2, explanation: 'receive support - nhận hỗ trợ' },
+                { id: 69, type: 'reading', text: 'Read the same passage.\n\nQuestion (5):', options: ['A. of', 'B. on', 'C. with', 'D. in'], correct: 0, explanation: 'make use of - tận dụng' }
+            ];
+        }
+
+        // Filter questions theo mode
+        function filterQuestionsByMode(mode) {
+            if (mode === 'stress') {
+                return fullQuestions.filter(q => q.type === 'stress' || (q.id >= 1 && q.id <= 10));
+            } else if (mode === 'reading') {
+                return fullQuestions.filter(q => q.type === 'reading' || (q.id >= 65 && q.id <= 89));
+            } else if (mode === 'regular') {
+                return fullQuestions.filter(q => q.type === 'regular' || (q.id >= 11 && q.id <= 48));
+            } else if (mode === 'all') {
+                // Random toàn bộ
+                const all = [...fullQuestions];
+                for (let i = all.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [all[i], all[j]] = [all[j], all[i]];
+                }
+                return all;
+            }
+            return [];
+        }
+
+        // Khởi tạo userAnswers
+        function initUserAnswers(count) {
+            userAnswers = new Array(count).fill(null).map(() => ({
                 answered: false,
-                isCorrect: false,
-                selected: null,
-                showExplanation: false
+                selected: null
             }));
         }
 
-        function updateProgress() {
-            const total = questions.length;
+        // Cập nhật progress và scoreboard
+        function updateUI() {
+            const total = filteredQuestions.length;
             const answeredCount = userAnswers.filter(a => a.answered).length;
-            document.getElementById('progress').innerHTML = `Câu ${currentIndex + 1} / ${total} | Đã trả lời: ${answeredCount}/${total}`;
-            document.getElementById('scoreBoard').innerHTML = `📊 Đã trả lời: ${answeredCount} / ${total} câu | ${answeredCount === total ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
+            progress.innerHTML = `Câu ${currentIndex + 1} / ${total} | Đã trả lời: ${answeredCount}/${total}`;
+            scoreBoard.innerHTML = `📊 Đã trả lời: ${answeredCount} / ${total} câu | ${answeredCount === total ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
+            
+            let modeName = '';
+            if (currentMode === 'stress') modeName = '🔊 Trắc nghiệm Trọng âm';
+            else if (currentMode === 'reading') modeName = '📖 Trắc nghiệm Đoạn văn';
+            else if (currentMode === 'regular') modeName = '📝 Trắc nghiệm Thường';
+            else if (currentMode === 'all') modeName = '🎲 Trắc nghiệm Toàn bộ (Random)';
+            modeInfo.innerHTML = `Đang làm: ${modeName} | Tổng số: ${total} câu`;
         }
 
+        // Render câu hỏi hiện tại
         function renderQuestion() {
-            const q = questions[currentIndex];
-            const card = document.getElementById('questionCard');
-            const userAns = userAnswers[currentIndex];
+            if (!filteredQuestions.length || currentIndex >= filteredQuestions.length) {
+                questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào trong chế độ này</div>';
+                return;
+            }
 
-            if (!q) return;
+            const q = filteredQuestions[currentIndex];
+            const userAns = userAnswers[currentIndex];
+            const isAnswered = userAns.answered;
 
             let html = `<div class="question-text">${escapeHtml(q.text)}</div>`;
-            html += `<div class="options" id="optionsContainer">`;
-            
+
+            // Hiển thị đoạn văn nếu có (cho reading mode)
+            if (q.passage) {
+                html += `<div class="passage-text">${escapeHtml(q.passage)}</div>`;
+            }
+
+            html += `<div class="options">`;
             q.options.forEach((opt, idx) => {
                 let additionalClass = '';
-                if (userAns.answered) {
+                if (isAnswered) {
                     if (userAns.selected === idx) {
                         additionalClass = (idx === q.correct) ? 'correct-answer' : 'wrong-answer';
                     }
@@ -245,26 +417,28 @@
                     }
                     additionalClass += ' disabled-opt';
                 }
-                html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${userAns.answered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+                html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
             });
-            
             html += `</div>`;
+
+            // Nút điều hướng
             html += `<div class="nav-buttons">
-                        <button class="nav-btn prev-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>◀</button>
-                        <button class="nav-btn reset-btn" id="resetBtn">🔄 Làm lại</button>
-                        <button class="nav-btn next-btn" id="nextBtn">▶</button>
+                        <button class="nav-btn prev-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
+                        <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại chế độ này</button>
+                        <button class="nav-btn next-btn" id="nextBtn" ${currentIndex === filteredQuestions.length - 1 ? 'disabled' : ''}>Câu tiếp theo ▶</button>
                     </div>`;
 
-            if (userAns.answered && q.explanation) {
+            // Hiển thị giải thích nếu đã trả lời
+            if (isAnswered && q.explanation) {
                 html += `<div class="explanation">💡 Giải thích: ${escapeHtml(q.explanation)}</div>`;
             }
 
-            card.innerHTML = html;
+            questionCard.innerHTML = html;
 
-            if (!userAns.answered) {
+            // Gắn sự kiện
+            if (!isAnswered) {
                 document.querySelectorAll('.option-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        if (userAnswers[currentIndex].answered) return;
                         const selectedIdx = parseInt(btn.dataset.optIndex);
                         handleAnswer(currentIndex, selectedIdx);
                     });
@@ -275,49 +449,105 @@
                 if (currentIndex > 0) {
                     currentIndex--;
                     renderQuestion();
-                    updateProgress();
+                    updateUI();
                 }
             });
+
             document.getElementById('nextBtn')?.addEventListener('click', () => {
-                if (currentIndex < questions.length - 1) {
+                if (currentIndex < filteredQuestions.length - 1) {
                     currentIndex++;
                     renderQuestion();
-                    updateProgress();
+                    updateUI();
                 }
             });
-            document.getElementById('resetBtn')?.addEventListener('click', () => {
-                if (confirm('Làm lại toàn bộ? Tất cả câu trả lời sẽ bị xóa.')) {
-                    initUserAnswers();
-                    currentIndex = 0;
-                    renderQuestion();
-                    updateProgress();
+
+            document.getElementById('resetCurrentBtn')?.addEventListener('click', () => {
+                if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) {
+                    startMode(currentMode);
                 }
             });
         }
 
         function handleAnswer(qIndex, selectedIdx) {
-            const q = questions[qIndex];
+            const q = filteredQuestions[qIndex];
             userAnswers[qIndex] = {
                 answered: true,
-                isCorrect: (selectedIdx === q.correct),
-                selected: selectedIdx,
-                showExplanation: true
+                selected: selectedIdx
             };
             renderQuestion();
-            updateProgress();
+            updateUI();
         }
 
         function escapeHtml(str) {
             if (!str) return '';
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
+            return str.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;')
+                      .replace(/'/g, '&#39;');
         }
 
-        loadQuestions();
+        // Bắt đầu chế độ
+        function startMode(mode) {
+            currentMode = mode;
+            filteredQuestions = filterQuestionsByMode(mode);
+            
+            if (filteredQuestions.length === 0) {
+                questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào cho chế độ này</div>';
+                progress.innerHTML = '0 câu hỏi';
+                scoreBoard.innerHTML = '📊 Không có câu hỏi';
+                modeInfo.innerHTML = `Chế độ: ${mode} - Không có câu hỏi`;
+                return;
+            }
+            
+            initUserAnswers(filteredQuestions.length);
+            currentIndex = 0;
+            renderQuestion();
+            updateUI();
+            
+            // Cập nhật active class cho các nút mode
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                if (btn.dataset.mode === mode) {
+                    btn.classList.add('active');
+                } else if (btn.id !== 'resetAllBtn') {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Reset toàn bộ (về trạng thái ban đầu)
+        function resetAll() {
+            if (currentMode) {
+                startMode(currentMode);
+            } else {
+                questionCard.innerHTML = '<div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>';
+                progress.innerHTML = 'Chưa có câu hỏi';
+                scoreBoard.innerHTML = '📊 Chọn chế độ để bắt đầu';
+                modeInfo.innerHTML = 'Chọn chế độ làm bài';
+            }
+        }
+
+        // Sự kiện cho các nút chế độ
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            if (btn.id === 'resetAllBtn') {
+                btn.addEventListener('click', () => {
+                    if (confirm('Làm lại toàn bộ? Câu trả lời sẽ bị xóa.')) {
+                        resetAll();
+                    }
+                });
+            } else {
+                btn.addEventListener('click', () => {
+                    const mode = btn.dataset.mode;
+                    startMode(mode);
+                });
+            }
+        });
+
+        // Khởi động: load dữ liệu
+        loadQuestions().then(() => {
+            // Không tự động chọn chế độ nào, để người dùng chọn
+            console.log('Sẵn sàng. Vui lòng chọn chế độ làm bài.');
+        });
     </script>
 </body>
 </html>
