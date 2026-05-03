@@ -453,8 +453,8 @@
       "type": "multiple_choice",
       "text": "Arrange the conversation:\na. Lucy: That's great! What inspired you to pursue this career?\nb. Tom: I've always dreamed of working as a software engineer.\nc. Tom: I've always been fascinated by technology and solving problems.",
       "options": ["A. b-a-c", "B. a-b-c", "C. c-b-a", "D. b-c-a"],
-      "correct": 3,
-      "explanation": "Thứ tự hợp lý: b (Tom bày tỏ ước mơ) - c (Tom giải thích lý do) - a (Lucy phản hồi)."
+      "correct": 0,
+      "explanation": "fgdgfd."
     },
     {
       "id": 58,
