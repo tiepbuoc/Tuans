@@ -598,9 +598,9 @@
                 html += `</div>`;
                 
                 html += `<div class="nav-buttons">
-                            <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 && qIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
-                            <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại chế độ này</button>
-                            <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
+                            <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 && qIndex === 0 ? 'disabled' : ''}>◀ </button>
+                            <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
+                            <button class="nav-btn next-btn" id="nextBtn"> ▶</button>
                         </div>`;
                 
                 if (isAnswered && question.explanation) {
