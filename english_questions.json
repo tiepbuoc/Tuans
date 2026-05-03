@@ -523,7 +523,7 @@
     {
       "id": 66,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 65.\n\nQuestion (2):",
+      "text": "Read the passage and choose the best answer:\n\nIt is not surprising that almost all first-year students have a lot of problems when they must live (1) independently at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) __________ high school where the homework is quite simple and just about what is taught in class, the college or university assignments require the students to do more research for its requirements and to complete within a given time. Another issue which often makes students stressed is that they don't have (3) enough money to pay for things. One reason for that problem is that some students don't (4) __________ enough financial support from their parents to pay for both tuition fee and living costs. Another reason is that some students don't spend money in the right way. It's possible for college or university students to thoroughly solve the problems above. For example, they can plan carefully for their assignments or essays, make use (5) of modern technologies to study faster. Besides, they can work part-time to support themselves financially.\n\nQuestion (2):",
       "options": ["A. Like", "B. Unlike", "C. Dislike", "D. Similar"],
       "correct": 1,
       "explanation": "Unlike (không giống như) - so sánh sự khác biệt giữa đại học và phổ thông."
@@ -531,7 +531,7 @@
     {
       "id": 67,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 65.\n\nQuestion (3):",
+      "text": "Read the passage and choose the best answer:\n\nIt is not surprising that almost all first-year students have a lot of problems when they must live (1) independently at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) Unlike high school where the homework is quite simple and just about what is taught in class, the college or university assignments require the students to do more research for its requirements and to complete within a given time. Another issue which often makes students stressed is that they don't have (3) __________ money to pay for things. One reason for that problem is that some students don't (4) receive enough financial support from their parents to pay for both tuition fee and living costs. Another reason is that some students don't spend money in the right way. It's possible for college or university students to thoroughly solve the problems above. For example, they can plan carefully for their assignments or essays, make use (5) of modern technologies to study faster. Besides, they can work part-time to support themselves financially.\n\nQuestion (3):",
       "options": ["A. much", "B. little", "C. enough", "D. lots of"],
       "correct": 2,
       "explanation": "enough money (đủ tiền) - phù hợp với ngữ cảnh thiếu tiền."
@@ -539,7 +539,7 @@
     {
       "id": 68,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 65.\n\nQuestion (4):",
+      "text": "Read the passage and choose the best answer:\n\nIt is not surprising that almost all first-year students have a lot of problems when they must live (1) independently at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) Unlike high school where the homework is quite simple and just about what is taught in class, the college or university assignments require the students to do more research for its requirements and to complete within a given time. Another issue which often makes students stressed is that they don't have (3) enough money to pay for things. One reason for that problem is that some students don't (4) __________ enough financial support from their parents to pay for both tuition fee and living costs. Another reason is that some students don't spend money in the right way. It's possible for college or university students to thoroughly solve the problems above. For example, they can plan carefully for their assignments or essays, make use (5) of modern technologies to study faster. Besides, they can work part-time to support themselves financially.\n\nQuestion (4):",
       "options": ["A. give", "B. donate", "C. receive", "D. distribute"],
       "correct": 2,
       "explanation": "receive support (nhận hỗ trợ) - sinh viên nhận từ bố mẹ."
@@ -547,7 +547,7 @@
     {
       "id": 69,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 65.\n\nQuestion (5):",
+      "text": "Read the passage and choose the best answer:\n\nIt is not surprising that almost all first-year students have a lot of problems when they must live (1) independently at university. At the first stage, due to not having a suitable schedule, they keep failing to meet deadlines. (2) Unlike high school where the homework is quite simple and just about what is taught in class, the college or university assignments require the students to do more research for its requirements and to complete within a given time. Another issue which often makes students stressed is that they don't have (3) enough money to pay for things. One reason for that problem is that some students don't (4) receive enough financial support from their parents to pay for both tuition fee and living costs. Another reason is that some students don't spend money in the right way. It's possible for college or university students to thoroughly solve the problems above. For example, they can plan carefully for their assignments or essays, make use (5) __________ modern technologies to study faster. Besides, they can work part-time to support themselves financially.\n\nQuestion (5):",
       "options": ["A. of", "B. on", "C. with", "D. in"],
       "correct": 0,
       "explanation": "make use of (tận dụng) là cụm từ cố định."
@@ -563,7 +563,7 @@
     {
       "id": 71,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 70.\n\nQuestion (2):",
+      "text": "Read the passage and choose the best answer:\n\nTime management for students is a universal issue. It's essential to know (1) how to manage your time for classes, assignments, friends and work if you have a part-time job. This is probably the most important skill that will help a student succeed. Unlike high school, where you have clearly defined class periods and a strict structure to your school day, college education (2) __________ their students to have more freedom. Unless you learn to manage your time, you may be constantly chased by (3) deadlines and be left with little time to accomplish them all. Luckily, there are some strategies and tips that will help keep your assignments on track. Firstly, you need to set goals. Consider what you need to do this week, month and semester. Secondly, create a list of every task you need to complete in a certain time. Then figure (4) out which assignments you need to complete first and what tasks can wait. You can use sticky notes in bright colors to help remember what (5) to do. You can also use apps on your smartphone to set reminders. Once the deadline is reached, your phone will alert you with audio or visual cues.\n\nQuestion (2):",
       "options": ["A. allows", "B. lets", "C. makes", "D. has"],
       "correct": 0,
       "explanation": "allows somebody to do something (cho phép ai làm gì)."
@@ -571,7 +571,7 @@
     {
       "id": 72,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 70.\n\nQuestion (3):",
+      "text": "Read the passage and choose the best answer:\n\nTime management for students is a universal issue. It's essential to know (1) how to manage your time for classes, assignments, friends and work if you have a part-time job. This is probably the most important skill that will help a student succeed. Unlike high school, where you have clearly defined class periods and a strict structure to your school day, college education (2) allows their students to have more freedom. Unless you learn to manage your time, you may be constantly chased by (3) __________ and be left with little time to accomplish them all. Luckily, there are some strategies and tips that will help keep your assignments on track. Firstly, you need to set goals. Consider what you need to do this week, month and semester. Secondly, create a list of every task you need to complete in a certain time. Then figure (4) out which assignments you need to complete first and what tasks can wait. You can use sticky notes in bright colors to help remember what (5) to do. You can also use apps on your smartphone to set reminders. Once the deadline is reached, your phone will alert you with audio or visual cues.\n\nQuestion (3):",
       "options": ["A. skills", "B. recipes", "C. deadlines", "D. budgets"],
       "correct": 2,
       "explanation": "deadlines (hạn chót) - bị đuổi bởi deadline."
@@ -579,7 +579,7 @@
     {
       "id": 73,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 70.\n\nQuestion (4):",
+      "text": "Read the passage and choose the best answer:\n\nTime management for students is a universal issue. It's essential to know (1) how to manage your time for classes, assignments, friends and work if you have a part-time job. This is probably the most important skill that will help a student succeed. Unlike high school, where you have clearly defined class periods and a strict structure to your school day, college education (2) allows their students to have more freedom. Unless you learn to manage your time, you may be constantly chased by (3) deadlines and be left with little time to accomplish them all. Luckily, there are some strategies and tips that will help keep your assignments on track. Firstly, you need to set goals. Consider what you need to do this week, month and semester. Secondly, create a list of every task you need to complete in a certain time. Then figure (4) __________ which assignments you need to complete first and what tasks can wait. You can use sticky notes in bright colors to help remember what (5) to do. You can also use apps on your smartphone to set reminders. Once the deadline is reached, your phone will alert you with audio or visual cues.\n\nQuestion (4):",
       "options": ["A. for", "B. at", "C. with", "D. out"],
       "correct": 3,
       "explanation": "figure out (tìm ra, xác định) là cụm động từ."
@@ -587,7 +587,7 @@
     {
       "id": 74,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 70.\n\nQuestion (5):",
+      "text": "Read the passage and choose the best answer:\n\nTime management for students is a universal issue. It's essential to know (1) how to manage your time for classes, assignments, friends and work if you have a part-time job. This is probably the most important skill that will help a student succeed. Unlike high school, where you have clearly defined class periods and a strict structure to your school day, college education (2) allows their students to have more freedom. Unless you learn to manage your time, you may be constantly chased by (3) deadlines and be left with little time to accomplish them all. Luckily, there are some strategies and tips that will help keep your assignments on track. Firstly, you need to set goals. Consider what you need to do this week, month and semester. Secondly, create a list of every task you need to complete in a certain time. Then figure (4) out which assignments you need to complete first and what tasks can wait. You can use sticky notes in bright colors to help remember what (5) __________. You can also use apps on your smartphone to set reminders. Once the deadline is reached, your phone will alert you with audio or visual cues.\n\nQuestion (5):",
       "options": ["A. do", "B. doing", "C. done", "D. to do"],
       "correct": 3,
       "explanation": "what to do (việc cần làm) - cấu trúc từ để hỏi + to V."
@@ -603,7 +603,7 @@
     {
       "id": 76,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 75.\n\nQuestion (2):",
+      "text": "Read the passage and choose the best answer:\n\nMy Son Sanctuary was discovered in 1885 and recognized by UNESCO as World Heritage Site in December 1999. It was built during the Chăm civilization between the 4th century and 13th century. It is a stunning architectural complex of more than 70 tower structures that are believed to be temples and tombs to worship Hindu Gods. It (1) contains the values of history, culture, architecture and art in a long period of nine centuries. Each temple has a unique structural style that reflects the (2) __________ stages of the Chăm kingdom. Unfortunately, a large part of the architecture was destroyed (3) because of natural disasters and war-related damage. About 10 of those temple towers are in almost perfect condition. However, it is still a destination that attracts tourists from all over the world. A management board has been set up to carry out restoration and conservation of the sanctuary. They not only (4) preserve the cultural heritage values but also develop tourism, improve local (5) economy and promote unique Vietnamese cultural identities to the world.\n\nQuestion (2):",
       "options": ["A. historical", "B. historian", "C. history", "D. historically"],
       "correct": 0,
       "explanation": "historical stages (các giai đoạn lịch sử) - tính từ bổ nghĩa cho danh từ."
@@ -611,7 +611,7 @@
     {
       "id": 77,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 75.\n\nQuestion (3):",
+      "text": "Read the passage and choose the best answer:\n\nMy Son Sanctuary was discovered in 1885 and recognized by UNESCO as World Heritage Site in December 1999. It was built during the Chăm civilization between the 4th century and 13th century. It is a stunning architectural complex of more than 70 tower structures that are believed to be temples and tombs to worship Hindu Gods. It (1) contains the values of history, culture, architecture and art in a long period of nine centuries. Each temple has a unique structural style that reflects the (2) historical stages of the Chăm kingdom. Unfortunately, a large part of the architecture was destroyed (3) __________ natural disasters and war-related damage. About 10 of those temple towers are in almost perfect condition. However, it is still a destination that attracts tourists from all over the world. A management board has been set up to carry out restoration and conservation of the sanctuary. They not only (4) preserve the cultural heritage values but also develop tourism, improve local (5) economy and promote unique Vietnamese cultural identities to the world.\n\nQuestion (3):",
       "options": ["A. despite", "B. although", "C. because of", "D. as a result"],
       "correct": 2,
       "explanation": "because of (bởi vì) + danh từ/cụm danh từ."
@@ -619,7 +619,7 @@
     {
       "id": 78,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 75.\n\nQuestion (4):",
+      "text": "Read the passage and choose the best answer:\n\nMy Son Sanctuary was discovered in 1885 and recognized by UNESCO as World Heritage Site in December 1999. It was built during the Chăm civilization between the 4th century and 13th century. It is a stunning architectural complex of more than 70 tower structures that are believed to be temples and tombs to worship Hindu Gods. It (1) contains the values of history, culture, architecture and art in a long period of nine centuries. Each temple has a unique structural style that reflects the (2) historical stages of the Chăm kingdom. Unfortunately, a large part of the architecture was destroyed (3) because of natural disasters and war-related damage. About 10 of those temple towers are in almost perfect condition. However, it is still a destination that attracts tourists from all over the world. A management board has been set up to carry out restoration and conservation of the sanctuary. They not only (4) __________ the cultural heritage values but also develop tourism, improve local (5) economy and promote unique Vietnamese cultural identities to the world.\n\nQuestion (4):",
       "options": ["A. preserve", "B. destroy", "C. damage", "D. limit"],
       "correct": 0,
       "explanation": "preserve (bảo tồn) - phù hợp với ngữ cảnh bảo vệ di sản."
@@ -627,7 +627,7 @@
     {
       "id": 79,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 75.\n\nQuestion (5):",
+      "text": "Read the passage and choose the best answer:\n\nMy Son Sanctuary was discovered in 1885 and recognized by UNESCO as World Heritage Site in December 1999. It was built during the Chăm civilization between the 4th century and 13th century. It is a stunning architectural complex of more than 70 tower structures that are believed to be temples and tombs to worship Hindu Gods. It (1) contains the values of history, culture, architecture and art in a long period of nine centuries. Each temple has a unique structural style that reflects the (2) historical stages of the Chăm kingdom. Unfortunately, a large part of the architecture was destroyed (3) because of natural disasters and war-related damage. About 10 of those temple towers are in almost perfect condition. However, it is still a destination that attracts tourists from all over the world. A management board has been set up to carry out restoration and conservation of the sanctuary. They not only (4) preserve the cultural heritage values but also develop tourism, improve local (5) __________ and promote unique Vietnamese cultural identities to the world.\n\nQuestion (5):",
       "options": ["A. history", "B. economy", "C. science", "D. weather"],
       "correct": 1,
       "explanation": "economy (kinh tế) - phát triển du lịch cải thiện kinh tế địa phương."
@@ -635,7 +635,7 @@
     {
       "id": 80,
       "type": "multiple_choice",
-      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) __________ safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) __________ with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) __________ promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) __________ a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (1):",
+      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) __________ safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) __________ with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) __________, promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) __________ a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (1):",
       "options": ["A. of", "B. for", "C. at", "D. in"],
       "correct": 3,
       "explanation": "play a role in (đóng vai trò trong) là cụm từ cố định."
@@ -643,7 +643,7 @@
     {
       "id": 81,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 80.\n\nQuestion (2):",
+      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) in safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) __________ with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) Moreover, promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) foster a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (2):",
       "options": ["A. equipped", "B. collaborated", "C. connected", "D. associated"],
       "correct": 3,
       "explanation": "associated with (liên quan đến) - phù hợp nhất."
@@ -651,26 +651,26 @@
     {
       "id": 82,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 80.\n\nQuestion (3):",
-      "options": ["A. maintain", "B. maintaining", "C. maintained", "D. maintenance"],
-      "correct": 2,
-      "explanation": "maintained (được duy trì) - dạng bị động phù hợp với ngữ cảnh."
-    },
-    {
-      "id": 83,
-      "type": "multiple_choice",
-      "text": "Read the same passage as question 80.\n\nQuestion (4):",
+      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) in safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) associated with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) __________, promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) foster a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (3):",
       "options": ["A. However", "B. Moreover", "C. Therefore", "D. Otherwise"],
       "correct": 1,
       "explanation": "Moreover (hơn nữa) - từ nối bổ sung ý."
     },
     {
-      "id": 84,
+      "id": 83,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 80.\n\nQuestion (5):",
+      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) in safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) associated with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) Moreover, promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) __________ a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (4):",
       "options": ["A. foster", "B. enhance", "C. enlarge", "D. widen"],
       "correct": 0,
       "explanation": "foster (nuôi dưỡng, thúc đẩy) - phù hợp với 'sense of pride'."
+    },
+    {
+      "id": 84,
+      "type": "multiple_choice",
+      "text": "Read the passage and choose the best answer:\n\nPreserving heritage is a collective responsibility that requires conscious efforts and strategic approaches. Firstly, documentation plays a crucial role (1) in safeguarding heritage. It involves thorough research, and documentation of historical records, artifacts, and oral traditions (2) associated with a particular heritage. This helps create an extensive archive that serves as a reference for future generations and aids in understanding and appreciating the significance of heritage.\n\nSecondly, active conservation measures must be implemented to protect physical heritage. This includes regular restoration, and preventive measures to prevent deterioration and damage. Collaboration between heritage experts, conservation professionals, and local communities is essential to ensure the proper implementation of conservation techniques while respecting the integrity and authenticity of the heritage. (3) Moreover, promoting public awareness and engagement through educational programs, guided tours, and cultural events can (4) foster a sense of pride and ownership among the community, encouraging their active participation in heritage preservation.\n\n(Adapted from National Geographic)\n\nQuestion (5): This question does not exist in the original passage. The passage above has only 4 blanks.",
+      "options": ["A. N/A", "B. N/A", "C. N/A", "D. N/A"],
+      "correct": 0,
+      "explanation": "Đoạn văn này chỉ có 4 chỗ trống (câu 80-83). Không có câu 5 trong đề gốc."
     },
     {
       "id": 85,
@@ -683,7 +683,7 @@
     {
       "id": 86,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 85.\n\nQuestion (2):",
+      "text": "Read the passage and choose the best answer:\n\nLike any other universities, the Open University can give you a degree. (1) However, you don't have to stop working to study. It can also open up a whole variety of interest. If you have never studied before, you will enjoy the special, new pleasure of (2) __________ your knowledge. You will make friends of all kinds. You may also find (3) that your qualification provides new career opportunities. You don't actually go to the Open University for lectures, but study at home using television, radio and computer software. You can (4) attend one class a month if you wish at an Open University centre. Of course, there are exams to take, as in (5) any university. If you would like to know more, all you have to do is complete the form below. It could be the start of a wonderful new period in your life.\n\nQuestion (2):",
       "options": ["A. growing", "B. changing", "C. adding", "D. increasing"],
       "correct": 3,
       "explanation": "increasing your knowledge (tăng kiến thức) - phù hợp nhất."
@@ -691,7 +691,7 @@
     {
       "id": 87,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 85.\n\nQuestion (3):",
+      "text": "Read the passage and choose the best answer:\n\nLike any other universities, the Open University can give you a degree. (1) However, you don't have to stop working to study. It can also open up a whole variety of interest. If you have never studied before, you will enjoy the special, new pleasure of (2) increasing your knowledge. You will make friends of all kinds. You may also find (3) __________ your qualification provides new career opportunities. You don't actually go to the Open University for lectures, but study at home using television, radio and computer software. You can (4) attend one class a month if you wish at an Open University centre. Of course, there are exams to take, as in (5) any university. If you would like to know more, all you have to do is complete the form below. It could be the start of a wonderful new period in your life.\n\nQuestion (3):",
       "options": ["A. which", "B. who", "C. that", "D. where"],
       "correct": 2,
       "explanation": "that - mệnh đề danh từ làm tân ngữ cho find."
@@ -699,7 +699,7 @@
     {
       "id": 88,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 85.\n\nQuestion (4):",
+      "text": "Read the passage and choose the best answer:\n\nLike any other universities, the Open University can give you a degree. (1) However, you don't have to stop working to study. It can also open up a whole variety of interest. If you have never studied before, you will enjoy the special, new pleasure of (2) increasing your knowledge. You will make friends of all kinds. You may also find (3) that your qualification provides new career opportunities. You don't actually go to the Open University for lectures, but study at home using television, radio and computer software. You can (4) __________ one class a month if you wish at an Open University centre. Of course, there are exams to take, as in (5) any university. If you would like to know more, all you have to do is complete the form below. It could be the start of a wonderful new period in your life.\n\nQuestion (4):",
       "options": ["A. attend", "B. give", "C. learn", "D. study"],
       "correct": 0,
       "explanation": "attend a class (tham dự một lớp học)."
@@ -707,7 +707,7 @@
     {
       "id": 89,
       "type": "multiple_choice",
-      "text": "Read the same passage as question 85.\n\nQuestion (5):",
+      "text": "Read the passage and choose the best answer:\n\nLike any other universities, the Open University can give you a degree. (1) However, you don't have to stop working to study. It can also open up a whole variety of interest. If you have never studied before, you will enjoy the special, new pleasure of (2) increasing your knowledge. You will make friends of all kinds. You may also find (3) that your qualification provides new career opportunities. You don't actually go to the Open University for lectures, but study at home using television, radio and computer software. You can (4) attend one class a month if you wish at an Open University centre. Of course, there are exams to take, as in (5) __________ university. If you would like to know more, all you have to do is complete the form below. It could be the start of a wonderful new period in your life.\n\nQuestion (5):",
       "options": ["A. most", "B. some", "C. any", "D. many"],
       "correct": 2,
       "explanation": "any university (bất kỳ trường đại học nào)."
