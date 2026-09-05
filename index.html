@@ -1,131 +1,645 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Ôn tập</title>
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giải toán bằng ảnh — AI</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --panel: #262626;
+    --border: #3a3a3a;
+    --text: #e8e8e8;
+    --muted: #9a9a9a;
+    --accent: #4f8cff;
+    --bot-bubble: #333333;
+    --good: #3fbf6f;
+    --bad: #e05a5a;
+    --warn: #d9a441;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 600;
+    margin-right: auto;
+  }
+  .model-badge {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 8px 16px 0 16px;
+  }
 
-        body {
-            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(145deg, #f0f5fa 0%, #e6ecf3 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
-        }
+  /* ---- Tabs ---- */
+  #tabs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px 0 16px;
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .tab-btn {
+    flex: 1;
+    background: var(--panel);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .tab-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
 
-        .card {
-            max-width: 900px;
-            width: 100%;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 48px;
-            box-shadow: 0 30px 60px rgba(0, 20, 40, 0.2), 0 10px 25px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255,255,255,0.5);
-            overflow: hidden;
-            padding: 24px 20px;
-            text-align: center;
-        }
+  .panel { display: none; }
+  .panel.active { display: flex; flex-direction: column; }
 
-        .header {
-            margin-bottom: 40px;
-        }
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 14px;
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+  }
 
-        .title-section h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0b3954, #1f5e8e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-            margin-bottom: 10px;
-        }
+  #dropZone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  #dropZone.dragover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  #fileInput { display: none; }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 30px;
-        }
+  #imgPreviewBar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .preview-thumb {
+    position: relative;
+    width: 90px;
+    height: 90px;
+  }
+  .preview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .preview-thumb button {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #b03a3a;
+    color: white;
+    border: none;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+  }
 
-        .exam-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
+  button.primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  button.secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  }
 
-        .exam-card {
-            background: white;
-            border-radius: 40px;
-            padding: 30px 25px;
-            box-shadow: 0 10px 25px rgba(0, 20, 40, 0.1);
-            border: 1px solid rgba(255,255,255,0.8);
-            transition: all 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
+  #resultBox, #cameraResultBox {
+    background: var(--bot-bubble);
+    border-radius: 10px;
+    padding: 16px;
+    white-space: pre-wrap;
+    line-height: 1.55;
+    font-size: 14.5px;
+    min-height: 60px;
+  }
+  #resultBox.error, #cameraResultBox.error {
+    background: #5a2a2a;
+    color: #ffb3b3;
+  }
+  #resultBox.empty, #cameraResultBox.empty {
+    color: var(--muted);
+  }
 
-        .exam-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 20, 40, 0.15);
-        }
+  /* ---- Camera panel ---- */
+  #cameraPanel { flex-direction: column; }
+  #cameraWrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  #cameraVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #cameraOffOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+  }
+  #cameraControls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  #cameraDeviceSelect {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 13px;
+    flex: 1;
+    min-width: 140px;
+  }
+  #firebaseStatus {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+  }
+  #firebaseStatus .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+  #firebaseStatus.ok .dot { background: var(--good); }
+  #firebaseStatus.busy .dot { background: var(--warn); }
+  #firebaseStatus.bad .dot { background: var(--bad); }
 
-        .exam-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .exam-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #0b3954;
-            margin-bottom: 10px;
-        }
-
-        .exam-desc {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        @media (min-width: 700px) {
-            .card { padding: 40px 40px; }
-        }
-    </style>
+  #lastPhotoThumb {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: none;
+  }
+</style>
 </head>
 <body>
-    <div class="card">
-        <div class="header">
-            <h1>Ôn tập</h1>
-        </div>
 
-        <div class="exam-grid">
-            <a href="tienganh.html" class="exam-card">
-                <i class="fas fa-book-open exam-icon" style="color: #2271b1;"></i>
-                <div class="exam-title">Đề cương tiếng anh</div>
-                
-            </a>
+<header>
+  <h1>Giải toán bằng ảnh</h1>
+  <span class="model-badge">Claude Fable 5.1</span>
+</header>
 
-            <a href="lichsu.html" class="exam-card">
-                <i class="fas fa-landmark exam-icon" style="color: #1f5e8e;"></i>
-                <div class="exam-title">Đề cương lịch sử</div>
-                
-            </a>
-        </div>
+<div id="tabs">
+  <button class="tab-btn active" data-tab="upload">📤 Tải ảnh lên</button>
+  <button class="tab-btn" data-tab="camera">📸 Camera AI (Casio)</button>
+</div>
+
+<!-- =============== TAB 1: TẢI ẢNH LÊN (giữ nguyên như bản gốc) =============== -->
+<div id="uploadPanel" class="panel active">
+  <div class="hint">Chỉ cần chụp/tải ảnh đề toán lên, AI sẽ tự giải — không cần gõ gì thêm.</div>
+
+  <div id="main">
+    <div id="dropZone">
+      📷 Bấm để chọn ảnh đề toán (có thể chọn nhiều ảnh cùng lúc)
+      <input type="file" id="fileInput" accept="image/*" multiple>
     </div>
+
+    <div id="imgPreviewBar"></div>
+
+    <button id="solveBtn" class="primary" disabled>Giải bài</button>
+
+    <div id="resultBox" class="empty">Kết quả sẽ hiển thị ở đây sau khi bạn tải ảnh và bấm "Giải bài".</div>
+  </div>
+</div>
+
+<!-- =============== TAB 2: CAMERA AI (CASIO MOD) =============== -->
+<div id="cameraPanel" class="panel">
+  <div class="hint">
+    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề toán. Khi bạn bấm <b>OK</b> trên
+    Casio mod, điện thoại sẽ tự chụp và gửi đáp án ngược lại cho Casio mod xem.
+  </div>
+
+  <div id="main">
+    <div id="firebaseStatus">
+      <span class="dot"></span>
+      <span id="firebaseStatusText">Đang kết nối Firebase...</span>
+    </div>
+
+    <div id="cameraWrap">
+      <video id="cameraVideo" autoplay playsinline muted></video>
+      <div id="cameraOffOverlay">
+        <div>📷 Camera đang tắt</div>
+        <button id="startCameraBtn" class="primary">Bật camera</button>
+      </div>
+    </div>
+
+    <div id="cameraControls">
+      <select id="cameraDeviceSelect" style="display:none"></select>
+      <button id="switchCameraBtn" class="secondary" style="display:none">🔄 Đổi camera</button>
+    </div>
+
+    <button id="manualCaptureBtn" class="secondary" disabled>🧪 Chụp &amp; giải thử ngay (không cần Casio mod)</button>
+
+    <div style="display:flex; gap:10px; align-items:flex-start;">
+      <img id="lastPhotoThumb">
+      <div id="cameraResultBox" class="empty" style="flex:1">
+        Chưa có yêu cầu nào từ Casio mod. Kết quả gần nhất sẽ hiển thị ở đây.
+      </div>
+    </div>
+  </div>
+</div>
+
+<canvas id="captureCanvas" style="display:none"></canvas>
+
+<!-- Firebase (compat SDK, đơn giản cho Realtime Database) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+
+<script>
+// ==== Cấu hình cố định (dùng chung cho cả 2 tab) ====
+const BASE_URL = 'https://api.shopaikey.com';
+const API_KEY = 'sk-oQ6pVNE2opDGFIjYUJBGmce4zGebF3nMpXHOWWm9kenYc3m2';
+const FIXED_PROMPT = 'Tôi đã, đang và sẽ gửi bạn các ảnh chụp của đề toán, hãy giải nó giúp tôi. Hãy giải 1 các từ từ, cẩn thận và đảm bảo không có sai sót, phải kiểm tra lại các câu đã. Cho tôi bảng tóm tắt đáp án ở dưới cùng của câu trả lời.';
+const CLAUDE_FABLE_MODEL = 'claude-fable-5-1';
+
+// ---- Gọi Claude (cú pháp Anthropic Messages API) ----
+// images: mảng { base64, mediaType }
+async function callClaude(modelName, images) {
+  const contentBlocks = [];
+  images.forEach(img => {
+    contentBlocks.push({
+      type: 'image',
+      source: { type: 'base64', media_type: img.mediaType, data: img.base64 }
+    });
+  });
+  contentBlocks.push({ type: 'text', text: FIXED_PROMPT });
+
+  const res = await fetch(`${BASE_URL}/v1/messages`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: modelName,
+      max_tokens: 15000,
+      output_config: { effort: 'high' },
+      messages: [
+        { role: 'user', content: contentBlocks }
+      ]
+    })
+  });
+
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  return (data.content || [])
+    .filter(b => b.type === 'text')
+    .map(b => b.text)
+    .join('\n') || '(Không có nội dung trả về)';
+}
+
+// ==========================================================
+// TAB 1: TẢI ẢNH LÊN (logic y hệt bản gốc)
+// ==========================================================
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const previewBar = document.getElementById('imgPreviewBar');
+const solveBtn = document.getElementById('solveBtn');
+const resultBox = document.getElementById('resultBox');
+
+let pendingImages = []; // { base64, mediaType, dataUrl }
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFiles(Array.from(e.dataTransfer.files));
+});
+
+fileInput.addEventListener('change', (e) => {
+  handleFiles(Array.from(e.target.files));
+  fileInput.value = '';
+});
+
+async function handleFiles(files) {
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+    const dataUrl = await fileToDataURL(file);
+    const base64 = dataUrl.split(',')[1];
+    pendingImages.push({ base64, mediaType: file.type || 'image/png', dataUrl });
+  }
+  renderPreviews();
+}
+
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPreviews() {
+  previewBar.innerHTML = '';
+  pendingImages.forEach((img, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'preview-thumb';
+    thumb.innerHTML = `<img src="${img.dataUrl}"><button data-idx="${idx}">×</button>`;
+    thumb.querySelector('button').onclick = () => {
+      pendingImages.splice(idx, 1);
+      renderPreviews();
+    };
+    previewBar.appendChild(thumb);
+  });
+  solveBtn.disabled = pendingImages.length === 0;
+}
+
+solveBtn.addEventListener('click', solve);
+
+async function solve() {
+  if (pendingImages.length === 0) return;
+
+  solveBtn.disabled = true;
+  solveBtn.textContent = 'Đang giải...';
+  resultBox.className = '';
+  resultBox.textContent = 'AI đang xử lý ảnh, vui lòng chờ...';
+
+  try {
+    const answer = await callClaude(CLAUDE_FABLE_MODEL, pendingImages);
+    resultBox.textContent = answer;
+  } catch (err) {
+    resultBox.className = 'error';
+    resultBox.textContent = 'Lỗi khi gọi API: ' + err.message;
+  } finally {
+    solveBtn.disabled = false;
+    solveBtn.textContent = 'Giải bài';
+  }
+}
+
+// ==========================================================
+// CHUYỂN TAB
+// ==========================================================
+const tabButtons = document.querySelectorAll('.tab-btn');
+const panels = { upload: document.getElementById('uploadPanel'), camera: document.getElementById('cameraPanel') };
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    Object.values(panels).forEach(p => p.classList.remove('active'));
+    panels[btn.dataset.tab].classList.add('active');
+  });
+});
+
+// ==========================================================
+// TAB 2: CAMERA AI (CASIO MOD) — giao tiếp qua Firebase Realtime Database
+// ==========================================================
+// Node dùng chung /mathSession giữa trang web này và firmware Casio mod:
+//   { status: "idle"|"requested"|"capturing"|"solving"|"done"|"error",
+//     commandId: <số>, answer: "...", error: "..." }
+const firebaseConfig = {
+  apiKey: "AIzaSyDSM2UG4f-jhj4TfdzakkXfB8jPUHY6NxE",
+  authDomain: "tuanizz.firebaseapp.com",
+  databaseURL: "https://tuanizz-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "tuanizz",
+  storageBucket: "tuanizz.firebasestorage.app",
+  messagingSenderId: "382327990314",
+  appId: "1:382327990314:web:3d36bb186e825afb94fb53",
+  measurementId: "G-7ME4W4EVT0"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const mathRef = db.ref('mathSession');
+
+const firebaseStatusEl = document.getElementById('firebaseStatus');
+const firebaseStatusText = document.getElementById('firebaseStatusText');
+const cameraVideo = document.getElementById('cameraVideo');
+const cameraOffOverlay = document.getElementById('cameraOffOverlay');
+const startCameraBtn = document.getElementById('startCameraBtn');
+const switchCameraBtn = document.getElementById('switchCameraBtn');
+const cameraDeviceSelect = document.getElementById('cameraDeviceSelect');
+const manualCaptureBtn = document.getElementById('manualCaptureBtn');
+const cameraResultBox = document.getElementById('cameraResultBox');
+const lastPhotoThumb = document.getElementById('lastPhotoThumb');
+const captureCanvas = document.getElementById('captureCanvas');
+
+function setFirebaseStatus(kind, text) {
+  firebaseStatusEl.className = kind; // '', 'ok', 'busy', 'bad'
+  firebaseStatusText.textContent = text;
+}
+
+// ---- Camera ----
+let currentStream = null;
+let videoDevices = [];
+let usingDeviceId = null;
+
+async function startCamera(deviceId) {
+  if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+
+  const constraints = deviceId
+    ? { video: { deviceId: { exact: deviceId } }, audio: false }
+    : { video: { facingMode: { ideal: 'environment' } }, audio: false };
+
+  currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+  cameraVideo.srcObject = currentStream;
+  cameraOffOverlay.style.display = 'none';
+  manualCaptureBtn.disabled = false;
+
+  const track = currentStream.getVideoTracks()[0];
+  usingDeviceId = track.getSettings().deviceId || null;
+
+  await listCameraDevices();
+}
+
+async function listCameraDevices() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  videoDevices = devices.filter(d => d.kind === 'videoinput');
+  if (videoDevices.length > 1) {
+    cameraDeviceSelect.style.display = '';
+    switchCameraBtn.style.display = '';
+    cameraDeviceSelect.innerHTML = videoDevices
+      .map((d, i) => `<option value="${d.deviceId}">${d.label || 'Camera ' + (i + 1)}</option>`)
+      .join('');
+    if (usingDeviceId) cameraDeviceSelect.value = usingDeviceId;
+  }
+}
+
+startCameraBtn.addEventListener('click', async () => {
+  try {
+    startCameraBtn.textContent = 'Đang mở camera...';
+    await startCamera(null);
+  } catch (err) {
+    cameraOffOverlay.innerHTML = `<div style="color:var(--bad)">Không mở được camera: ${err.message}</div>`;
+  }
+});
+
+cameraDeviceSelect.addEventListener('change', () => startCamera(cameraDeviceSelect.value));
+
+switchCameraBtn.addEventListener('click', () => {
+  if (videoDevices.length < 2) return;
+  const currentIdx = videoDevices.findIndex(d => d.deviceId === usingDeviceId);
+  const nextIdx = (currentIdx + 1) % videoDevices.length;
+  cameraDeviceSelect.value = videoDevices[nextIdx].deviceId;
+  startCamera(videoDevices[nextIdx].deviceId);
+});
+
+// Chụp khung hình hiện tại của video -> trả về { base64, mediaType, dataUrl }
+function captureFrame() {
+  const w = cameraVideo.videoWidth, h = cameraVideo.videoHeight;
+  captureCanvas.width = w;
+  captureCanvas.height = h;
+  const ctx = captureCanvas.getContext('2d');
+  ctx.drawImage(cameraVideo, 0, 0, w, h);
+  const dataUrl = captureCanvas.toDataURL('image/jpeg', 0.85);
+  return { base64: dataUrl.split(',')[1], mediaType: 'image/jpeg', dataUrl };
+}
+
+// ---- Xử lý 1 lần yêu cầu "chụp + giải" (do Casio mod hoặc nút test kích hoạt) ----
+async function handleMathRequest(commandId) {
+  if (!currentStream) {
+    setFirebaseStatus('bad', '⚠️ Casio mod yêu cầu chụp nhưng camera chưa bật trên điện thoại');
+    await mathRef.update({ status: 'error', commandId, error: 'Camera dien thoai chua bat' });
+    return;
+  }
+
+  try {
+    setFirebaseStatus('busy', '📸 Đang chụp ảnh đề toán...');
+    await mathRef.update({ status: 'capturing', commandId });
+
+    const photo = captureFrame();
+    lastPhotoThumb.src = photo.dataUrl;
+    lastPhotoThumb.style.display = '';
+
+    setFirebaseStatus('busy', '🤖 Đang gửi ảnh cho AI giải...');
+    await mathRef.update({ status: 'solving', commandId });
+    cameraResultBox.className = '';
+    cameraResultBox.textContent = 'AI đang giải, vui lòng chờ...';
+
+    const answer = await callClaude(CLAUDE_FABLE_MODEL, [photo]);
+
+    await mathRef.update({ status: 'done', commandId, answer, error: '' });
+    cameraResultBox.textContent = answer;
+    setFirebaseStatus('ok', '✅ Đã gửi đáp án cho Casio mod');
+  } catch (err) {
+    await mathRef.update({ status: 'error', commandId, error: String(err.message || err) });
+    cameraResultBox.className = 'error';
+    cameraResultBox.textContent = 'Lỗi khi giải: ' + err.message;
+    setFirebaseStatus('bad', '❌ Lỗi: ' + err.message);
+  }
+}
+
+// ---- Lắng nghe Firebase realtime để biết khi nào Casio mod bấm OK ----
+let lastHandledCommandId = null;
+let firstSnapshot = true;
+
+mathRef.on('value', (snap) => {
+  const data = snap.val() || {};
+
+  if (firstSnapshot) {
+    // Bỏ qua trạng thái cũ còn sót lại từ phiên trước khi vừa mở trang
+    firstSnapshot = false;
+    lastHandledCommandId = data.commandId ?? null;
+    if (currentStream) setFirebaseStatus('ok', 'Đã kết nối — sẵn sàng chờ Casio mod');
+    else setFirebaseStatus('ok', 'Đã kết nối Firebase — hãy bật camera');
+    return;
+  }
+
+  if (data.status === 'requested' && data.commandId !== lastHandledCommandId) {
+    lastHandledCommandId = data.commandId;
+    handleMathRequest(data.commandId);
+  }
+}, (err) => {
+  setFirebaseStatus('bad', 'Lỗi kết nối Firebase: ' + err.message);
+});
+
+// ---- Nút test thủ công (giả lập việc Casio mod bấm OK, để test không cần phần cứng) ----
+manualCaptureBtn.addEventListener('click', () => {
+  const commandId = Date.now();
+  mathRef.set({ status: 'requested', commandId, answer: '', error: '' });
+});
+</script>
+
 </body>
 </html>
