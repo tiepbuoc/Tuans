@@ -1,502 +1,340 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn tập Lịch sử 11 - Trắc nghiệm & Đúng sai</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giải toán bằng ảnh — AI</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --panel: #262626;
+    --border: #3a3a3a;
+    --text: #e8e8e8;
+    --muted: #9a9a9a;
+    --accent: #4f8cff;
+    --bot-bubble: #333333;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 600;
+    margin-right: auto;
+  }
+  select#aiProvider {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 8px 16px 0 16px;
+  }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 14px;
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+  }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+  #dropZone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  #dropZone.dragover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  #fileInput { display: none; }
 
-        .quiz-header {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            text-align: center;
-        }
+  #imgPreviewBar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .preview-thumb {
+    position: relative;
+    width: 90px;
+    height: 90px;
+  }
+  .preview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .preview-thumb button {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #b03a3a;
+    color: white;
+    border: none;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+  }
 
-        .quiz-header h1 {
-            color: #1e3c72;
-            margin-bottom: 10px;
-        }
+  #solveBtn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #solveBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
-        .quiz-header .progress {
-            color: #666;
-            margin-top: 10px;
-            font-size: 1.1em;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-
-        .doc-text {
-            background: #f0f4f8;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 4px solid #ff9800;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            font-size: 0.95em;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 25px 0;
-        }
-
-        .option-btn {
-            padding: 14px 20px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            background: white;
-            font-size: 1em;
-            text-align: left;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .option-btn.correct-answer {
-            background: #4caf50;
-            border-color: #2e7d32;
-            color: white;
-        }
-
-        .option-btn.wrong-answer {
-            background: #f44336;
-            border-color: #c62828;
-            color: white;
-        }
-
-        .option-btn.disabled-opt {
-            cursor: default;
-        }
-
-        .truefalse-container {
-            margin: 20px 0;
-        }
-
-        .statement-card {
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .statement-text {
-            font-weight: 500;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .tf-options {
-            display: flex;
-            gap: 20px;
-        }
-
-        .tf-options label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        .tf-options input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .statement-card.disabled-stmt .tf-options label {
-            cursor: default;
-        }
-
-        .statement-card.disabled-stmt input {
-            cursor: default;
-        }
-
-        .statement-card.correct-stmt {
-            background: #4caf50;
-            border-color: #2e7d32;
-            color: white;
-        }
-
-        .statement-card.wrong-stmt {
-            background: #f44336;
-            border-color: #c62828;
-            color: white;
-        }
-
-        .confirm-btn {
-            background: #2196f3;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        .confirm-btn:hover {
-            background: #1976d2;
-        }
-
-        .confirm-btn:disabled {
-            background: #9e9e9e;
-            cursor: default;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .nav-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .prev-btn {
-            background: #607d8b;
-            color: white;
-        }
-
-        .next-btn {
-            background: #1e3c72;
-            color: white;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
-
-        .reset-btn {
-            background: #ff9800;
-            color: white;
-        }
-
-        .explanation {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e3f2fd;
-            border-radius: 10px;
-            border-left: 4px solid #2196f3;
-            font-size: 0.95em;
-        }
-
-        .score-board {
-            background: white;
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1em;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 768px) {
-            .question-card {
-                padding: 20px;
-            }
-            .question-text {
-                font-size: 1.1em;
-            }
-            .tf-options {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
+  #resultBox {
+    background: var(--bot-bubble);
+    border-radius: 10px;
+    padding: 16px;
+    white-space: pre-wrap;
+    line-height: 1.55;
+    font-size: 14.5px;
+    min-height: 60px;
+  }
+  #resultBox.error {
+    background: #5a2a2a;
+    color: #ffb3b3;
+  }
+  #resultBox.empty {
+    color: var(--muted);
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="quiz-header">
-            <div class="progress" id="progress">Đang tải...</div>
-        </div>
 
-        <div class="question-card" id="questionCard">
-            <div style="text-align:center; padding:40px;">Đang tải câu hỏi...</div>
-        </div>
+<header>
+  <h1>Giải toán bằng ảnh</h1>
+  <select id="aiProvider">
+    <option value="claude">Claude Sonnet 5</option>
+    <option value="claude-fable">Claude Fable 5.1</option>
+    <option value="gpt">GPT-5.5</option>
+  </select>
+</header>
+<div class="hint">Chỉ cần chụp/tải ảnh đề toán lên, AI sẽ tự giải — không cần gõ gì thêm.</div>
 
-        <div class="score-board" id="scoreBoard">
-            📊 Đã trả lời: 0 / 0 câu
-        </div>
-    </div>
+<div id="main">
+  <div id="dropZone">
+    📷 Bấm để chọn ảnh đề toán (có thể chọn nhiều ảnh cùng lúc)
+    <input type="file" id="fileInput" accept="image/*" multiple>
+  </div>
 
-    <script>
-        let questions = [];
-        let currentIndex = 0;
-        let userAnswers = [];
+  <div id="imgPreviewBar"></div>
 
-        function shuffleArray(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
+  <button id="solveBtn" disabled>Giải bài</button>
 
-        async function loadQuestions() {
-            try {
-                const response = await fetch('questions.json');
-                const data = await response.json();
-                questions = shuffleArray(data.questions);
-                initUserAnswers();
-                renderQuestion();
-                updateProgress();
-            } catch (error) {
-                console.error('Lỗi:', error);
-                document.getElementById('questionCard').innerHTML = '<div style="color:red;padding:20px;">Không thể tải dữ liệu. Vui lòng đảm bảo file questions.json cùng thư mục.</div>';
-            }
-        }
+  <div id="resultBox" class="empty">Kết quả sẽ hiển thị ở đây sau khi bạn tải ảnh và bấm "Giải bài".</div>
+</div>
 
-        function initUserAnswers() {
-            userAnswers = questions.map(() => ({
-                answered: false,
-                isCorrect: false,
-                selected: null,
-                showExplanation: false,
-                tfAnswers: null
-            }));
-        }
+<script>
+// ==== Cấu hình cố định ====
+const BASE_URL = 'https://api.shopaikey.com';
+const API_KEY = 'sk-oQ6pVNE2opDGFIjYUJBGmce4zGebF3nMpXHOWWm9kenYc3m2';
+const FIXED_PROMPT = 'Tôi đã, đang và sẽ gửi bạn các ảnh chụp của đề toán, hãy giải nó giúp tôi. Hãy giải 1 các từ từ, cẩn thận và đảm bảo không có sai sót, phải kiểm tra lại các câu đã. khi trả ra kết quả cho tôi thì ở trên ghi các lời giải, phía dưới cùng là tổng hợp đáp án.';
 
-        function updateProgress() {
-            const total = questions.length;
-            const answeredCount = userAnswers.filter(a => a.answered).length;
-            document.getElementById('progress').innerHTML = `Câu ${currentIndex + 1} / ${total} | Đã trả lời: ${answeredCount}/${total}`;
-            document.getElementById('scoreBoard').innerHTML = `📊 Đã trả lời: ${answeredCount} / ${total} câu | ${answeredCount === total ? '✅ Hoàn thành!' : '📝 Tiếp tục nào!'}`;
-        }
+const CLAUDE_MODEL = 'claude-sonnet-5';
+const CLAUDE_FABLE_MODEL = 'claude-fable-5-1';
+const GPT_MODEL = 'gpt-5.5';
 
-        function renderQuestion() {
-            const q = questions[currentIndex];
-            const card = document.getElementById('questionCard');
-            const userAns = userAnswers[currentIndex];
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const previewBar = document.getElementById('imgPreviewBar');
+const solveBtn = document.getElementById('solveBtn');
+const resultBox = document.getElementById('resultBox');
+const aiProviderEl = document.getElementById('aiProvider');
 
-            if (!q) return;
+let pendingImages = []; // { base64, mediaType, dataUrl }
 
-            let html = `<div class="question-text">${escapeHtml(q.text)}</div>`;
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleFiles(Array.from(e.dataTransfer.files));
+});
 
-            if (q.type === 'true_false') {
-                html += `<div class="doc-text">${escapeHtml(q.text)}</div>`;
-                html += `<div class="truefalse-container" id="tfContainer">`;
-                
-                q.statements.forEach((stmt, idx) => {
-                    const letter = String.fromCharCode(97 + idx);
-                    let cardClass = '';
-                    let disabled = '';
-                    let selectedValue = '';
-                    
-                    if (userAns.answered && userAns.tfAnswers) {
-                        const userChoice = userAns.tfAnswers[idx];
-                        const isCorrect = (userChoice === q.correct[idx]);
-                        cardClass = isCorrect ? 'correct-stmt' : 'wrong-stmt';
-                        disabled = 'disabled-stmt';
-                        selectedValue = userChoice === true ? 'true' : 'false';
-                    }
-                    
-                    html += `
-                        <div class="statement-card ${cardClass} ${disabled}" data-stmt-idx="${idx}">
-                            <div class="statement-text"><strong>${letter}.</strong> ${escapeHtml(stmt)}</div>
-                            <div class="tf-options">
-                                <label>
-                                    <input type="radio" name="stmt_${idx}" value="true" ${selectedValue === 'true' ? 'checked' : ''} ${userAns.answered ? 'disabled' : ''}>
-                                    ✅ Đúng
-                                </label>
-                                <label>
-                                    <input type="radio" name="stmt_${idx}" value="false" ${selectedValue === 'false' ? 'checked' : ''} ${userAns.answered ? 'disabled' : ''}>
-                                    ❌ Sai
-                                </label>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                if (!userAns.answered) {
-                    html += `<button class="confirm-btn" id="confirmBtn">✅ Xác nhận đáp án</button>`;
-                }
-                html += `</div>`;
-            } 
-            else {
-                html += `<div class="options" id="optionsContainer">`;
-                q.options.forEach((opt, idx) => {
-                    let additionalClass = '';
-                    if (userAns.answered) {
-                        if (userAns.selected === idx) {
-                            additionalClass = (idx === q.correct) ? 'correct-answer' : 'wrong-answer';
-                        }
-                        if (idx === q.correct && userAns.selected !== idx) {
-                            additionalClass = 'correct-answer';
-                        }
-                        additionalClass += ' disabled-opt';
-                    }
-                    html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${userAns.answered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
-                });
-                html += `</div>`;
-            }
+fileInput.addEventListener('change', (e) => {
+  handleFiles(Array.from(e.target.files));
+  fileInput.value = '';
+});
 
-            html += `<div class="nav-buttons">
-                        <button class="nav-btn prev-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}>◀</button>
-                        <button class="nav-btn reset-btn" id="resetBtn">🔄 Làm lại</button>
-                        <button class="nav-btn next-btn" id="nextBtn">▶</button>
-                    </div>`;
+async function handleFiles(files) {
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+    const dataUrl = await fileToDataURL(file);
+    const base64 = dataUrl.split(',')[1];
+    pendingImages.push({ base64, mediaType: file.type || 'image/png', dataUrl });
+  }
+  renderPreviews();
+}
 
-            if (userAns.answered && q.explanation) {
-                html += `<div class="explanation">💡 Giải thích: ${escapeHtml(q.explanation)}</div>`;
-            }
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
-            card.innerHTML = html;
+function renderPreviews() {
+  previewBar.innerHTML = '';
+  pendingImages.forEach((img, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'preview-thumb';
+    thumb.innerHTML = `<img src="${img.dataUrl}"><button data-idx="${idx}">×</button>`;
+    thumb.querySelector('button').onclick = () => {
+      pendingImages.splice(idx, 1);
+      renderPreviews();
+    };
+    previewBar.appendChild(thumb);
+  });
+  solveBtn.disabled = pendingImages.length === 0;
+}
 
-            if (q.type === 'multiple_choice' && !userAns.answered) {
-                document.querySelectorAll('.option-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        if (userAnswers[currentIndex].answered) return;
-                        const selectedIdx = parseInt(btn.dataset.optIndex);
-                        handleMultipleChoiceAnswer(currentIndex, selectedIdx);
-                    });
-                });
-            }
+solveBtn.addEventListener('click', solve);
 
-            if (q.type === 'true_false' && !userAns.answered) {
-                const confirmBtn = document.getElementById('confirmBtn');
-                if (confirmBtn) {
-                    confirmBtn.addEventListener('click', () => {
-                        handleTrueFalseAnswer(currentIndex);
-                    });
-                }
-            }
+async function solve() {
+  if (pendingImages.length === 0) return;
 
-            document.getElementById('prevBtn')?.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    renderQuestion();
-                    updateProgress();
-                }
-            });
-            document.getElementById('nextBtn')?.addEventListener('click', () => {
-                if (currentIndex < questions.length - 1) {
-                    currentIndex++;
-                    renderQuestion();
-                    updateProgress();
-                }
-            });
-            document.getElementById('resetBtn')?.addEventListener('click', () => {
-                if (confirm('Làm lại toàn bộ? Tất cả câu trả lời sẽ bị xóa.')) {
-                    initUserAnswers();
-                    currentIndex = 0;
-                    renderQuestion();
-                    updateProgress();
-                }
-            });
-        }
+  solveBtn.disabled = true;
+  solveBtn.textContent = 'Đang giải...';
+  resultBox.className = '';
+  resultBox.textContent = 'AI đang xử lý ảnh, vui lòng chờ...';
 
-        function handleMultipleChoiceAnswer(qIndex, selectedIdx) {
-            const q = questions[qIndex];
-            userAnswers[qIndex] = {
-                answered: true,
-                isCorrect: (selectedIdx === q.correct),
-                selected: selectedIdx,
-                showExplanation: true,
-                tfAnswers: null
-            };
-            renderQuestion();
-            updateProgress();
-        }
+  const provider = aiProviderEl.value;
 
-        function handleTrueFalseAnswer(qIndex) {
-            const q = questions[qIndex];
-            const tfAnswers = [];
-            let allSelected = true;
-            
-            for (let i = 0; i < q.statements.length; i++) {
-                const trueRadio = document.querySelector(`input[name="stmt_${i}"][value="true"]`);
-                const falseRadio = document.querySelector(`input[name="stmt_${i}"][value="false"]`);
-                if (trueRadio && falseRadio) {
-                    if (trueRadio.checked) {
-                        tfAnswers[i] = true;
-                    } else if (falseRadio.checked) {
-                        tfAnswers[i] = false;
-                    } else {
-                        allSelected = false;
-                    }
-                } else {
-                    allSelected = false;
-                }
-            }
-            
-            if (!allSelected) {
-                alert('Vui lòng chọn Đúng hoặc Sai cho tất cả các mệnh đề trước khi xác nhận!');
-                return;
-            }
-            
-            userAnswers[qIndex] = {
-                answered: true,
-                isCorrect: false,
-                selected: null,
-                showExplanation: true,
-                tfAnswers: tfAnswers
-            };
-            
-            renderQuestion();
-            updateProgress();
-        }
+  try {
+    let answer;
+    if (provider === 'claude') {
+      answer = await callClaude(CLAUDE_MODEL);
+    } else if (provider === 'claude-fable') {
+      answer = await callClaude(CLAUDE_FABLE_MODEL);
+    } else {
+      answer = await callGPT();
+    }
+    resultBox.textContent = answer;
+  } catch (err) {
+    resultBox.className = 'error';
+    resultBox.textContent = 'Lỗi khi gọi API: ' + err.message;
+  } finally {
+    solveBtn.disabled = false;
+    solveBtn.textContent = 'Giải bài';
+  }
+}
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;')
-                .replace(/\n/g, '<br>');
-        }
+// ---- Gọi Claude (cú pháp Anthropic Messages API) ----
+async function callClaude(modelName) {
+  const contentBlocks = [];
+  pendingImages.forEach(img => {
+    contentBlocks.push({
+      type: 'image',
+      source: { type: 'base64', media_type: img.mediaType, data: img.base64 }
+    });
+  });
+  contentBlocks.push({ type: 'text', text: FIXED_PROMPT });
 
-        loadQuestions();
-    </script>
+  const res = await fetch(`${BASE_URL}/v1/messages`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: modelName,
+      max_tokens: 15000,
+      output_config: { effort: 'high' },
+      messages: [
+        { role: 'user', content: contentBlocks }
+      ]
+    })
+  });
+
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  return (data.content || [])
+    .filter(b => b.type === 'text')
+    .map(b => b.text)
+    .join('\n') || '(Không có nội dung trả về)';
+}
+
+// ---- Gọi GPT-5.5 (cú pháp OpenAI Chat Completions API) ----
+async function callGPT() {
+  const contentBlocks = [
+    { type: 'text', text: FIXED_PROMPT }
+  ];
+  pendingImages.forEach(img => {
+    contentBlocks.push({
+      type: 'image_url',
+      image_url: { url: `data:${img.mediaType};base64,${img.base64}` }
+    });
+  });
+
+  const res = await fetch(`${BASE_URL}/v1/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify({
+      model: GPT_MODEL,
+      messages: [
+        { role: 'user', content: contentBlocks }
+      ]
+    })
+  });
+
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '(Không có nội dung trả về)';
+}
+</script>
+
 </body>
 </html>
