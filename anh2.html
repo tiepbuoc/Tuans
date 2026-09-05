@@ -1,691 +1,362 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn tập Tiếng Anh - 6 Chế Độ (Nhóm bài đọc)</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Chatbot (Custom Endpoint)</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --panel: #262626;
+    --border: #3a3a3a;
+    --text: #e8e8e8;
+    --muted: #9a9a9a;
+    --accent: #4f8cff;
+    --user-bubble: #3a5a9a;
+    --bot-bubble: #333333;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 600;
+    margin-right: auto;
+  }
+  header input[type="text"], header input[type="password"] {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  #apiKey { width: 220px; }
+  #modelName { width: 170px; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+  #chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg {
+    max-width: 72%;
+    padding: 10px 13px;
+    border-radius: 12px;
+    line-height: 1.45;
+    font-size: 14.5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--user-bubble);
+    border-bottom-right-radius: 3px;
+  }
+  .msg.bot {
+    align-self: flex-start;
+    background: var(--bot-bubble);
+    border-bottom-left-radius: 3px;
+  }
+  .msg.error {
+    align-self: flex-start;
+    background: #5a2a2a;
+    color: #ffb3b3;
+  }
+  .msg img {
+    max-width: 220px;
+    border-radius: 8px;
+    display: block;
+    margin-top: 6px;
+  }
+  .msg .label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: block;
+  }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+  #imgPreviewBar {
+    display: flex;
+    gap: 8px;
+    padding: 8px 16px 0 16px;
+    flex-wrap: wrap;
+  }
+  .preview-thumb {
+    position: relative;
+    width: 56px;
+    height: 56px;
+  }
+  .preview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .preview-thumb button {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #b03a3a;
+    color: white;
+    border: none;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+  }
 
-        .mode-bar {
-            background: white;
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .mode-btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.95em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .mode-btn.active {
-            background: #1e3c72;
-            color: white;
-            box-shadow: 0 4px 12px rgba(30,60,114,0.3);
-        }
-
-        .mode-btn.reset-mode {
-            background: #ff9800;
-            color: white;
-        }
-
-        .mode-btn.reset-mode:hover {
-            background: #e68900;
-        }
-
-        .quiz-header {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .quiz-header h1 {
-            color: #1e3c72;
-            margin-bottom: 10px;
-            font-size: 1.5em;
-        }
-
-        .quiz-header .mode-info {
-            color: #ff9800;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .quiz-header .progress {
-            color: #666;
-            margin-top: 10px;
-            font-size: 1.1em;
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 1.15em;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .passage-text {
-            background: #f0f7ff;
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            font-size: 0.95em;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .option-btn {
-            padding: 12px 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            background: white;
-            font-size: 1em;
-            text-align: left;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.15s;
-        }
-
-        .option-btn.correct-answer {
-            background: #27ae60;
-            border-color: #1e8449;
-            color: white;
-        }
-
-        .option-btn.wrong-answer {
-            background: #e74c3c;
-            border-color: #c0392b;
-            color: white;
-        }
-
-        .option-btn.disabled-opt {
-            cursor: default;
-            opacity: 0.9;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95em;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .prev-btn {
-            background: #7f8c8d;
-            color: white;
-        }
-
-        .next-btn {
-            background: #2c3e50;
-            color: white;
-        }
-
-        .reset-questions-btn {
-            background: #e67e22;
-            color: white;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
-
-        .explanation {
-            margin-top: 20px;
-            padding: 12px;
-            background: #f0f7ff;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            font-size: 0.9em;
-        }
-
-        .reading-group-info {
-            background: #e8f5e9;
-            padding: 8px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.85em;
-            color: #2e7d32;
-            text-align: center;
-        }
-
-        .no-questions {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        @media (max-width: 600px) {
-            .question-card {
-                padding: 18px;
-            }
-            .mode-btn {
-                padding: 8px 12px;
-                font-size: 0.8em;
-            }
-            .nav-btn {
-                padding: 8px 14px;
-            }
-        }
-    </style>
+  #inputBar {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+  }
+  #inputBar textarea {
+    flex: 1;
+    resize: none;
+    background: #1a1a1a;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    min-height: 40px;
+    max-height: 140px;
+  }
+  #inputBar button, #inputBar label.icon-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  #inputBar label.icon-btn {
+    background: #3a3a3a;
+  }
+  #inputBar button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  #fileInput { display: none; }
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 0 16px 6px 16px;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="mode-bar">
-            <button class="mode-btn" data-mode="stress">🔊 Trọng âm</button>
-            <button class="mode-btn" data-mode="reading">📖 Đoạn văn</button>
-            <button class="mode-btn" data-mode="regular">📝 Từ vựng & Ngữ pháp</button>
-            <button class="mode-btn" data-mode="error">❌ Tìm lỗi sai</button>
-            <button class="mode-btn" data-mode="arrange">🔄 Sắp xếp câu</button>
-            <button class="mode-btn" data-mode="all">🎲 Toàn bộ (Random)</button>
-            <button class="mode-btn reset-mode" id="resetAllBtn">🔄 Làm lại</button>
-        </div>
 
-        <div class="quiz-header">
-            <h1>📚 Ôn tập Tiếng Anh</h1>
-            <div class="mode-info" id="modeInfo">Chọn chế độ làm bài</div>
-            <div class="progress" id="progress">Chưa có câu hỏi</div>
-        </div>
+<header>
+  <h1>Claude Chatbot — Custom Endpoint</h1>
+  <input type="text" id="modelName" value="claude-sonnet-5" placeholder="Tên model">
+  <input type="password" id="apiKey" value="sk-oQ6pVNE2opDGFIjYUJBGmce4zGebF3nMpXHOWWm9kenYc3m2" placeholder="Dán API key vào đây">
+</header>
 
-        <div class="question-card" id="questionCard">
-            <div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>
-        </div>
-    </div>
+<div class="hint">
+  Endpoint: <code>https://api.shopaikey.com/v1/messages</code> — API key chỉ lưu trong bộ nhớ trình duyệt của phiên hiện tại, không gửi đi đâu khác ngoài endpoint trên.
+</div>
 
-    <script>
-        let fullQuestions = [];
+<div id="chat"></div>
 
-        // Định nghĩa các nhóm bài đọc theo ID range
-        const READING_GROUPS = [
-            { name: "Bài 1: Sinh viên năm nhất", startId: 65, endId: 69, passageText: null, passageFull: null },
-            { name: "Bài 2: Quản lý thời gian", startId: 70, endId: 74, passageText: null, passageFull: null },
-            { name: "Bài 3: Thánh địa Mỹ Sơn", startId: 75, endId: 79, passageText: null, passageFull: null },
-            { name: "Bài 4: Bảo tồn di sản", startId: 80, endId: 84, passageText: null, passageFull: null },
-            { name: "Bài 5: Đại học Mở", startId: 85, endId: 89, passageText: null, passageFull: null }
-        ];
+<div id="imgPreviewBar"></div>
 
-        let currentMode = null;
-        let questionGroups = [];
-        let currentGroupIndex = 0;
-        let userAnswers = [];
+<div id="inputBar">
+  <label class="icon-btn" for="fileInput">📎 Ảnh</label>
+  <input type="file" id="fileInput" accept="image/*" multiple>
+  <textarea id="userInput" placeholder="Nhập tin nhắn..." rows="1"></textarea>
+  <button id="sendBtn">Gửi</button>
+</div>
 
-        const modeInfo = document.getElementById('modeInfo');
-        const progress = document.getElementById('progress');
-        const questionCard = document.getElementById('questionCard');
+<script>
+const chatEl = document.getElementById('chat');
+const inputEl = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+const fileInput = document.getElementById('fileInput');
+const previewBar = document.getElementById('imgPreviewBar');
+const apiKeyEl = document.getElementById('apiKey');
+const modelEl = document.getElementById('modelName');
 
-        async function loadQuestions() {
-            try {
-                const response = await fetch('english_questions.json');
-                const data = await response.json();
-                fullQuestions = data.questions;
-                console.log(`Đã tải ${fullQuestions.length} câu hỏi`);
-                extractPassagesFromQuestions();
-            } catch (error) {
-                console.error('Không tìm thấy file JSON:', error);
-                alert('Không thể tải file english_questions.json. Vui lòng kiểm tra lại.');
-            }
-        }
+// Endpoint cố định theo yêu cầu — có thể đổi lại nếu API của bạn dùng path khác
+const API_URL = 'https://api.shopaikey.com/v1/messages';
 
-        function extractPassagesFromQuestions() {
-            for (let group of READING_GROUPS) {
-                const firstQuestion = fullQuestions.find(q => q.id === group.startId);
-                if (firstQuestion && firstQuestion.text) {
-                    const text = firstQuestion.text;
-                    const passageMatch = text.match(/^(.*?)(?=\n\nQuestion|\nQuestion|Question\s*\(\d+\))/s);
-                    if (passageMatch && passageMatch[1].length > 50) {
-                        group.passageFull = passageMatch[1].trim();
-                        const questionOnly = text.replace(passageMatch[1], '').trim();
-                        if (questionOnly) firstQuestion.text = questionOnly;
-                    } else {
-                        group.passageFull = "Đoạn văn đang được cập nhật...";
-                    }
-                }
-            }
-        }
+let pendingImages = []; // { base64, mediaType, dataUrl }
+let history = []; // lưu lịch sử hội thoại để gửi kèm mỗi request
 
-        function isReadingQuestion(q) {
-            return q.id >= 65 && q.id <= 89;
-        }
+// ---- Xử lý chọn ảnh ----
+fileInput.addEventListener('change', async (e) => {
+  const files = Array.from(e.target.files);
+  for (const file of files) {
+    const dataUrl = await fileToDataURL(file);
+    const base64 = dataUrl.split(',')[1];
+    pendingImages.push({
+      base64,
+      mediaType: file.type || 'image/png',
+      dataUrl
+    });
+  }
+  renderPreviews();
+  fileInput.value = '';
+});
 
-        function isErrorQuestion(q) {
-            return q.id >= 49 && q.id <= 56;
-        }
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
-        function isArrangeQuestion(q) {
-            return q.id >= 57 && q.id <= 64;
-        }
+function renderPreviews() {
+  previewBar.innerHTML = '';
+  pendingImages.forEach((img, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'preview-thumb';
+    thumb.innerHTML = `<img src="${img.dataUrl}"><button data-idx="${idx}">×</button>`;
+    thumb.querySelector('button').onclick = () => {
+      pendingImages.splice(idx, 1);
+      renderPreviews();
+    };
+    previewBar.appendChild(thumb);
+  });
+}
 
-        function isStressQuestion(q) {
-            return q.id >= 1 && q.id <= 10;
-        }
+// ---- Gửi tin nhắn ----
+inputEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+sendBtn.addEventListener('click', sendMessage);
 
-        function isRegularQuestion(q) {
-            return (q.id >= 11 && q.id <= 48) || (q.id >= 31 && q.id <= 48);
-        }
+function addMessageToUI(role, text, images = []) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const label = document.createElement('span');
+  label.className = 'label';
+  label.textContent = role === 'user' ? 'Bạn' : (role === 'error' ? 'Lỗi' : 'Claude');
+  div.appendChild(label);
 
-        function buildQuestionGroups(questionList) {
-            const groups = [];
-            const readingMap = new Map();
-            
-            for (let q of questionList) {
-                if (isReadingQuestion(q)) {
-                    const groupInfo = READING_GROUPS.find(g => q.id >= g.startId && q.id <= g.endId);
-                    if (groupInfo) {
-                        if (!readingMap.has(groupInfo.startId)) {
-                            readingMap.set(groupInfo.startId, {
-                                type: 'reading',
-                                groupId: groupInfo.startId,
-                                name: groupInfo.name,
-                                passageText: groupInfo.passageFull,
-                                questions: [],
-                            });
-                        }
-                        readingMap.get(groupInfo.startId).questions.push(q);
-                    } else {
-                        groups.push({ type: 'single', question: q });
-                    }
-                } else {
-                    groups.push({ type: 'single', question: q });
-                }
-            }
-            
-            for (let [_, group] of readingMap) {
-                group.questions.sort((a, b) => a.id - b.id);
-                groups.push(group);
-            }
-            
-            return groups;
-        }
+  const textNode = document.createElement('div');
+  textNode.textContent = text;
+  div.appendChild(textNode);
 
-        function shuffleGroups(groups) {
-            for (let i = groups.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [groups[i], groups[j]] = [groups[j], groups[i]];
-            }
-            return groups;
-        }
+  images.forEach(img => {
+    const imEl = document.createElement('img');
+    imEl.src = img.dataUrl;
+    div.appendChild(imEl);
+  });
 
-        function filterGroupsByMode(mode) {
-            let filtered = [];
-            let questionsToFilter = [];
-            
-            if (mode === 'stress') {
-                questionsToFilter = fullQuestions.filter(q => isStressQuestion(q));
-                filtered = buildQuestionGroups(questionsToFilter);
-            } else if (mode === 'reading') {
-                questionsToFilter = fullQuestions.filter(q => isReadingQuestion(q));
-                filtered = buildQuestionGroups(questionsToFilter);
-                filtered = filtered.filter(g => g.type === 'reading');
-            } else if (mode === 'regular') {
-                questionsToFilter = fullQuestions.filter(q => (q.id >= 11 && q.id <= 48) || (q.id >= 31 && q.id <= 48));
-                filtered = buildQuestionGroups(questionsToFilter);
-                filtered = filtered.filter(g => g.type === 'single');
-            } else if (mode === 'error') {
-                questionsToFilter = fullQuestions.filter(q => isErrorQuestion(q));
-                filtered = buildQuestionGroups(questionsToFilter);
-                filtered = filtered.filter(g => g.type === 'single');
-            } else if (mode === 'arrange') {
-                questionsToFilter = fullQuestions.filter(q => isArrangeQuestion(q));
-                filtered = buildQuestionGroups(questionsToFilter);
-                filtered = filtered.filter(g => g.type === 'single');
-            } else if (mode === 'all') {
-                filtered = buildQuestionGroups(fullQuestions);
-                filtered = shuffleGroups(filtered);
-            }
-            
-            return filtered;
-        }
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+  return div;
+}
 
-        function initUserAnswersForGroups(groups) {
-            const answers = [];
-            for (let g of groups) {
-                if (g.type === 'reading') {
-                    answers.push({
-                        type: 'reading',
-                        groupId: g.groupId,
-                        answers: g.questions.map(() => ({ answered: false, selected: null })),
-                        currentQuestionIdx: 0
-                    });
-                } else {
-                    answers.push({ type: 'single', answered: false, selected: null });
-                }
-            }
-            return answers;
-        }
+async function sendMessage() {
+  const text = inputEl.value.trim();
+  if (!text && pendingImages.length === 0) return;
 
-        function updateUI() {
-            if (!questionGroups.length) {
-                progress.innerHTML = '0 câu hỏi';
-                return;
-            }
-            
-            let totalQuestions = 0;
-            let answeredQuestions = 0;
-            
-            for (let i = 0; i < questionGroups.length; i++) {
-                const g = questionGroups[i];
-                const ans = userAnswers[i];
-                if (g.type === 'reading') {
-                    totalQuestions += g.questions.length;
-                    for (let j = 0; j < g.questions.length; j++) {
-                        if (ans && ans.answers && ans.answers[j] && ans.answers[j].answered) answeredQuestions++;
-                    }
-                } else {
-                    totalQuestions++;
-                    if (ans && ans.answered) answeredQuestions++;
-                }
-            }
-            
-            let currentPosition = 1;
-            for (let i = 0; i < currentGroupIndex; i++) {
-                const g = questionGroups[i];
-                if (g.type === 'reading') currentPosition += g.questions.length;
-                else currentPosition++;
-            }
-            const currentAns = userAnswers[currentGroupIndex];
-            if (currentAns && currentAns.type === 'reading') {
-                currentPosition += currentAns.currentQuestionIdx;
-            }
-            
-            progress.innerHTML = `📝 Câu ${currentPosition} / ${totalQuestions} | ✅ Đã trả lời: ${answeredQuestions}/${totalQuestions}`;
-            
-            let modeName = '';
-            if (currentMode === 'stress') modeName = '🔊 Trọng âm (10 câu)';
-            else if (currentMode === 'reading') modeName = '📖 Đoạn văn (25 câu - 5 bài)';
-            else if (currentMode === 'regular') modeName = '📝 Từ vựng & Ngữ pháp (38 câu)';
-            else if (currentMode === 'error') modeName = '❌ Tìm lỗi sai (8 câu)';
-            else if (currentMode === 'arrange') modeName = '🔄 Sắp xếp câu (8 câu)';
-            else if (currentMode === 'all') modeName = '🎲 Toàn bộ (89 câu - Random nhóm)';
-            modeInfo.innerHTML = `Đang làm: ${modeName}`;
-        }
+  const apiKey = apiKeyEl.value.trim();
+  if (!apiKey) {
+    alert('Vui lòng nhập API key trước.');
+    return;
+  }
 
-        function renderCurrentQuestion() {
-            if (!questionGroups.length || currentGroupIndex >= questionGroups.length) {
-                questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào</div>';
-                return;
-            }
-            
-            const group = questionGroups[currentGroupIndex];
-            const ans = userAnswers[currentGroupIndex];
-            
-            if (group.type === 'reading') {
-                const qIndex = ans.currentQuestionIdx;
-                const question = group.questions[qIndex];
-                const qAns = ans.answers[qIndex];
-                const isAnswered = qAns.answered;
-                
-                let html = `
-                    <div class="reading-group-info">
-                        📖 ${group.name} - Câu ${qIndex + 1}/${group.questions.length}
-                    </div>
-                `;
-                
-                if (group.passageText) {
-                    html += `<div class="passage-text">${escapeHtml(group.passageText)}</div>`;
-                }
-                
-                html += `<div class="question-text">${escapeHtml(question.text)}</div>`;
-                html += `<div class="options">`;
-                
-                question.options.forEach((opt, idx) => {
-                    let additionalClass = '';
-                    if (isAnswered) {
-                        if (qAns.selected === idx) additionalClass = (idx === question.correct) ? 'correct-answer' : 'wrong-answer';
-                        if (idx === question.correct && qAns.selected !== idx) additionalClass = 'correct-answer';
-                        additionalClass += ' disabled-opt';
-                    }
-                    html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
-                });
-                html += `</div>`;
-                
-                html += `<div class="nav-buttons">
-                            <button class="nav-btn prev-btn" id="prevBtn">◀ Câu trước</button>
-                            <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
-                            <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
-                        </div>`;
-                
-                if (isAnswered && question.explanation) {
-                    html += `<div class="explanation">💡 Giải thích: ${escapeHtml(question.explanation)}</div>`;
-                }
-                
-                questionCard.innerHTML = html;
-                
-                if (!isAnswered) {
-                    document.querySelectorAll('.option-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            const selectedIdx = parseInt(btn.dataset.optIndex);
-                            handleReadingAnswer(selectedIdx);
-                        });
-                    });
-                }
-                
-                document.getElementById('prevBtn')?.addEventListener('click', () => goToPrevQuestion());
-                document.getElementById('nextBtn')?.addEventListener('click', () => goToNextQuestion());
-                document.getElementById('resetCurrentBtn')?.addEventListener('click', () => {
-                    if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) startMode(currentMode);
-                });
-                
-            } else {
-                const question = group.question;
-                const isAnswered = ans.answered;
-                
-                let html = `<div class="question-text">${escapeHtml(question.text)}</div>`;
-                html += `<div class="options">`;
-                
-                question.options.forEach((opt, idx) => {
-                    let additionalClass = '';
-                    if (isAnswered) {
-                        if (ans.selected === idx) additionalClass = (idx === question.correct) ? 'correct-answer' : 'wrong-answer';
-                        if (idx === question.correct && ans.selected !== idx) additionalClass = 'correct-answer';
-                        additionalClass += ' disabled-opt';
-                    }
-                    html += `<button class="option-btn ${additionalClass}" data-opt-index="${idx}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
-                });
-                html += `</div>`;
-                
-                html += `<div class="nav-buttons">
-                            <button class="nav-btn prev-btn" id="prevBtn" ${currentGroupIndex === 0 ? 'disabled' : ''}>◀ Câu trước</button>
-                            <button class="nav-btn reset-questions-btn" id="resetCurrentBtn">🔄 Làm lại</button>
-                            <button class="nav-btn next-btn" id="nextBtn">Câu tiếp theo ▶</button>
-                        </div>`;
-                
-                if (isAnswered && question.explanation) {
-                    html += `<div class="explanation">💡 Giải thích: ${escapeHtml(question.explanation)}</div>`;
-                }
-                
-                questionCard.innerHTML = html;
-                
-                if (!isAnswered) {
-                    document.querySelectorAll('.option-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            const selectedIdx = parseInt(btn.dataset.optIndex);
-                            handleSingleAnswer(selectedIdx);
-                        });
-                    });
-                }
-                
-                document.getElementById('prevBtn')?.addEventListener('click', () => goToPrevQuestion());
-                document.getElementById('nextBtn')?.addEventListener('click', () => goToNextQuestion());
-                document.getElementById('resetCurrentBtn')?.addEventListener('click', () => {
-                    if (confirm(`Làm lại toàn bộ câu hỏi trong chế độ ${currentMode}?`)) startMode(currentMode);
-                });
-            }
-        }
-        
-        function handleReadingAnswer(selectedIdx) {
-            const ans = userAnswers[currentGroupIndex];
-            const qIndex = ans.currentQuestionIdx;
-            ans.answers[qIndex] = { answered: true, selected: selectedIdx };
-            renderCurrentQuestion();
-            updateUI();
-        }
-        
-        function handleSingleAnswer(selectedIdx) {
-            const ans = userAnswers[currentGroupIndex];
-            ans.answered = true;
-            ans.selected = selectedIdx;
-            renderCurrentQuestion();
-            updateUI();
-        }
-        
-        function goToPrevQuestion() {
-            const group = questionGroups[currentGroupIndex];
-            const ans = userAnswers[currentGroupIndex];
-            
-            if (group.type === 'reading') {
-                if (ans.currentQuestionIdx > 0) {
-                    ans.currentQuestionIdx--;
-                    renderCurrentQuestion();
-                    updateUI();
-                } else if (currentGroupIndex > 0) {
-                    currentGroupIndex--;
-                    const prevAns = userAnswers[currentGroupIndex];
-                    if (prevAns.type === 'reading') prevAns.currentQuestionIdx = prevAns.answers.length - 1;
-                    renderCurrentQuestion();
-                    updateUI();
-                }
-            } else {
-                if (currentGroupIndex > 0) {
-                    currentGroupIndex--;
-                    renderCurrentQuestion();
-                    updateUI();
-                }
-            }
-        }
-        
-        function goToNextQuestion() {
-            const group = questionGroups[currentGroupIndex];
-            const ans = userAnswers[currentGroupIndex];
-            
-            if (group.type === 'reading') {
-                if (ans.currentQuestionIdx < group.questions.length - 1) {
-                    ans.currentQuestionIdx++;
-                    renderCurrentQuestion();
-                    updateUI();
-                } else if (currentGroupIndex < questionGroups.length - 1) {
-                    currentGroupIndex++;
-                    renderCurrentQuestion();
-                    updateUI();
-                }
-            } else {
-                if (currentGroupIndex < questionGroups.length - 1) {
-                    currentGroupIndex++;
-                    renderCurrentQuestion();
-                    updateUI();
-                }
-            }
-        }
-        
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        }
-        
-        function startMode(mode) {
-            currentMode = mode;
-            questionGroups = filterGroupsByMode(mode);
-            
-            if (questionGroups.length === 0) {
-                questionCard.innerHTML = '<div class="no-questions">Không có câu hỏi nào cho chế độ này</div>';
-                progress.innerHTML = '0 câu hỏi';
-                modeInfo.innerHTML = `Chế độ: ${mode} - Không có câu hỏi`;
-                return;
-            }
-            
-            userAnswers = initUserAnswersForGroups(questionGroups);
-            currentGroupIndex = 0;
-            renderCurrentQuestion();
-            updateUI();
-            
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                if (btn.dataset.mode === mode) btn.classList.add('active');
-                else if (btn.id !== 'resetAllBtn') btn.classList.remove('active');
-            });
-        }
-        
-        function resetAll() {
-            if (currentMode) startMode(currentMode);
-            else {
-                questionCard.innerHTML = '<div class="no-questions">Vui lòng chọn một chế độ làm bài ở trên</div>';
-                progress.innerHTML = 'Chưa có câu hỏi';
-                modeInfo.innerHTML = 'Chọn chế độ làm bài';
-            }
-        }
-        
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            if (btn.id === 'resetAllBtn') {
-                btn.addEventListener('click', () => { if (confirm('Làm lại toàn bộ?')) resetAll(); });
-            } else {
-                btn.addEventListener('click', () => startMode(btn.dataset.mode));
-            }
-        });
-        
-        loadQuestions();
-    </script>
+  // Hiện tin nhắn user lên UI
+  addMessageToUI('user', text, pendingImages);
+
+  // Xây content block theo format Anthropic Messages API
+  const contentBlocks = [];
+  pendingImages.forEach(img => {
+    contentBlocks.push({
+      type: 'image',
+      source: { type: 'base64', media_type: img.mediaType, data: img.base64 }
+    });
+  });
+  if (text) {
+    contentBlocks.push({ type: 'text', text });
+  }
+
+  history.push({ role: 'user', content: contentBlocks });
+
+  inputEl.value = '';
+  pendingImages = [];
+  renderPreviews();
+  sendBtn.disabled = true;
+
+  const thinkingDiv = addMessageToUI('bot', 'Đang trả lời...');
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: modelEl.value.trim() || 'claude-sonnet-5',
+        max_tokens: 1024,
+        messages: history
+      })
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`HTTP ${res.status}: ${errText}`);
+    }
+
+    const data = await res.json();
+    const replyText = (data.content || [])
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('\n') || '(Không có nội dung trả về)';
+
+    thinkingDiv.querySelector('div').textContent = replyText;
+    history.push({ role: 'assistant', content: replyText });
+
+  } catch (err) {
+    thinkingDiv.remove();
+    addMessageToUI('error', 'Lỗi khi gọi API: ' + err.message);
+    history.pop(); // bỏ tin nhắn user cuối vì request thất bại
+  } finally {
+    sendBtn.disabled = false;
+  }
+}
+</script>
+
 </body>
 </html>
