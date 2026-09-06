@@ -319,8 +319,11 @@
 <!-- =============== TAB 2: CAMERA AI (CASIO MOD) =============== -->
 <div id="cameraPanel" class="panel">
   <div class="hint">
-    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề toán. Khi bạn bấm <b>OK</b> trên
-    Casio mod, điện thoại sẽ tự chụp và gửi đáp án ngược lại cho Casio mod xem.
+    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề toán. Trên Casio mod: bấm
+    <b>OK</b> nhiều lần để chụp từng ảnh đề (chụp được nhiều ảnh cho 1 đề dài) → bấm <b>EXE</b> để
+    chọn dạng bài (trắc nghiệm/đúng sai/trả lời ngắn/tự luận) → nhập số bài rồi bấm <b>OK</b> để
+    giải. Xem xong có thể bấm <b>OK</b> để hỏi tiếp câu khác (ảnh vẫn giữ nguyên), <b>BACK</b> để
+    quay lại bước trước, hoặc <b>AC</b> để xoá hết và bắt đầu lại từ đầu.
   </div>
 
   <div id="main">
@@ -342,7 +345,7 @@
       <button id="switchCameraBtn" class="secondary" style="display:none">🔄 Đổi camera</button>
     </div>
 
-    <button id="manualCaptureBtn" class="secondary" disabled>🧪 Chụp &amp; giải thử ngay (không cần Casio mod)</button>
+    <div id="photoCount" style="font-size:13.5px; color:var(--muted);">Chưa chụp ảnh nào</div>
 
     <div style="display:flex; gap:10px; align-items:flex-start;">
       <img id="lastPhotoThumb">
@@ -350,14 +353,35 @@
         Chưa có yêu cầu nào từ Casio mod. Kết quả gần nhất sẽ hiển thị ở đây.
       </div>
     </div>
+
+    <div class="hint" style="padding:0;">
+      🧪 Các nút bên dưới CHỈ để test trên điện thoại/máy tính khi CHƯA có Casio mod thật -
+      mô phỏng đúng 3 lệnh mà Casio mod sẽ gửi lên (chụp / giải / xoá hết).
+    </div>
+    <button id="manualCaptureBtn" class="secondary" disabled>🧪 Chụp thử 1 ảnh (mô phỏng bấm OK ở Bước 1)</button>
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <select id="testTypeSelect" class="model-badge">
+        <option value="trac_nghiem">Trắc nghiệm</option>
+        <option value="dung_sai">Đúng sai</option>
+        <option value="tra_loi_ngan">Trả lời ngắn</option>
+        <option value="tu_luan">Tự luận</option>
+      </select>
+      <input id="testRangeInput" type="text" placeholder="VD: 5 hoặc 1-12" class="model-badge" style="width:110px;">
+      <button id="testSolveBtn" class="secondary">🧪 Giải thử (mô phỏng Bước 3)</button>
+    </div>
+    <button id="testDeleteBtn" class="secondary">🧪 Xoá hết &amp; bắt đầu lại (mô phỏng bấm AC)</button>
   </div>
 </div>
 
 <canvas id="captureCanvas" style="display:none"></canvas>
 
-<!-- Firebase (compat SDK, đơn giản cho Realtime Database) -->
+<!-- Firebase (compat SDK): Realtime Database dùng để truyền lệnh/trạng thái
+     tạm thời; Firestore dùng để lưu LỜI GIẢI một cách bền vững (xem giải
+     thích trong khối script bên dưới, phần "TAB 2: CAMERA AI"). -->
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 
 <script>
 // ==== Cấu hình cố định (dùng chung cho cả 2 tab) ====
@@ -432,7 +456,10 @@ function stripMarkdownForDevice(raw) {
 
 // ---- Gọi Claude (cú pháp Anthropic Messages API) ----
 // images: mảng { base64, mediaType }
-async function callClaude(modelName, images) {
+// promptText: mặc định dùng FIXED_PROMPT (tab "Tải ảnh lên"); tab Camera AI
+// (Casio mod) truyền thêm câu "Hãy giải bài <dạng> số <khoảng> cho tôi."
+// nối vào cuối để AI biết chính xác cần giải phần nào của đề đã chụp.
+async function callClaude(modelName, images, promptText) {
   const contentBlocks = [];
   images.forEach(img => {
     contentBlocks.push({
@@ -440,7 +467,7 @@ async function callClaude(modelName, images) {
       source: { type: 'base64', media_type: img.mediaType, data: img.base64 }
     });
   });
-  contentBlocks.push({ type: 'text', text: FIXED_PROMPT });
+  contentBlocks.push({ type: 'text', text: promptText || FIXED_PROMPT });
 
   const res = await fetch(`${BASE_URL}/v1/messages`, {
     method: 'POST',
@@ -563,11 +590,45 @@ tabButtons.forEach(btn => {
 });
 
 // ==========================================================
-// TAB 2: CAMERA AI (CASIO MOD) — giao tiếp qua Firebase Realtime Database
+// TAB 2: CAMERA AI (CASIO MOD) — giao tiếp qua Firebase
 // ==========================================================
-// Node dùng chung /mathSession giữa trang web này và firmware Casio mod:
-//   { status: "idle"|"requested"|"capturing"|"solving"|"done"|"error",
-//     commandId: <số>, answer: "...", error: "..." }
+// Khớp với cơ chế MỚI trong firmware (main.cpp, khối "MODE GIẢI TOÁN"):
+//   Bước 1 (CHỤP ẢNH):  mỗi lần Casio mod bấm OK -> gửi cmd="capture",
+//                        trang này chụp 1 khung hình, ĐẨY VÀO mảng
+//                        camImages[] (giữ trong bộ nhớ tab trình duyệt,
+//                        KHÔNG giải ngay), rồi báo lại photoCount hiện tại.
+//   Bước 2+3 (GIẢI):    Casio mod chọn dạng bài (trắc nghiệm/đúng sai/trả
+//                        lời ngắn/tự luận) + số bài (VD "5" hoặc "1-12")
+//                        rồi gửi cmd="solve" kèm 2 field đó. Trang này dùng
+//                        TOÀN BỘ camImages[] đã chụp (không xoá) + câu lệnh
+//                        "Hãy giải bài <dạng> số <khoảng> cho tôi." nối vào
+//                        FIXED_PROMPT, gọi Claude, ghi đáp án vào Firestore.
+//   AC (XOÁ HẾT):        Casio mod gửi cmd="delete" -> trang này xoá sạch
+//                        camImages[], quay về trạng thái ban đầu.
+//
+// Hai kho dữ liệu vẫn giữ vai trò như cũ:
+//   (a) Realtime Database - node /mathSession - CHỈ truyền lệnh/trạng thái
+//       tạm thời của thao tác đang chờ xử lý:
+//         { cmd: "capture"|"solve"|"delete", status: "requested"|"done"|"error",
+//           commandId: <số>, photoCount: <số ảnh, chỉ cmd="capture"+"done">,
+//           questionType: "trac_nghiem"|"dung_sai"|"tra_loi_ngan"|"tu_luan"
+//               (chỉ cmd="solve"), questionRange: "<VD '5' hoặc '1-12'>"
+//               (chỉ cmd="solve"), error: "..." (chỉ khi status=error) }
+//   (b) Firestore - document mathAnswers/current - lưu LỜI GIẢI một cách
+//       BỀN VỮNG, ghi đè mỗi lần giải xong (hoặc xoá rỗng khi cmd=delete,
+//       do CHÍNH Casio mod gọi thẳng Firestore, không qua trang này):
+//         { answer: "...", commandId: <số> }
+//       Nhờ tách riêng, nếu Casio mod tắt/bật lại, lời giải gần nhất vẫn
+//       còn nguyên trong Firestore để hiển thị lại.
+
+// Nhãn tiếng Việt cho từng mã dạng bài (dùng khi ghép câu lệnh gửi cho AI
+// và khi hiển thị trạng thái trên trang).
+const QUESTION_TYPE_TEXT = {
+  trac_nghiem:   'trắc nghiệm',
+  dung_sai:      'đúng sai',
+  tra_loi_ngan:  'trả lời ngắn',
+  tu_luan:       'tự luận',
+};
 const firebaseConfig = {
   apiKey: "AIzaSyDSM2UG4f-jhj4TfdzakkXfB8jPUHY6NxE",
   authDomain: "tuanizz.firebaseapp.com",
@@ -581,6 +642,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const mathRef = db.ref('mathSession');
+const firestoreDb = firebase.firestore();
+const answerDocRef = firestoreDb.collection('mathAnswers').doc('current');
 
 const firebaseStatusEl = document.getElementById('firebaseStatus');
 const firebaseStatusText = document.getElementById('firebaseStatusText');
@@ -592,6 +655,11 @@ const cameraDeviceSelect = document.getElementById('cameraDeviceSelect');
 const manualCaptureBtn = document.getElementById('manualCaptureBtn');
 const cameraResultBox = document.getElementById('cameraResultBox');
 const lastPhotoThumb = document.getElementById('lastPhotoThumb');
+const photoCountEl = document.getElementById('photoCount');
+const testTypeSelect = document.getElementById('testTypeSelect');
+const testRangeInput = document.getElementById('testRangeInput');
+const testSolveBtn = document.getElementById('testSolveBtn');
+const testDeleteBtn = document.getElementById('testDeleteBtn');
 const captureCanvas = document.getElementById('captureCanvas');
 
 function setFirebaseStatus(kind, text) {
@@ -665,30 +733,70 @@ function captureFrame() {
   return { base64: dataUrl.split(',')[1], mediaType: 'image/jpeg', dataUrl };
 }
 
-// ---- Xử lý 1 lần yêu cầu "chụp + giải" (do Casio mod hoặc nút test kích hoạt) ----
-async function handleMathRequest(commandId) {
+// ---- Mảng ảnh đã chụp cho phiên hiện tại (Bước 1 của Casio mod) - giữ
+// trong bộ nhớ tab trình duyệt, KHÔNG xoá cho tới khi nhận cmd="delete". ----
+let camImages = []; // { base64, mediaType, dataUrl }
+
+function updatePhotoCountUI() {
+  photoCountEl.textContent = camImages.length > 0
+    ? `📷 Đã chụp ${camImages.length} ảnh`
+    : 'Chưa chụp ảnh nào';
+  if (camImages.length > 0) {
+    lastPhotoThumb.src = camImages[camImages.length - 1].dataUrl;
+    lastPhotoThumb.style.display = '';
+  } else {
+    lastPhotoThumb.style.display = 'none';
+  }
+}
+
+// ---- cmd="capture": chụp 1 khung hình, đẩy vào camImages[], báo lại
+// photoCount hiện tại cho Casio mod (KHÔNG giải gì cả ở bước này) ----
+async function handleCaptureCmd(commandId) {
   if (!currentStream) {
     setFirebaseStatus('bad', '⚠️ Casio mod yêu cầu chụp nhưng camera chưa bật trên điện thoại');
     await mathRef.update({ status: 'error', commandId, error: 'Camera dien thoai chua bat' });
     return;
   }
-
   try {
     setFirebaseStatus('busy', '📸 Đang chụp ảnh đề toán...');
-    await mathRef.update({ status: 'capturing', commandId });
-
     const photo = captureFrame();
-    lastPhotoThumb.src = photo.dataUrl;
-    lastPhotoThumb.style.display = '';
+    camImages.push(photo);
+    updatePhotoCountUI();
 
-    setFirebaseStatus('busy', '🤖 Đang gửi ảnh cho AI giải...');
-    await mathRef.update({ status: 'solving', commandId });
+    await mathRef.update({ status: 'done', commandId, photoCount: camImages.length });
+    setFirebaseStatus('ok', `✅ Đã chụp ảnh thứ ${camImages.length}, chờ Casio mod...`);
+  } catch (err) {
+    await mathRef.update({ status: 'error', commandId, error: String(err.message || err) });
+    setFirebaseStatus('bad', '❌ Lỗi khi chụp: ' + err.message);
+  }
+}
+
+// ---- cmd="solve": dùng TOÀN BỘ camImages[] đã chụp + dạng bài/số bài do
+// Casio mod chọn để ghép thành 1 câu lệnh, gọi AI, rồi ghi đáp án vào
+// Firestore (bền vững) trước khi báo "done" ----
+async function handleSolveCmd(commandId, questionType, questionRange) {
+  if (camImages.length === 0) {
+    setFirebaseStatus('bad', '⚠️ Casio mod yêu cầu giải nhưng chưa có ảnh nào');
+    await mathRef.update({ status: 'error', commandId, error: 'Chua co anh nao duoc chup' });
+    return;
+  }
+  try {
+    const typeText = QUESTION_TYPE_TEXT[questionType] || questionType || '';
+    const rangeText = questionRange || '';
+    const extraInstruction = `\n\nHãy giải bài ${typeText} số ${rangeText} cho tôi.`;
+    const fullPrompt = FIXED_PROMPT + extraInstruction;
+
+    setFirebaseStatus('busy', `🤖 Đang giải bài ${typeText} số ${rangeText}...`);
     cameraResultBox.className = '';
     cameraResultBox.textContent = 'AI đang giải, vui lòng chờ...';
 
-    const answer = await callClaude(selectedModel, [photo]);
+    const answer = await callClaude(selectedModel, camImages, fullPrompt);
 
-    await mathRef.update({ status: 'done', commandId, answer: stripMarkdownForDevice(answer), error: '' });
+    // Ghi lời giải vào Firestore TRƯỚC (lưu bền vững), rồi mới báo "done"
+    // trên Realtime Database - đảm bảo khi Casio mod thấy status=done thì
+    // Firestore đã sẵn sàng để đọc, không bị đọc hụt.
+    await answerDocRef.set({ answer: stripMarkdownForDevice(answer), commandId });
+    await mathRef.update({ status: 'done', commandId });
     cameraResultBox.innerHTML = formatAnswerHtml(answer);
     setFirebaseStatus('ok', '✅ Đã gửi đáp án cho Casio mod');
   } catch (err) {
@@ -699,7 +807,21 @@ async function handleMathRequest(commandId) {
   }
 }
 
-// ---- Lắng nghe Firebase realtime để biết khi nào Casio mod bấm OK ----
+// ---- cmd="delete": Casio mod bấm AC -> xoá sạch camImages[], về trạng
+// thái ban đầu. Firestore (lời giải bền vững) do CHÍNH Casio mod tự xoá
+// thẳng qua REST API riêng, trang này không cần đụng tới. ----
+async function handleDeleteCmd(commandId) {
+  camImages = [];
+  updatePhotoCountUI();
+  cameraResultBox.className = 'empty';
+  cameraResultBox.textContent = 'Đã xoá hết ảnh - chưa có yêu cầu nào từ Casio mod.';
+  setFirebaseStatus('ok', '🗑️ Đã xoá hết ảnh theo yêu cầu Casio mod');
+  // Không bắt buộc chờ phản hồi (Casio mod không đợi ack của lệnh xoá),
+  // nhưng vẫn ghi lại "done" để log/tiện debug nếu cần xem trên Firebase console.
+  try { await mathRef.update({ status: 'done', commandId }); } catch (e) { /* bỏ qua */ }
+}
+
+// ---- Lắng nghe Firebase realtime để biết khi nào Casio mod gửi lệnh mới ----
 let lastHandledCommandId = null;
 let firstSnapshot = true;
 
@@ -717,17 +839,37 @@ mathRef.on('value', (snap) => {
 
   if (data.status === 'requested' && data.commandId !== lastHandledCommandId) {
     lastHandledCommandId = data.commandId;
-    handleMathRequest(data.commandId);
+    if (data.cmd === 'capture') {
+      handleCaptureCmd(data.commandId);
+    } else if (data.cmd === 'solve') {
+      handleSolveCmd(data.commandId, data.questionType, data.questionRange);
+    } else if (data.cmd === 'delete') {
+      handleDeleteCmd(data.commandId);
+    }
   }
 }, (err) => {
   setFirebaseStatus('bad', 'Lỗi kết nối Firebase: ' + err.message);
 });
 
-// ---- Nút test thủ công (giả lập việc Casio mod bấm OK, để test không cần phần cứng) ----
+// ---- Các nút test thủ công (giả lập Casio mod, để test không cần phần cứng) ----
 manualCaptureBtn.addEventListener('click', () => {
   const commandId = Date.now();
-  mathRef.set({ status: 'requested', commandId, answer: '', error: '' });
+  mathRef.set({ cmd: 'capture', status: 'requested', commandId });
 });
+
+testSolveBtn.addEventListener('click', () => {
+  const questionType = testTypeSelect.value;
+  const questionRange = testRangeInput.value.trim() || '1';
+  const commandId = Date.now();
+  mathRef.set({ cmd: 'solve', status: 'requested', commandId, questionType, questionRange });
+});
+
+testDeleteBtn.addEventListener('click', () => {
+  const commandId = Date.now();
+  mathRef.set({ cmd: 'delete', status: 'requested', commandId });
+});
+
+updatePhotoCountUI();
 </script>
 
 </body>
