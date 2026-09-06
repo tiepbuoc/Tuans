@@ -319,7 +319,8 @@
 <!-- =============== TAB 2: CAMERA AI (CASIO MOD) =============== -->
 <div id="cameraPanel" class="panel">
   <div class="hint">
-    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề toán. Trên Casio mod: bấm
+    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề toán. Trên Casio mod: vào mode
+    "Giải toán" sẽ hiện <b>chọn model AI</b> trước tiên (dùng UP/DOWN + OK) → sau đó bấm
     <b>OK</b> nhiều lần để chụp từng ảnh đề (chụp được nhiều ảnh cho 1 đề dài) → bấm <b>EXE</b> để
     chọn dạng bài (trắc nghiệm/đúng sai/trả lời ngắn/tự luận) → nhập số bài rồi bấm <b>OK</b> để
     giải. Xem xong có thể bấm <b>OK</b> để hỏi tiếp câu khác (ảnh vẫn giữ nguyên), <b>BACK</b> để
@@ -613,7 +614,10 @@ tabButtons.forEach(btn => {
 //           commandId: <số>, photoCount: <số ảnh, chỉ cmd="capture"+"done">,
 //           questionType: "trac_nghiem"|"dung_sai"|"tra_loi_ngan"|"tu_luan"
 //               (chỉ cmd="solve"), questionRange: "<VD '5' hoặc '1-12'>"
-//               (chỉ cmd="solve"), error: "..." (chỉ khi status=error) }
+//               (chỉ cmd="solve"), model: "<mã model, VD 'claude-sonnet-5'>"
+//               (chỉ cmd="solve" - người dùng chọn ngay trên Casio mod ở
+//               Bước 0, dùng để gọi đúng model đó thay vì dropdown trên
+//               trang), error: "..." (chỉ khi status=error) }
 //   (b) Firestore - document mathAnswers/current - lưu LỜI GIẢI một cách
 //       BỀN VỮNG, ghi đè mỗi lần giải xong (hoặc xoá rỗng khi cmd=delete,
 //       do CHÍNH Casio mod gọi thẳng Firestore, không qua trang này):
@@ -774,7 +778,7 @@ async function handleCaptureCmd(commandId) {
 // ---- cmd="solve": dùng TOÀN BỘ camImages[] đã chụp + dạng bài/số bài do
 // Casio mod chọn để ghép thành 1 câu lệnh, gọi AI, rồi ghi đáp án vào
 // Firestore (bền vững) trước khi báo "done" ----
-async function handleSolveCmd(commandId, questionType, questionRange) {
+async function handleSolveCmd(commandId, questionType, questionRange, modelFromDevice) {
   if (camImages.length === 0) {
     setFirebaseStatus('bad', '⚠️ Casio mod yêu cầu giải nhưng chưa có ảnh nào');
     await mathRef.update({ status: 'error', commandId, error: 'Chua co anh nao duoc chup' });
@@ -785,12 +789,17 @@ async function handleSolveCmd(commandId, questionType, questionRange) {
     const rangeText = questionRange || '';
     const extraInstruction = `\n\nHãy giải bài ${typeText} số ${rangeText} cho tôi.`;
     const fullPrompt = FIXED_PROMPT + extraInstruction;
+    // Model giờ được chọn ngay trên Casio mod (Bước 0) và gửi kèm trong lệnh
+    // "solve" (trường "model") - ưu tiên dùng model đó; chỉ dùng dropdown
+    // trên trang (selectedModel) làm phương án dự phòng (VD khi bấm nút
+    // test thủ công bên dưới, không đi qua Casio mod thật).
+    const modelToUse = modelFromDevice || selectedModel;
 
-    setFirebaseStatus('busy', `🤖 Đang giải bài ${typeText} số ${rangeText}...`);
+    setFirebaseStatus('busy', `🤖 Đang giải bài ${typeText} số ${rangeText} (model: ${modelToUse})...`);
     cameraResultBox.className = '';
     cameraResultBox.textContent = 'AI đang giải, vui lòng chờ...';
 
-    const answer = await callClaude(selectedModel, camImages, fullPrompt);
+    const answer = await callClaude(modelToUse, camImages, fullPrompt);
 
     // Ghi lời giải vào Firestore TRƯỚC (lưu bền vững), rồi mới báo "done"
     // trên Realtime Database - đảm bảo khi Casio mod thấy status=done thì
@@ -842,7 +851,7 @@ mathRef.on('value', (snap) => {
     if (data.cmd === 'capture') {
       handleCaptureCmd(data.commandId);
     } else if (data.cmd === 'solve') {
-      handleSolveCmd(data.commandId, data.questionType, data.questionRange);
+      handleSolveCmd(data.commandId, data.questionType, data.questionRange, data.model);
     } else if (data.cmd === 'delete') {
       handleDeleteCmd(data.commandId);
     }
