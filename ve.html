@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vẽ hình hộp 3D thật</title>
+<style>
+  :root { --bg:#f4f6fa; --fg:#555; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#16181d; --fg:#aaa; } }
+  :root[data-theme="dark"] { --bg:#16181d; --fg:#aaa; }
+  html, body { margin:0; height:100%; overflow:hidden; background:var(--bg); }
+  canvas { display:block; width:100%; height:100%; cursor:crosshair; touch-action:none; }
+  #hud { position:absolute; left:12px; bottom:calc(env(safe-area-inset-bottom,0px) + 12px); padding:6px 10px; border-radius:8px; background:rgba(0,0,0,.55); color:#fff; font:12px system-ui,sans-serif; pointer-events:none; }
+  #tools { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .del { position:absolute; display:none; pointer-events:auto; width:20px; height:20px; padding:0; border:0; border-radius:50%;
+    background:rgba(229,57,53,.92); color:#fff; font:700 15px/20px system-ui,sans-serif; cursor:pointer; transform:translate(-50%,-50%); }
+  .del:hover { background:#b71c1c; }
+  #label { position:absolute; display:none; margin:0; padding:0 6px; border:0; outline:0; height:30px;
+    background:rgba(255,255,255,.75); border-radius:6px; text-align:center; font:600 16px system-ui,sans-serif; color:#222;
+    box-sizing:border-box; transform:translate(-50%,-50%); }
+</style>
+</head>
+<body>
+<div id="hud">W/S: tiến/lùi · A/D: rẽ trái/phải · Kéo chuột: vẽ hộp · Chuột phải/Shift+kéo: xoay góc nhìn</div>
+<div id="tools"></div>
+<input id="label" type="text" autocomplete="off" spellcheck="false">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-database-compat.min.js"></script>
+<script>
+const MODE = 'draw';   // 'draw' = web vẽ, 'car' = web điều khiển xe
+const firebaseConfig = {
+  apiKey: "AIzaSyBM1CLQ6NS8oJEmmTeIMJj6OrRqe3cVzvQ",
+  authDomain: "aiva-tl.firebaseapp.com",
+  // Nếu Realtime Database của bạn ở khu vực khác (vd Singapore) hãy sửa URL này theo trang Realtime Database trong Firebase Console
+  databaseURL: "https://aiva-tl-default-rtdb.firebaseio.com",
+  projectId: "aiva-tl",
+  storageBucket: "aiva-tl.firebasestorage.app",
+  messagingSenderId: "75296741526",
+  appId: "1:75296741526:web:d7d925086252815c8acab7",
+  measurementId: "G-46Z10RTWQ4"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+document.title = MODE === 'car' ? 'Điều khiển xe' : 'Vẽ hình hộp 3D';
+const DEFAULT_H = 40, STEP = 10, MIN_H = 10;
+
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setPixelRatio(window.devicePixelRatio || 1);
+document.body.prepend(renderer.domElement);
+const canvas = renderer.domElement;
+const input = document.getElementById('label');
+
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(45, 1, 1, 5000);
+scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+const sun = new THREE.DirectionalLight(0xffffff, 0.8);
+sun.position.set(300, 700, 400);
+scene.add(sun);
+scene.fog = new THREE.Fog(0xf4f6fa, 500, 2000);
+const CELL = 50;
+const grid = new THREE.GridHelper(4000, 80, 0x8899aa, 0xb8c2cc);
+grid.material.transparent = true; grid.material.opacity = 0.5;
+scene.add(grid);
+
+/* ---------- Robot xe 4 bánh ---------- */
+const robot = { x:0, z:0, h:0 };           // h: hướng đầu xe, tiến về (sin h, cos h)
+const rg = new THREE.Group(), wheels = [];
+const lam = c => new THREE.MeshLambertMaterial({ color:c });
+const part = (geo, c, x, y, z) => { const m = new THREE.Mesh(geo, lam(c)); m.position.set(x, y, z); rg.add(m); return m; };
+part(new THREE.BoxGeometry(24, 8, 40), 0x1e88e5, 0, 11, 0);
+part(new THREE.BoxGeometry(18, 7, 16), 0x90caf9, 0, 18, -4);
+const lamp = new THREE.Mesh(new THREE.BoxGeometry(18, 3, 2), new THREE.MeshBasicMaterial({ color:0xffeb3b }));
+lamp.position.set(0, 12, 20.5); rg.add(lamp);
+[[14, 13], [-14, 13], [14, -13], [-14, -13]].forEach(([x, z]) => {
+  const pv = new THREE.Group(); pv.position.set(x, 6, z);
+  const w = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 5, 18), lam(0x263238));
+  w.rotation.z = Math.PI / 2;
+  const hub = new THREE.Mesh(new THREE.BoxGeometry(5.4, 2, 12.5), lam(0xb0bec5)); // vạch để thấy bánh quay
+  pv.add(w, hub); pv.userData.side = x > 0 ? 1 : -1; rg.add(pv); wheels.push(pv);
+});
+scene.add(rg);
+const keys = new Set();
+window.addEventListener('keydown', e => {
+  if (MODE !== 'car' || editing || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (['KeyW','KeyA','KeyS','KeyD'].includes(e.code)) { keys.add(e.code); e.preventDefault(); }
+});
+window.addEventListener('keyup', e => keys.delete(e.code));
+window.addEventListener('blur', () => keys.clear());
+const SPEED = 220, TURN = 2, TAU = 2 * Math.PI;
+const robotRef = db.ref('robot');
+let rt = { x:0, z:0, h:0 }, ready = MODE !== 'car', lastSend = 0, dirty = false;
+if (MODE === 'car') robotRef.once('value').then(s => { const v = s.val(); if (v) Object.assign(robot, v); }).catch(() => {}).then(() => ready = true);
+else robotRef.on('value', s => { if (s.val()) rt = s.val(); });   // web vẽ chỉ nhận vị trí xe
+function moveRobot(dt) {
+  const px = robot.x, pz = robot.z; let t = 0;
+  if (MODE === 'car') {
+    if (!ready) return;
+    const f = (keys.has('KeyW') ? 1 : 0) - (keys.has('KeyS') ? 1 : 0);
+    t = (keys.has('KeyA') ? 1 : 0) - (keys.has('KeyD') ? 1 : 0);
+    robot.h += t * TURN * dt;
+    robot.x += Math.sin(robot.h) * f * SPEED * dt;
+    robot.z += Math.cos(robot.h) * f * SPEED * dt;
+    if (f || t) dirty = true;
+    if (dirty && performance.now() - lastSend > 60) {
+      lastSend = performance.now(); dirty = false;
+      robotRef.set({ x:+robot.x.toFixed(1), z:+robot.z.toFixed(1), h:+robot.h.toFixed(3) });
+    }
+  } else {
+    const k = Math.min(1, dt * 12);
+    robot.x += (rt.x - robot.x) * k; robot.z += (rt.z - robot.z) * k;
+    robot.h += (((rt.h - robot.h + Math.PI) % TAU + TAU) % TAU - Math.PI) * k;
+  }
+  rg.position.set(robot.x, 0, robot.z); rg.rotation.y = robot.h;
+  const sd = (robot.x - px) * Math.sin(robot.h) + (robot.z - pz) * Math.cos(robot.h);
+  for (const w of wheels) w.rotation.x += (sd - t * 0.6 * w.userData.side * SPEED * dt) / 6;
+}
+
+/* ---------- Camera: web xe bám theo xe, web vẽ tự do (dời bằng Shift + chuột phải) ---------- */
+let theta = MODE === 'car' ? Math.PI : 0.6, phi = 0.95, dist = MODE === 'car' ? 320 : 700;
+const tgt = { x:0, z:0 };
+function updateCam() {
+  const car = MODE === 'car', cx = car ? robot.x : tgt.x, cz = car ? robot.z : tgt.z, a = (car ? robot.h : 0) + theta;
+  cam.position.set(cx + dist * Math.sin(phi) * Math.sin(a), dist * Math.cos(phi), cz + dist * Math.sin(phi) * Math.cos(a));
+  cam.lookAt(cx, car ? 10 : 0, cz);
+  grid.position.set(Math.round(cx / CELL) * CELL, 0, Math.round(cz / CELL) * CELL);
+}
+function resize() {
+  const w = window.innerWidth, h = window.innerHeight;
+  renderer.setSize(w, h);
+  cam.aspect = w / h; cam.updateProjectionMatrix();
+}
+
+/* ---------- Dữ liệu ---------- */
+const boxes = [];
+let start = null, current = null, editing = null, orbit = null;
+let curH = DEFAULT_H, hue = 0;
+
+let drawY = 0; // độ cao mặt phẳng đang đặt hộp (0 = mặt đất, hoặc mặt trên của một hộp)
+
+function makeBox(a, b) {
+  const dx = b.x - a.x, dz = b.z - a.z;
+  const w = Math.max(Math.abs(dx), 0.01), d = Math.max(Math.abs(dz), 0.01);
+  const x = Math.min(a.x, b.x), z = Math.min(a.z, b.z);
+  return { x, z, w, d, y: drawY, h: curH, hue, text: '', obj: null };
+}
+
+/* ---------- Dựng khối 3D ---------- */
+function labelTexture(b) {
+  const c = document.createElement('canvas'), m = Math.max(b.w, b.d);
+  c.width = Math.max(64, Math.round(256 * b.w / m)); c.height = Math.max(64, Math.round(256 * b.d / m));
+  const g = c.getContext('2d');
+  if (b.text && b !== editing) {
+    let px = Math.min(72, c.height * 0.4), maxW = c.width - 30;
+    g.font = `600 ${px}px system-ui, sans-serif`;
+    const w = g.measureText(b.text).width;
+    if (w > maxW) { px = Math.max(12, px * maxW / w); g.font = `600 ${px}px system-ui, sans-serif`; }
+    g.fillStyle = `hsl(${b.hue} 60% 20%)`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(b.text, c.width / 2, c.height / 2 + 6);
+  }
+  return new THREE.CanvasTexture(c);
+}
+
+function disposeObj(o) {
+  o.traverse(n => {
+    if (n.geometry) n.geometry.dispose();
+    if (n.material) { if (n.material.map) n.material.map.dispose(); n.material.dispose(); }
+  });
+}
+
+function build(b) {
+  if (b.obj) { scene.remove(b.obj); disposeObj(b.obj); }
+  const g = new THREE.Group();
+  const geo = new THREE.BoxGeometry(b.w, b.h, b.d);
+  g.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ color: new THREE.Color(`hsl(${b.hue}, 75%, 78%)`) })));
+  g.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo),
+        new THREE.LineBasicMaterial({ color: new THREE.Color(`hsl(${b.hue}, 75%, 32%)`) })));
+  const plane = new THREE.Mesh(new THREE.PlaneGeometry(b.w, b.d),
+        new THREE.MeshBasicMaterial({ map: labelTexture(b), transparent: true }));
+  plane.rotation.x = -Math.PI / 2;
+  plane.position.y = b.h / 2 + 0.3;
+  g.add(plane);
+  g.position.set(b.x + b.w / 2, b.y + b.h / 2, b.z + b.d / 2);
+  scene.add(g);
+  b.obj = g;
+}
+
+/* ---------- Chuột -> mặt đất ---------- */
+const ray = new THREE.Raycaster(), ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), hit = new THREE.Vector3();
+function groundPoint(e) {
+  ray.setFromCamera(new THREE.Vector2(e.clientX / window.innerWidth * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1), cam);
+  return ray.ray.intersectPlane(ground, hit) ? { x: hit.x, z: hit.z } : null;
+}
+
+/* ---------- Chọn mặt đặt hộp + chấm đánh dấu ---------- */
+// Bấm/rê lên mặt trên -> mặt đó; mặt bên -> ngang độ cao điểm chỉ (làm tròn); ra nền -> mặt đất
+function pick(e) {
+  ray.setFromCamera(new THREE.Vector2(e.clientX / window.innerWidth * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1), cam);
+  const hits = ray.intersectObjects(boxes.map(b => b.obj.children[0]));
+  if (hits.length) {
+    const h = hits[0], b = boxes.find(q => q.obj.children[0] === h.object);
+    const y = h.face.normal.y > 0.5 ? b.y + b.h : Math.max(0, Math.round(h.point.y / STEP) * STEP);
+    return { x: h.point.x, z: h.point.z, y };
+  }
+  ground.constant = 0;
+  const p = groundPoint(e);
+  return p && { x: p.x, z: p.z, y: 0 };
+}
+
+const RED = 0xe53935;
+const mat = (o = {}) => new THREE.MeshBasicMaterial(Object.assign({ color: RED, depthTest: false, transparent: true, side: THREE.DoubleSide }, o));
+const marker = new THREE.Group();
+const dot = new THREE.Mesh(new THREE.SphereGeometry(4, 16, 12), mat());
+const ringTop = new THREE.Mesh(new THREE.RingGeometry(8, 10, 32), mat({ opacity: 0.8 }));
+ringTop.rotation.x = -Math.PI / 2;
+[dot, ringTop].forEach(o => { o.renderOrder = 10; marker.add(o); });
+marker.visible = false;
+scene.add(marker);
+
+function showMarker(q) {
+  marker.position.set(q.x, 0, q.z);
+  dot.position.y = q.y;
+  ringTop.position.y = q.y + 0.5;
+  marker.visible = true;
+}
+
+canvas.addEventListener('pointerleave', () => { if (!start) marker.visible = false; });
+
+/* ---------- Chiều cao ---------- */
+window.addEventListener('keydown', e => {
+  if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+  const b = editing || current;
+  if (!b) return;
+  e.preventDefault();
+  curH = Math.max(MIN_H, b.h + (e.key === 'ArrowUp' ? 1 : -1) * STEP);
+  b.h = curH; build(b);
+});
+
+/* ---------- Gõ chữ ---------- */
+function startEditing(b) {
+  editing = b; build(b); marker.visible = false;
+  input.value = ''; input.style.display = 'block'; input.focus();
+}
+function stopEditing() {
+  const b = editing; editing = null;
+  b.text = input.value.trim();
+  input.style.display = 'none'; input.value = '';
+  curH = DEFAULT_H; build(b); save(b);
+}
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); stopEditing(); }
+});
+input.addEventListener('blur', () => { if (editing) setTimeout(() => input.focus(), 0); });
+
+const v = new THREE.Vector3();
+function placeInput() {
+  const b = editing;
+  v.set(b.x + b.w / 2, b.y + b.h + 1, b.z + b.d / 2).project(cam);
+  input.style.left = (v.x * 0.5 + 0.5) * window.innerWidth + 'px';
+  input.style.top = (-v.y * 0.5 + 0.5) * window.innerHeight + 'px';
+  input.style.width = Math.max(70, Math.min(200, b.w * 0.9)) + 'px';
+}
+
+/* ---------- Tương tác ---------- */
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+canvas.addEventListener('pointerdown', e => {
+  if (editing) { e.preventDefault(); input.focus(); return; }
+  canvas.setPointerCapture(e.pointerId);
+  if (e.button === 2 || e.shiftKey) { orbit = { x: e.clientX, y: e.clientY, pan: MODE === 'draw' && e.button === 2 && e.shiftKey }; return; }
+  if (MODE === 'car') return;
+  const q = pick(e);
+  if (!q) return;
+  drawY = q.y;
+  ground.constant = -drawY;
+  showMarker(q);
+  start = { x: q.x, z: q.z }; hue = Math.floor(Math.random() * 360); curH = DEFAULT_H;
+  current = makeBox(start, start); build(current);
+});
+let lastE = null;
+canvas.addEventListener('pointermove', e => {
+  lastE = e;
+  if (!start && !orbit) {
+    if (editing || MODE === 'car') return;
+    const q = pick(e);
+    if (q) showMarker(q); else marker.visible = false;
+    return;
+  }
+  if (orbit) {
+    marker.visible = false;
+    const dx = e.clientX - orbit.x, dy = e.clientY - orbit.y;
+    if (orbit.pan) {
+      const k = dist * 0.0015, sa = Math.sin(theta), ca = Math.cos(theta);
+      tgt.x += -ca * dx * k - sa * dy * k; tgt.z += sa * dx * k - ca * dy * k;
+    } else {
+      theta -= dx * 0.006;
+      phi = Math.max(0.15, Math.min(1.5, phi - dy * 0.006));
+    }
+    orbit = { x: e.clientX, y: e.clientY, pan: orbit.pan };
+    return;
+  }
+  if (!start) return;
+  const p = groundPoint(e);
+  if (!p) return;
+  const h = current.h;
+  const nb = makeBox(start, p); nb.h = h; nb.obj = current.obj;
+  current = nb; build(current);
+});
+function finish() {
+  orbit = null;
+  if (!start) return;
+  const b = current; start = current = null;
+  if (b.w > 2 && b.d > 2) { b.id = db.ref('boxes').push().key; boxes.push(b); addDeleteBtn(b); startEditing(b); }
+  else { scene.remove(b.obj); disposeObj(b.obj); }
+}
+canvas.addEventListener('pointerup', finish);
+canvas.addEventListener('pointercancel', finish);
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  dist = Math.max(80, Math.min(2500, dist * (1 + Math.sign(e.deltaY) * 0.1)));
+}, { passive:false });
+
+/* ---------- Nút xóa ở góc mỗi hộp ---------- */
+const tools = document.getElementById('tools');
+function addDeleteBtn(b) {
+  if (MODE === 'car') return;
+  const btn = document.createElement('button');
+  btn.className = 'del'; btn.textContent = '×'; btn.title = 'Xóa hộp';
+  btn.addEventListener('click', () => {
+    scene.remove(b.obj); disposeObj(b.obj);
+    boxes.splice(boxes.indexOf(b), 1);
+    btn.remove();
+    if (b.id) db.ref('boxes/' + b.id).remove();
+  });
+  tools.appendChild(btn); b.btn = btn;
+}
+
+const wp = new THREE.Vector3(), sp = new THREE.Vector3(), dir = new THREE.Vector3(), rc = new THREE.Raycaster();
+function updateButtons() {
+  const meshes = boxes.map(b => b.obj.children[0]);
+  for (const b of boxes) {
+    if (!b.btn) continue;
+    let show = !editing && !start && !orbit && b.w >= 30 && b.d >= 30;
+    if (show) {
+      const inset = Math.min(12, b.w * 0.15, b.d * 0.15);
+      wp.set(b.x + inset, b.y + b.h, b.z + inset);        // góc trên-trái của mặt trên
+      sp.copy(wp).project(cam);
+      show = sp.z < 1 && Math.abs(sp.x) < 1 && Math.abs(sp.y) < 1;
+      if (show) {                                         // ẩn nếu góc bị hộp khác che
+        dir.copy(wp).sub(cam.position);
+        const d = dir.length();
+        rc.set(cam.position, dir.normalize());
+        const hit = rc.intersectObjects(meshes)[0];
+        if (hit && hit.distance < d - 2) show = false;
+      }
+    }
+    b.btn.style.display = show ? 'block' : 'none';
+    if (show) {
+      b.btn.style.left = (sp.x * 0.5 + 0.5) * window.innerWidth + 'px';
+      b.btn.style.top = (-sp.y * 0.5 + 0.5) * window.innerHeight + 'px';
+    }
+  }
+}
+
+/* ---------- Đồng bộ hộp qua Realtime Database ---------- */
+const boxRef = db.ref('boxes');
+const pack = b => ({ x:b.x, z:b.z, w:b.w, d:b.d, y:b.y, h:b.h, hue:b.hue, text:b.text || '' });
+function save(b) { if (b.id) boxRef.child(b.id).set(pack(b)); }
+function apply(id, v) {
+  let b = boxes.find(q => q.id === id);
+  if (b) { if (b === editing) return; Object.assign(b, v); }
+  else { b = Object.assign({ id, obj:null }, v); boxes.push(b); addDeleteBtn(b); }
+  build(b);
+}
+boxRef.on('child_added', s => apply(s.key, s.val()));
+boxRef.on('child_changed', s => apply(s.key, s.val()));
+boxRef.on('child_removed', s => {
+  const i = boxes.findIndex(q => q.id === s.key); if (i < 0) return;
+  const b = boxes[i]; scene.remove(b.obj); disposeObj(b.obj); if (b.btn) b.btn.remove(); boxes.splice(i, 1);
+});
+const hud = document.getElementById('hud');
+const help = MODE === 'car'
+  ? 'WEB XE · W/S: tiến/lùi · A/D: rẽ · Chuột phải+kéo: xoay góc nhìn · Lăn chuột: zoom'
+  : 'WEB VẼ · Kéo chuột trái: vẽ hộp · ↑/↓: chiều cao · Chuột phải+kéo: xoay · Shift+chuột phải+kéo: dời tầm nhìn · Lăn chuột: zoom';
+db.ref('.info/connected').on('value', s => { hud.textContent = (s.val() ? '🟢 ' : '🔴 Mất kết nối · ') + help; });
+
+window.addEventListener('resize', resize);
+resize();
+let tPrev = performance.now();
+(function loop(now) {
+  const dt = Math.min(0.05, (now - tPrev) / 1000 || 0); tPrev = now || tPrev;
+  const moved = moveRobot(dt);
+  updateCam();
+  scene.fog.color.set(getComputedStyle(document.body).backgroundColor);
+  if (moved && lastE && !start && !orbit && !editing) { const q = pick(lastE); if (q) showMarker(q); }
+  if (editing) placeInput();
+  updateButtons();
+  renderer.render(scene, cam);
+  requestAnimationFrame(loop);
+})(performance.now());
+</script>
+</body>
+</html>
