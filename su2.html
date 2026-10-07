@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -371,6 +370,7 @@
       <input id="testRangeInput" type="text" placeholder="VD: 5 hoặc 1-12" class="model-badge" style="width:110px;">
       <button id="testSolveBtn" class="secondary">🧪 Giải thử (mô phỏng Bước 3)</button>
     </div>
+    <button id="testSuperBtn" class="secondary">🧪 Super giải thử (mô phỏng Super giải toán)</button>
     <button id="testDeleteBtn" class="secondary">🧪 Xoá hết &amp; bắt đầu lại (mô phỏng bấm AC)</button>
   </div>
 </div>
@@ -460,7 +460,8 @@ function stripMarkdownForDevice(raw) {
 // promptText: mặc định dùng FIXED_PROMPT (tab "Tải ảnh lên"); tab Camera AI
 // (Casio mod) truyền thêm câu "Hãy giải bài <dạng> số <khoảng> cho tôi."
 // nối vào cuối để AI biết chính xác cần giải phần nào của đề đã chụp.
-async function callClaude(modelName, images, promptText) {
+async function callClaude(modelName, images, promptText, opts) {
+  opts = opts || {};
   const contentBlocks = [];
   images.forEach(img => {
     contentBlocks.push({
@@ -479,8 +480,8 @@ async function callClaude(modelName, images, promptText) {
     },
     body: JSON.stringify({
       model: modelName,
-      max_tokens: 15000,
-      output_config: { effort: 'high' },
+      max_tokens: opts.maxTokens || 15000,
+      output_config: { effort: opts.effort || 'high' },
       messages: [
         { role: 'user', content: contentBlocks }
       ]
@@ -830,6 +831,122 @@ async function handleDeleteCmd(commandId) {
   try { await mathRef.update({ status: 'done', commandId }); } catch (e) { /* bỏ qua */ }
 }
 
+// ==========================================================
+// SUPER GIẢI TOÁN: phân tích đề -> giải lần lượt từng nhóm câu
+// ==========================================================
+// Casio mod gửi cmd="super_start" (+ model). Trang này:
+//   1) Gọi AI đọc TOÀN BỘ ảnh đã chụp -> JSON số câu từng loại.
+//   2) Giải lần lượt: ABCD mỗi lần 3 câu; đúng sai / trả lời ngắn / tự luận
+//      từng câu 1. Mỗi lần gửi toàn bộ ảnh + FIXED_PROMPT + "Hãy giải bài
+//      <dạng> số <khoảng> cho tôi." (y hệt mode Giải toán thường).
+//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superAnswers/i<N>
+//      rồi mới thêm vào /mathSession/super/items/i<N> + tăng doneCount để
+//      Casio mod hiện luôn, không đợi cả đề.
+let superRunId = 0; // tăng mỗi khi có lệnh mới -> lượt đang chạy tự dừng
+
+const SUPER_ANALYZE_PROMPT = `Các ảnh đính kèm là ảnh chụp TOÀN BỘ một đề toán (có thể nhiều ảnh nối tiếp nhau). Hãy đọc kỹ tất cả các ảnh và đếm số câu hỏi theo từng loại:
+- abcd: câu trắc nghiệm nhiều lựa chọn (4 phương án A, B, C, D).
+- dungsai: câu đúng/sai (mỗi câu có các ý a), b), c), d) để chọn đúng hoặc sai). Mỗi CÂU tính là 1, không đếm từng ý.
+- tlngan: câu trả lời ngắn (điền kết quả, thường là một số).
+- tuluan: câu tự luận (trình bày lời giải). Nếu đề không có thì để 0.
+Chỉ trả về DUY NHẤT một đối tượng JSON, không giải thích, không dùng markdown, đúng dạng:
+{"abcd": <số>, "dungsai": <số>, "tlngan": <số>, "tuluan": <số>}`;
+
+function parseSuperCounts(text) {
+  const m = text.match(/\{[\s\S]*?\}/);
+  if (!m) throw new Error('AI không trả về JSON');
+  const o = JSON.parse(m[0]);
+  const n = v => { v = parseInt(v, 10); return Number.isFinite(v) && v > 0 ? Math.min(v, 100) : 0; };
+  return { abcd: n(o.abcd), dungsai: n(o.dungsai), tlngan: n(o.tlngan), tuluan: n(o.tuluan) };
+}
+
+// Chia thành các mục cần giải: ABCD gộp 3 câu/lần, loại khác 1 câu/lần.
+// Thứ tự: ABCD -> đúng sai -> trả lời ngắn -> tự luận.
+function buildSuperItems(c) {
+  const items = [];
+  for (let i = 1; i <= c.abcd; i += 3) {
+    const end = Math.min(i + 2, c.abcd);
+    items.push({ type: 'trac_nghiem', typeLabel: 'ABCD', range: i === end ? String(i) : `${i}-${end}` });
+  }
+  for (let i = 1; i <= c.dungsai; i++) items.push({ type: 'dung_sai', typeLabel: 'Đúng sai', range: String(i) });
+  for (let i = 1; i <= c.tlngan; i++) items.push({ type: 'tra_loi_ngan', typeLabel: 'Trả lời ngắn', range: String(i) });
+  for (let i = 1; i <= c.tuluan; i++) items.push({ type: 'tu_luan', typeLabel: 'Tự luận', range: String(i) });
+  return items;
+}
+
+async function handleSuperStart(commandId, modelFromDevice, runId) {
+  const alive = () => runId === superRunId;
+  const superRef = mathRef.child('super');
+  const answersRef = mathRef.child('superAnswers');
+  const model = modelFromDevice || selectedModel;
+  const shortErr = e => String((e && e.message) || e).slice(0, 80);
+
+  try {
+    if (camImages.length === 0) {
+      await superRef.set({ commandId, phase: 'error', error: 'Chưa có ảnh nào được chụp' });
+      setFirebaseStatus('bad', '⚠️ Super giải toán: chưa có ảnh nào');
+      return;
+    }
+    await superRef.set({ commandId, phase: 'analyzing', total: 0, doneCount: 0 });
+    setFirebaseStatus('busy', `🔎 Super: đang phân tích đề (model: ${model})...`);
+    cameraResultBox.className = '';
+    cameraResultBox.textContent = 'Super giải toán: AI đang đếm số câu của đề...';
+
+    // ---- Bước 3: phân tích đề (thử tối đa 2 lần nếu JSON hỏng) ----
+    let counts = null, lastErr = null;
+    for (let attempt = 0; attempt < 2 && !counts; attempt++) {
+      try {
+        const txt = await callClaude(model, camImages, SUPER_ANALYZE_PROMPT, { maxTokens: 4000, effort: 'medium' });
+        counts = parseSuperCounts(txt);
+      } catch (e) { lastErr = e; }
+      if (!alive()) return;
+    }
+    if (!counts) throw new Error('Phân tích đề lỗi: ' + shortErr(lastErr));
+
+    const items = buildSuperItems(counts);
+    if (items.length === 0) throw new Error('Không tìm thấy câu hỏi nào trong đề');
+
+    await superRef.update({ phase: 'solving', total: items.length, counts });
+    if (!alive()) return;
+
+    // ---- Bước 4: giải lần lượt ----
+    for (let k = 0; k < items.length; k++) {
+      if (!alive()) return;
+      const it = items[k];
+      const typeText = QUESTION_TYPE_TEXT[it.type];
+      const prompt = FIXED_PROMPT + `\n\nHãy giải bài ${typeText} số ${it.range} cho tôi.`;
+      setFirebaseStatus('busy', `🤖 Super: đang giải ${it.typeLabel} ${it.range} (${k + 1}/${items.length})...`);
+
+      let answer = null, err = null;
+      for (let attempt = 0; attempt < 2 && answer === null; attempt++) {
+        try { answer = await callClaude(model, camImages, prompt); }
+        catch (e) { err = e; }
+        if (!alive()) return;
+      }
+      const failed = answer === null;
+      const text = failed ? 'LỖI: ' + shortErr(err) : stripMarkdownForDevice(answer);
+
+      // Đáp án ghi TRƯỚC, mục danh sách ghi SAU (thiết bị chỉ đọc khi mục đã có).
+      await answersRef.child('i' + k).set(text);
+      if (!alive()) return;
+      const meta = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range };
+      if (failed) meta.err = true;
+      await superRef.update({ ['items/i' + k]: meta, doneCount: k + 1 });
+      if (!failed) { cameraResultBox.className = ''; cameraResultBox.innerHTML = formatAnswerHtml(answer); }
+    }
+
+    if (!alive()) return;
+    await superRef.update({ phase: 'done' });
+    setFirebaseStatus('ok', `✅ Super giải toán xong ${items.length} mục`);
+  } catch (err) {
+    if (!alive()) return;
+    try { await superRef.update({ phase: 'error', error: shortErr(err) }); } catch (e) { /* bỏ qua */ }
+    cameraResultBox.className = 'error';
+    cameraResultBox.textContent = 'Super giải toán lỗi: ' + err.message;
+    setFirebaseStatus('bad', '❌ Super lỗi: ' + err.message);
+  }
+}
+
 // ---- Lắng nghe Firebase realtime để biết khi nào Casio mod gửi lệnh mới ----
 let lastHandledCommandId = null;
 let firstSnapshot = true;
@@ -848,7 +965,14 @@ mathRef.on('value', (snap) => {
 
   if (data.status === 'requested' && data.commandId !== lastHandledCommandId) {
     lastHandledCommandId = data.commandId;
-    if (data.cmd === 'capture') {
+    // Bất kỳ lệnh mới nào (capture/solve/delete/super_cancel...) đều huỷ lượt
+    // Super giải toán đang chạy dở (nếu có) - tránh tốn token + ghi đè dữ liệu.
+    superRunId++;
+    if (data.cmd === 'super_start') {
+      handleSuperStart(data.commandId, data.model, superRunId);
+    } else if (data.cmd === 'super_cancel') {
+      setFirebaseStatus('ok', '⏹️ Casio mod đã huỷ Super giải toán');
+    } else if (data.cmd === 'capture') {
       handleCaptureCmd(data.commandId);
     } else if (data.cmd === 'solve') {
       handleSolveCmd(data.commandId, data.questionType, data.questionRange, data.model);
@@ -871,6 +995,11 @@ testSolveBtn.addEventListener('click', () => {
   const questionRange = testRangeInput.value.trim() || '1';
   const commandId = Date.now();
   mathRef.set({ cmd: 'solve', status: 'requested', commandId, questionType, questionRange });
+});
+
+document.getElementById('testSuperBtn').addEventListener('click', () => {
+  const commandId = Date.now();
+  mathRef.set({ cmd: 'super_start', status: 'requested', commandId, model: selectedModel });
 });
 
 testDeleteBtn.addEventListener('click', () => {
