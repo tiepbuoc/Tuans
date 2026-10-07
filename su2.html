@@ -839,9 +839,11 @@ async function handleDeleteCmd(commandId) {
 //   2) Giải lần lượt: ABCD mỗi lần 3 câu; đúng sai / trả lời ngắn / tự luận
 //      từng câu 1. Mỗi lần gửi toàn bộ ảnh + FIXED_PROMPT + "Hãy giải bài
 //      <dạng> số <khoảng> cho tôi." (y hệt mode Giải toán thường).
-//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superAnswers/i<N>
-//      rồi mới thêm vào /mathSession/super/items/i<N> + tăng doneCount để
-//      Casio mod hiện luôn, không đợi cả đề.
+//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superItems/i<N>
+//      (gồm nhãn + đáp án, 1 node duy nhất) rồi mới tăng super/doneCount để
+//      Casio mod hiện luôn, không đợi cả đề. Node /mathSession/super luôn NHỎ
+//      và cố định kích thước (commandId, phase, total, doneCount...) để Casio
+//      mod poll liên tục mà không phải tải lại cả danh sách.
 let superRunId = 0; // tăng mỗi khi có lệnh mới -> lượt đang chạy tự dừng
 
 const SUPER_ANALYZE_PROMPT = `Các ảnh đính kèm là ảnh chụp TOÀN BỘ một đề toán (có thể nhiều ảnh nối tiếp nhau). Hãy đọc kỹ tất cả các ảnh và đếm số câu hỏi theo từng loại:
@@ -877,7 +879,7 @@ function buildSuperItems(c) {
 async function handleSuperStart(commandId, modelFromDevice, runId) {
   const alive = () => runId === superRunId;
   const superRef = mathRef.child('super');
-  const answersRef = mathRef.child('superAnswers');
+  const itemsRef = mathRef.child('superItems');
   const model = modelFromDevice || selectedModel;
   const shortErr = e => String((e && e.message) || e).slice(0, 80);
 
@@ -887,6 +889,7 @@ async function handleSuperStart(commandId, modelFromDevice, runId) {
       setFirebaseStatus('bad', '⚠️ Super giải toán: chưa có ảnh nào');
       return;
     }
+    await itemsRef.remove(); // dọn mục của lượt trước (nếu còn)
     await superRef.set({ commandId, phase: 'analyzing', total: 0, doneCount: 0 });
     setFirebaseStatus('busy', `🔎 Super: đang phân tích đề (model: ${model})...`);
     cameraResultBox.className = '';
@@ -926,12 +929,12 @@ async function handleSuperStart(commandId, modelFromDevice, runId) {
       const failed = answer === null;
       const text = failed ? 'LỖI: ' + shortErr(err) : stripMarkdownForDevice(answer);
 
-      // Đáp án ghi TRƯỚC, mục danh sách ghi SAU (thiết bị chỉ đọc khi mục đã có).
-      await answersRef.child('i' + k).set(text);
+      // Mục (nhãn + đáp án) ghi TRƯỚC, doneCount tăng SAU (thiết bị chỉ đọc khi mục đã có).
+      const item = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range, text };
+      if (failed) item.err = true;
+      await itemsRef.child('i' + k).set(item);
       if (!alive()) return;
-      const meta = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range };
-      if (failed) meta.err = true;
-      await superRef.update({ ['items/i' + k]: meta, doneCount: k + 1 });
+      await superRef.update({ doneCount: k + 1 });
       if (!failed) { cameraResultBox.className = ''; cameraResultBox.innerHTML = formatAnswerHtml(answer); }
     }
 
