@@ -1,610 +1,389 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HSG Huế - TL — Đếm ngược kỳ thi Học sinh giỏi Thành phố Huế 2026-2027</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trang phụ huynh - Trợ lý học tập</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --bg:#ffffff;
-  --card-bg:#fffaf5;
-  --orange:#e67e22;
-  --orange2:#d35400;
-  --orange-pale:rgba(230,126,34,0.08);
-  --border:#f0d0a0;
-  --border-strong:#e8b877;
-  --text-dark:#2c3e50;
-  --text-mid:#7f8c8d;
-  --text-dim:#95a5a6;
-  --shadow:rgba(44,30,10,0.08);
+  color-scheme:light;
+  --page:#f9f9f7; --surface:#fcfcfb; --surface-2:#f3f2ee;
+  --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --baseline:#c3c2b7; --ring:rgba(11,11,11,.10);
+  --accent:#2a78d6; --accent-soft:#cde2fb;
+  --study:#1baf7a; --ent:#eb6834; --browser:#6250d6; --unk:#898781;
+  --good:#0ca30c; --warn:#fab219; --bad:#d03b3b;
+  --font-head:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-html[data-theme="dark"]{
-  --bg:#181410;
-  --card-bg:#221b14;
-  --orange:#f39c39;
-  --orange2:#e67e22;
-  --orange-pale:rgba(230,126,34,0.14);
-  --border:#4a3822;
-  --border-strong:#6b4e26;
-  --text-dark:#f3ede4;
-  --text-mid:#c9bba7;
-  --text-dim:#8f8172;
-  --shadow:rgba(0,0,0,0.35);
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --page:#0d0d0d; --surface:#1a1a19; --surface-2:#222221;
+    --ink:#f0efec; --ink-2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --baseline:#383835; --ring:rgba(255,255,255,.10);
+    --accent:#3987e5; --accent-soft:#184f95;
+    --study:#199e70; --ent:#d95926; --browser:#9085e9; --unk:#898781;
+    --good:#0ca30c; --warn:#fab219; --bad:#d03b3b;
+  }
 }
-
-html{scroll-behavior:smooth}
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--bg);
-  color:var(--text-dark);
-  overflow-x:hidden;
-  transition:background .3s,color .3s;
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --page:#0d0d0d; --surface:#1a1a19; --surface-2:#222221;
+  --ink:#f0efec; --ink-2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --baseline:#383835; --ring:rgba(255,255,255,.10);
+  --accent:#3987e5; --accent-soft:#184f95;
+  --study:#199e70; --ent:#d95926; --browser:#9085e9; --unk:#898781;
+  --good:#0ca30c; --warn:#fab219; --bad:#d03b3b;
 }
-
-/* ── NAV ── */
-nav{
-  position:sticky;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 5%;height:64px;
-  background:var(--bg);
-  border-bottom:1px solid var(--border);
-  gap:8px;
-}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
-.logo-mark{
-  width:34px;height:34px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--orange2),var(--orange));
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;color:white;
-  box-shadow:0 0 20px rgba(230,126,34,0.25);
-}
-.logo-type{
-  font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--text-dark);
-  letter-spacing:-0.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.logo-type em{font-style:italic;color:var(--orange);font-weight:300}
-.nav-menu{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.nav-link{
-  font-size:13.5px;font-weight:500;color:var(--text-mid);text-decoration:none;
-  display:flex;align-items:center;gap:7px;transition:color .2s;
-  padding:8px 10px;border-radius:10px;
-}
-.nav-link:hover{color:var(--orange);background:var(--orange-pale)}
-.nav-link i{font-size:14px;width:16px;text-align:center}
-
-.theme-toggle{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  border:1px solid var(--border);background:var(--orange-pale);color:var(--orange);
-  font-size:15px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .25s;
-}
-.theme-toggle:hover{transform:rotate(20deg);border-color:var(--orange)}
-
-@media(max-width:640px){
-  .nav-link span{display:none}
-  .nav-link{padding:8px}
-  .logo-type{font-size:16px}
-}
-@media(max-width:400px){
-  .logo-type{max-width:110px}
-}
-
-/* ── HERO ── */
-.hero{
-  padding:48px 5% 40px;
-  text-align:center;
-}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1px solid var(--border);border-radius:30px;padding:7px 16px;
-  font-size:11px;font-weight:500;color:var(--orange);
-  letter-spacing:1.2px;text-transform:uppercase;
-  margin-bottom:24px;background:var(--orange-pale);
-  opacity:0;animation:riseUp .8s ease .1s forwards;
-  max-width:100%;
-}
-.eyebrow-dot{width:6px;height:6px;background:var(--orange);border-radius:50%;box-shadow:0 0 8px var(--orange);animation:dotPulse 2s infinite;flex-shrink:0}
-@keyframes dotPulse{0%,100%{box-shadow:0 0 8px var(--orange)}50%{box-shadow:0 0 20px var(--orange)}}
-
-.hero-h1{
-  font-family:'Fraunces',serif;
-  font-size:clamp(26px,6vw,50px);
-  font-weight:300;line-height:1.15;letter-spacing:-1px;
-  margin:0 auto 30px;max-width:780px;
-  opacity:0;animation:riseUp .9s ease .25s forwards;
-}
-.hero-h1 .italic{font-style:italic;font-weight:300;color:var(--orange);display:block}
-.hero-h1 .line2{
-  display:block;
-  background:linear-gradient(90deg,var(--text-dark) 0%,var(--orange) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-
-.milestone{
-  max-width:600px;margin:0 auto 24px;
-  opacity:0;animation:riseUp .9s ease .4s forwards;
-}
-.milestone-title{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:12.5px;font-weight:600;color:var(--text-dark);
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;
-}
-.milestone-title i{color:var(--orange)}
-.milestone.secondary{animation-delay:.55s;margin-bottom:18px}
-.milestone.secondary .milestone-title{color:var(--text-mid);font-size:11.5px}
-.milestone.secondary .box{padding:14px 12px;min-width:62px}
-.milestone.secondary .num{font-size:clamp(1.4rem,4vw,1.9rem)}
-
-.countdown{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
-.box{
-  background:var(--card-bg);border:1px solid var(--border);border-radius:20px;
-  padding:18px 16px;min-width:78px;
-  box-shadow:0 10px 24px var(--shadow);
-  transition:transform .3s,border-color .3s;
-}
-.box:hover{transform:translateY(-3px);border-color:var(--orange)}
-.num{
-  font-family:'Fraunces',serif;font-size:clamp(1.7rem,5vw,2.6rem);
-  font-weight:600;color:var(--orange);font-variant-numeric:tabular-nums;line-height:1;
-}
-.label{margin-top:7px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid);font-weight:500}
-
-.milestone-note{font-size:12px;color:var(--text-dim);padding:0 8px;line-height:1.6}
-.milestone-note b{color:var(--text-dark)}
-.milestone-note i{color:var(--orange);margin-right:5px}
-
-.done-msg{
-  display:none;font-family:'Fraunces',serif;font-size:clamp(1.2rem,4vw,1.7rem);
-  color:var(--orange);font-style:italic;margin-bottom:14px;
-}
-
-/* ── SECTION shared ── */
-.section-wrap{padding:44px 5% 10px;max-width:1150px;margin:0 auto}
-.section-label{
-  font-size:11px;font-weight:500;color:var(--orange);
-  letter-spacing:2.5px;text-transform:uppercase;
-  margin-bottom:18px;display:flex;align-items:center;gap:10px;
-}
-.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent);max-width:80px}
-
-/* ── SCHEDULE CARDS ── */
-.board-block{margin-bottom:38px}
-.board-heading{
-  display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;
-}
-.board-heading h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600}
-.board-pill{
-  background:var(--orange);color:white;font-size:11px;font-weight:700;
-  padding:5px 13px;border-radius:20px;letter-spacing:.03em;
-}
-
-.session-block{margin-bottom:20px}
-.session-head{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  font-size:12.5px;color:var(--text-mid);margin-bottom:12px;
-  padding-left:2px;
-}
-.session-head b{color:var(--text-dark)}
-.session-head .sh-time{
-  background:var(--card-bg);border:1px solid var(--border-strong);
-  padding:4px 11px;border-radius:20px;font-weight:600;color:var(--orange2);
-}
-html[data-theme="dark"] .session-head .sh-time{color:var(--orange)}
-.session-note{font-size:11.5px;color:var(--text-dim);font-style:italic;width:100%;margin-top:2px}
-
-.subject-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;
-}
-.subject-card{
-  background:var(--card-bg);
-  border:1.5px solid var(--border-strong);
-  border-left:5px solid var(--sub-color, var(--orange));
-  border-radius:16px;
-  padding:14px 13px;
-  cursor:pointer;
-  display:flex;flex-direction:column;align-items:flex-start;gap:9px;
-  box-shadow:0 6px 16px var(--shadow);
-  transition:transform .2s,box-shadow .2s;
-  user-select:none;
-}
-.subject-card:hover,.subject-card:active{transform:translateY(-3px);box-shadow:0 12px 24px var(--shadow)}
-.subject-icon{
-  width:34px;height:34px;border-radius:10px;
-  background:var(--sub-color, var(--orange));color:white;
-  display:flex;align-items:center;justify-content:center;font-size:14.5px;
-}
-.subject-card-name{font-size:13px;font-weight:600;color:var(--text-dark)}
-
-/* floating tooltip */
-#floatingTooltip{
-  position:fixed;z-index:999;pointer-events:none;
-  background:var(--text-dark);color:var(--bg);
-  padding:10px 14px;border-radius:12px;font-size:12.5px;line-height:1.55;
-  max-width:min(240px, 80vw);box-shadow:0 10px 30px rgba(0,0,0,0.25);
-  opacity:0;transition:opacity .12s ease;
-}
-#floatingTooltip.show{opacity:1}
-#floatingTooltip b{display:block;margin-bottom:4px;font-size:13px}
-
-/* ── DOCS ── */
-.docs{padding:40px 5% 80px;max-width:900px;margin:0 auto}
-.doc-item{margin-bottom:34px}
-.doc-item:last-child{margin-bottom:0}
-.doc-card{
-  background:var(--card-bg);border:1.5px solid var(--border-strong);
-  border-radius:22px;padding:20px 20px;
-  display:flex;align-items:center;gap:16px;
-  text-decoration:none;color:var(--text-dark);
-  transition:transform .3s,border-color .3s;
-  margin-bottom:14px;
-}
-.doc-card:hover{transform:translateY(-3px);border-color:var(--orange)}
-.doc-icon{
-  width:46px;height:46px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--orange2),var(--orange));
-  border-radius:14px;color:white;font-size:19px;
-  display:flex;align-items:center;justify-content:center;
-}
-.doc-title{font-family:'Fraunces',serif;font-size:15.5px;font-weight:500;margin-bottom:3px}
-.doc-desc{font-size:12px;color:var(--text-mid)}
-.doc-arrow{margin-left:auto;color:var(--text-dim);font-size:13px;flex-shrink:0}
-
-.pdf-frame-wrap{
-  border:1px solid var(--border-strong);border-radius:18px;overflow:hidden;
-  box-shadow:0 10px 24px var(--shadow);background:var(--card-bg);
-}
-.pdf-frame-wrap iframe{
-  display:block;width:100%;height:600px;border:none;background:#fff;
-}
-@media(max-width:700px){
-  .pdf-frame-wrap iframe{height:70vh}
-}
-
-footer{border-top:1px solid var(--border);padding:32px 5%;text-align:center}
-.footer-copyright{font-size:12px;color:var(--text-dim)}
-
-@keyframes riseUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.rise{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.rise.in{opacity:1;transform:translateY(0)}
-
-@media(max-width:600px){
-  .countdown{gap:7px}
-  .box{padding:12px 9px;min-width:58px;border-radius:14px}
-  .subject-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-  .section-wrap{padding:36px 5% 6px}
-  .hero{padding:40px 5% 32px}
-}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--font-body);padding-inline:16px;padding-block:20px}
+h1,h2,h3{font-family:var(--font-head);text-wrap:balance;margin:0}
+.wrap{max-width:900px;margin:0 auto}
+.hide{display:none!important}
+button,input{font:inherit}
+/* ---- gate ---- */
+#gate{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+#gate .mark{width:52px;height:52px;border-radius:14px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:800}
+#gate h1{font-size:1.5rem;font-weight:800}
+#gate p{color:var(--ink-2);max-width:360px;margin:0;line-height:1.5}
+#gateForm{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#codeInput{border:1.5px solid var(--grid);background:var(--surface);color:var(--ink);border-radius:10px;padding:12px 14px;font-size:1.1rem;letter-spacing:.12em;text-transform:uppercase;width:200px;text-align:center;font-variant-numeric:tabular-nums}
+#codeInput:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btn{border:none;border-radius:10px;padding:12px 20px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--ink-2);border:1.5px solid var(--grid)}
+#gateErr{color:var(--bad);font-size:.9rem;min-height:1.2em}
+/* ---- dashboard ---- */
+#dash{display:none;flex-direction:column;gap:18px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header.top .who{display:flex;align-items:center;gap:10px;min-width:0}
+header.top .dot{width:10px;height:10px;border-radius:50%;flex:none}
+header.top h1{font-size:1.15rem;font-weight:700}
+header.top .sub{color:var(--muted);font-size:.82rem}
+.linkbtn{background:none;border:none;color:var(--accent);font-size:.82rem;cursor:pointer;padding:0;text-decoration:underline}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tile .lbl{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.tile .val{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums}
+.tile .sub{font-size:.78rem;color:var(--ink-2)}
+.card{background:var(--surface);border:1px solid var(--ring);border-radius:16px;padding:18px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:10px}
+.card h2 .n{color:var(--muted);font-weight:500;font-size:.82rem}
+.chartwrap{overflow-x:auto}
+svg text{fill:var(--muted);font-family:var(--font-body)}
+.barrow{display:flex;height:26px;border-radius:7px;overflow:hidden;background:var(--grid)}
+.barrow div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:.78rem;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.list{display:flex;flex-direction:column;gap:0;max-height:360px;overflow-y:auto}
+.row{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--grid);align-items:flex-start}
+.row:last-child{border-bottom:none}
+.row .time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.8rem;flex:none;width:42px;padding-top:2px}
+.row .body{flex:1;min-width:0}
+.row .main{font-size:.92rem}
+.row .meta{font-size:.78rem;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;font-size:.7rem;padding:1px 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);margin-left:6px}
+.tag.wrong{background:color-mix(in srgb, var(--warn) 22%, var(--surface));color:var(--warn)}
+.empty{color:var(--muted);font-size:.88rem;padding:14px 0;text-align:center}
+details summary{cursor:pointer;font-size:.9rem;color:var(--ink);list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary:before{content:"▸ ";color:var(--muted)}
+details[open] summary:before{content:"▾ "}
+details pre{white-space:pre-wrap;font-family:var(--font-body);font-size:.85rem;color:var(--ink-2);margin:8px 0 2px;line-height:1.5}
+ul.comments{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px}
+ul.comments li{font-size:.92rem;line-height:1.5}
+footer{color:var(--muted);font-size:.76rem;text-align:center;padding-top:6px}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div id="floatingTooltip"></div>
-
-<nav>
-  <a href="#" class="logo">
-    <div class="logo-mark"><i class="fas fa-graduation-cap"></i></div>
-    <div class="logo-type">HSG Huế <em>· TL</em></div>
-  </a>
-  <div class="nav-menu">
-    <a href="#schedule" class="nav-link"><i class="fas fa-calendar-alt"></i><span> Lịch thi</span></a>
-    <a href="#docs" class="nav-link"><i class="fas fa-file-pdf"></i><span> Công văn</span></a>
-    <button class="theme-toggle" id="themeToggle" title="Chuyển chế độ sáng/tối">
-      <i class="fas fa-moon" id="themeIcon"></i>
-    </button>
+  <div id="gate">
+    <div class="mark">TL</div>
+    <h1>Trang phụ huynh / giáo viên</h1>
+    <p>Nhập mã gia đình (8 ký tự) để xem. Mã này lấy trong app trên máy học sinh, hoặc bấm "Tạo mã mới" bên dưới để tạo một mã cho gia đình bạn rồi dán vào app học sinh.</p>
+    <form id="gateForm">
+      <input id="codeInput" maxlength="9" placeholder="ABCD-2345" autocomplete="off" autocapitalize="characters">
+      <button class="btn" type="submit">Xem</button>
+    </form>
+    <button class="btn ghost" id="genBtn" type="button">Tạo mã mới</button>
+    <div id="gateErr"></div>
   </div>
-</nav>
 
-<section class="hero">
-  <div class="hero-eyebrow">
-    <div class="eyebrow-dot"></div>
-    <i class="fas fa-award"></i> KỲ THI HSG THPT · CẤP THÀNH PHỐ HUẾ · 2026-2027
-  </div>
-  <h1 class="hero-h1">
-    <span class="italic">Đếm ngược</span>
-    <span class="line2">đến kỳ thi HSG Thành phố Huế</span>
-  </h1>
+  <div id="dash">
+    <header class="top">
+      <div class="who">
+        <div class="dot" id="statusDot" style="background:var(--muted)"></div>
+        <div>
+          <h1 id="studentName">Học sinh</h1>
+          <div class="sub" id="statusSub">—</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="sub">Mã gia đình: <b id="codeShown" style="font-variant-numeric:tabular-nums"></b></div>
+        <button class="linkbtn" id="switchBtn">Xem gia đình khác</button>
+      </div>
+    </header>
 
-  <div class="milestone" id="mainMilestone">
-    <div class="milestone-title"><i class="fas fa-pen-nib"></i> Giờ bắt đầu thi (buổi thi đầu tiên)</div>
-    <div class="countdown" id="gridMain">
-      <div class="box"><div class="num" id="d-main">--</div><div class="label">Ngày</div></div>
-      <div class="box"><div class="num" id="h-main">--</div><div class="label">Giờ</div></div>
-      <div class="box"><div class="num" id="m-main">--</div><div class="label">Phút</div></div>
-      <div class="box"><div class="num" id="s-main">--</div><div class="label">Giây</div></div>
+    <div class="grid" id="tiles"></div>
+
+    <div class="card">
+      <h2>Điểm tập trung hôm nay <span class="n" id="focusRange"></span></h2>
+      <div class="chartwrap"><svg id="focusChart" width="100%" height="200" viewBox="0 0 860 200" preserveAspectRatio="xMidYMid meet"></svg></div>
     </div>
-    <div class="done-msg" id="doneMain"><i class="fas fa-star"></i> Chúc may mắn, kỳ thi bắt đầu! <i class="fas fa-star"></i></div>
-    <div class="milestone-note"><i class="far fa-clock"></i>8 giờ 05 phút, <b>Thứ Sáu 09/10/2026</b> — Trường THPT chuyên Quốc Học – Huế, số 12 Lê Lợi, phường Thuận Hóa, TP. Huế</div>
-  </div>
 
-  <div class="milestone secondary" id="goMilestone">
-    <div class="milestone-title"><i class="fas fa-bus"></i> Giờ tập trung / khởi hành (đi trước 1 ngày)</div>
-    <div class="countdown" id="gridGo">
-      <div class="box"><div class="num" id="d-go">--</div><div class="label">Ngày</div></div>
-      <div class="box"><div class="num" id="h-go">--</div><div class="label">Giờ</div></div>
-      <div class="box"><div class="num" id="m-go">--</div><div class="label">Phút</div></div>
-      <div class="box"><div class="num" id="s-go">--</div><div class="label">Giây</div></div>
+    <div class="card">
+      <h2>Thời gian theo loại hoạt động hôm nay</h2>
+      <div class="barrow" id="catBar"></div>
+      <div class="legend" id="catLegend"></div>
     </div>
-    <div class="done-msg" id="doneGo"><i class="fas fa-bus"></i> Đã đến giờ khởi hành! <i class="fas fa-bus"></i></div>
-    <div class="milestone-note"><i class="far fa-clock"></i>12:00, <b>Thứ Năm 08/10/2026</b> — tập trung tại trường để di chuyển và chuẩn bị trước ngày thi</div>
+
+    <div class="card">
+      <h2>Nhận xét tự động <span class="n">(tính từ số liệu, không phải AI - có thể gắn AI thật sau)</span></h2>
+      <ul class="comments" id="comments"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Cảnh báo gần đây</h2>
+      <div class="list" id="alertsList"><div class="empty">Chưa có cảnh báo nào.</div></div>
+    </div>
+
+    <div class="card">
+      <h2>Báo cáo cuối buổi học</h2>
+      <div class="list" id="reportsList"><div class="empty">Chưa có báo cáo nào.</div></div>
+    </div>
+
+    <footer>Dữ liệu chỉ gồm văn bản/số liệu (không ảnh, không âm thanh), đọc trực tiếp từ Firebase của gia đình bạn.</footer>
   </div>
-</section>
 
-<section class="section-wrap" id="schedule">
-  <div class="section-label rise"><i class="fas fa-calendar-alt"></i> Lịch thi chi tiết theo môn</div>
-  <p style="font-size:12.5px;color:var(--text-dim);margin:-8px 0 20px;" class="rise">
-    <i class="fas fa-hand-pointer" style="color:var(--orange);margin-right:6px"></i>Chạm hoặc rê chuột vào từng môn để xem hình thức thi
-  </p>
-  <div id="scheduleContainer"></div>
-</section>
+</div>
 
-<section class="docs" id="docs">
-  <div class="section-label rise"><i class="fas fa-file-pdf"></i> Văn bản, công văn liên quan</div>
-  <div id="docsContainer"></div>
-</section>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, collection, query, where, orderBy, limit, onSnapshot }
+  from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-<footer>
-  <div class="footer-copyright"><i class="far fa-copyright"></i> 2026 · HSG Huế - TL — Đếm ngược kỳ thi Học sinh giỏi Thành phố Huế</div>
-</footer>
-
-<script>
-/* ============ DATA (theo công văn hướng dẫn & kế hoạch 5324/KH-SGDĐT) ============ */
-var SUBJECT_META = {
-  "Toán học":   { icon:"fa-square-root-variable", color:"#6366f1" },
-  "Vật lí":     { icon:"fa-atom",                 color:"#0ea5e9" },
-  "Hóa học":    { icon:"fa-flask",                color:"#10b981" },
-  "Sinh học":   { icon:"fa-dna",                  color:"#22c55e" },
-  "Ngữ văn":    { icon:"fa-feather-pointed",      color:"#ef4444" },
-  "Lịch sử":    { icon:"fa-landmark",             color:"#b45309" },
-  "Địa lí":     { icon:"fa-earth-asia",           color:"#06b6d4" },
-  "Tiếng Anh":  { icon:"fa-comments",             color:"#f59e0b" },
-  "Tiếng Pháp": { icon:"fa-comment-dots",         color:"#8b5cf6" },
-  "Tiếng Nhật": { icon:"fa-torii-gate",           color:"#ec4899" },
-  "Tin học":    { icon:"fa-laptop-code",          color:"#3b82f6" }
+const firebaseConfig = {
+  apiKey: "AIzaSyCTNX2TqWqWg2ZbZDS_QgNpEvKcswjKyHQ",
+  authDomain: "tuqu-af30e.firebaseapp.com",
+  projectId: "tuqu-af30e",
+  storageBucket: "tuqu-af30e.firebasestorage.app",
+  messagingSenderId: "637417664796",
+  appId: "1:637417664796:web:c7490dafd0ab5c62ae4ad9",
+  measurementId: "G-9G9GH8V1E3"
 };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-var EXAM = [
-  {
-    board:"Không chuyên", date:"09/10/2026 (Thứ Sáu)",
-    sessions:[
-      {
-        period:"Buổi sáng", time:"08 giờ 05", iso:"2026-10-09T01:05:00Z", duration:150, note:null,
-        subjects:[
-          { name:"Toán học",  format:"Kết hợp tự luận và trắc nghiệm, phần trắc nghiệm chiếm khoảng 50% tổng điểm bài thi." },
-          { name:"Vật lí",    format:"Kết hợp tự luận và trắc nghiệm, phần trắc nghiệm chiếm khoảng 50% tổng điểm bài thi." },
-          { name:"Hóa học",   format:"Kết hợp tự luận và trắc nghiệm, phần trắc nghiệm chiếm khoảng 50% tổng điểm bài thi." },
-          { name:"Sinh học",  format:"Kết hợp tự luận và trắc nghiệm, phần trắc nghiệm chiếm khoảng 50% tổng điểm bài thi." },
-          { name:"Tiếng Anh", format:"Kết hợp tự luận và trắc nghiệm, đánh giá 3 kỹ năng nghe - đọc - viết; thí sinh làm bài trực tiếp trên đề thi." }
-        ]
-      },
-      {
-        period:"Buổi chiều", time:"14 giờ 05", iso:"2026-10-09T07:05:00Z", duration:150, note:null,
-        subjects:[
-          { name:"Ngữ văn",    format:"Thi theo hình thức tự luận." },
-          { name:"Lịch sử",    format:"Kết hợp tự luận và trắc nghiệm, phần trắc nghiệm chiếm khoảng 50% tổng điểm bài thi." },
-          { name:"Địa lí",     format:"Kết hợp tự luận và trắc nghiệm, phần trắc nghiệm chiếm khoảng 50% tổng điểm bài thi." },
-          { name:"Tiếng Pháp", format:"Kết hợp tự luận và trắc nghiệm, đánh giá 3 kỹ năng nghe - đọc - viết; thí sinh làm bài trực tiếp trên đề thi." },
-          { name:"Tiếng Nhật", format:"Kết hợp tự luận và trắc nghiệm, đánh giá 3 kỹ năng nghe - đọc - viết; thí sinh làm bài trực tiếp trên đề thi." },
-          { name:"Tin học",    format:"Thi thực hành lập trình trên máy vi tính, sử dụng ngôn ngữ C/C++ hoặc Python." }
-        ]
-      }
-    ]
-  },
-  {
-    board:"Chuyên", date:"10/10/2026 (Thứ Bảy)",
-    sessions:[
-      {
-        period:"Buổi sáng", time:"08 giờ 05", iso:"2026-10-10T01:05:00Z", duration:180,
-        note:"Thi nói Tiếng Pháp, Tiếng Nhật bắt đầu từ 7 giờ 30 (mỗi thí sinh 5 phút chuẩn bị + 5 phút trình bày)",
-        subjects:[
-          { name:"Toán học",  format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Vật lí",    format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Hóa học",   format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Sinh học",  format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Tiếng Anh", format:"Kết hợp tự luận và trắc nghiệm, kiểm tra 4 kỹ năng nghe - nói - đọc - viết; làm bài trực tiếp trên đề thi." }
-        ]
-      },
-      {
-        period:"Buổi chiều", time:"14 giờ 05", iso:"2026-10-10T07:05:00Z", duration:180,
-        note:"Thi nói Tiếng Anh bắt đầu từ 13 giờ 30 (mỗi thí sinh 5 phút chuẩn bị + 5 phút trình bày)",
-        subjects:[
-          { name:"Ngữ văn",    format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Lịch sử",    format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Địa lí",     format:"Thi theo hình thức tự luận 100% (đề thi thuộc chương trình chuyên THPT)." },
-          { name:"Tiếng Pháp", format:"Kết hợp tự luận và trắc nghiệm, kiểm tra 4 kỹ năng nghe - nói - đọc - viết; làm bài trực tiếp trên đề thi." },
-          { name:"Tiếng Nhật", format:"Kết hợp tự luận và trắc nghiệm, kiểm tra 4 kỹ năng nghe - nói - đọc - viết; làm bài trực tiếp trên đề thi." },
-          { name:"Tin học",    format:"Thi thực hành lập trình trên máy vi tính, sử dụng ngôn ngữ C/C++ hoặc Python." }
-        ]
-      }
-    ]
-  }
-];
+const CODE_RE = /^[A-Z2-9]{8}$/;
+const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const CAT_LABEL = {study:'Học tập', ent:'Giải trí', browser:'Trình duyệt', unk:'Chưa rõ'};
+const CAT_COLOR = {study:'var(--study)', ent:'var(--ent)', browser:'var(--browser)', unk:'var(--unk)'};
+const GAZE_LABEL = {screen:'Nhìn màn hình', down:'Cúi xuống', away:'Quay đi', none:'Không thấy mặt'};
+const ALERT_TYPE = {app:'Giải trí', x:'Vắng mặt', m:'Chuột/phím'};
+const REASON_TEXT = {hoc:'Đang học (tra cứu/xem bài giảng)', giay:'Đang làm bài trên giấy',
+  nghi:'Đang nghỉ giải lao', loi:'Phần mềm nhận diện sai', khac:'Lý do khác'};
 
-var DOCS = [
-  { file:"Huong-dan-thi-chon-HSG.pdf", title:"Hướng dẫn tổ chức Kỳ thi", desc:"Công văn hướng dẫn tổ chức thi chọn HSG THPT cấp thành phố 2026-2027" },
-  { file:"Ke-hoach-5324-KH-SGDDT-2026.pdf", title:"Kế hoạch số 5324/KH-SGDĐT", desc:"Kế hoạch tổ chức Kỳ thi chọn HSG THPT cấp thành phố năm học 2026-2027" }
-];
+function normCode(s){ return (s||'').toUpperCase().replace(/[^A-Z0-9]/g,''); }
+function fmtCode(c){ c=normCode(c); return c.length===8 ? c.slice(0,4)+'-'+c.slice(4) : c; }
+function genCode(){ let o=''; for(let i=0;i<8;i++) o+=ALPHA[Math.floor(Math.random()*ALPHA.length)]; return o; }
+function hhmm(ms){ const d=new Date(ms); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function dur(sec){ sec=Math.round(sec); const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  if(h) return h+' giờ '+String(m).padStart(2,'0')+' phút';
+  if(m) return m+' phút '+String(s).padStart(2,'0')+' giây';
+  return s+' giây'; }
+function pct(v,total){ return total? Math.round(100*v/total) : 0; }
+function focusColor(v){ return v>=70?'var(--good)': v>=40?'var(--warn)':'var(--bad)'; }
 
-function pad(n){ return String(n).padStart(2,'0'); }
+// ---- gate ----
+const gate=document.getElementById('gate'), dash=document.getElementById('dash');
+const codeInput=document.getElementById('codeInput'), gateErr=document.getElementById('gateErr');
+document.getElementById('genBtn').onclick=()=>{ codeInput.value=fmtCode(genCode()); codeInput.focus(); };
+document.getElementById('gateForm').onsubmit=(e)=>{
+  e.preventDefault();
+  const c=normCode(codeInput.value);
+  if(!CODE_RE.test(c)){ gateErr.textContent='Mã gia đình phải gồm đúng 8 ký tự chữ/số.'; return; }
+  openFamily(c);
+};
+document.getElementById('switchBtn').onclick=()=>{
+  for(const u of unsubs) u();
+  unsubs.length=0;
+  dash.style.display='none'; gate.style.display='flex';
+  try{ localStorage.removeItem('tlht_code'); }catch(e){}
+};
+try{
+  const saved=localStorage.getItem('tlht_code');
+  if(saved && CODE_RE.test(saved)){ codeInput.value=fmtCode(saved); openFamily(saved); }
+}catch(e){}
 
-/* ============ 2 mốc đếm ngược chính ============ */
-var TARGET_MAIN = new Date("2026-10-09T01:05:00Z").getTime();
-var TARGET_GO   = new Date("2026-10-08T05:00:00Z").getTime();
+let unsubs=[];
+let latestMetrics=[], latestAlerts=[];
 
-function runCountdown(target, prefix, gridEl, doneEl){
-  var diff = target - Date.now();
-  if(diff <= 0){
-    if(gridEl) gridEl.style.display = 'none';
-    if(doneEl) doneEl.style.display = 'block';
-    return;
-  }
-  var d = Math.floor(diff / 86400000);
-  var h = Math.floor((diff / 3600000) % 24);
-  var m = Math.floor((diff / 60000) % 60);
-  var s = Math.floor((diff / 1000) % 60);
-  var dd = document.getElementById('d-'+prefix);
-  var hh = document.getElementById('h-'+prefix);
-  var mm = document.getElementById('m-'+prefix);
-  var ss = document.getElementById('s-'+prefix);
-  if(dd) dd.textContent = d;
-  if(hh) hh.textContent = pad(h);
-  if(mm) mm.textContent = pad(m);
-  if(ss) ss.textContent = pad(s);
+function openFamily(code){
+  gateErr.textContent='';
+  gate.style.display='none'; dash.style.display='flex';
+  document.getElementById('codeShown').textContent=fmtCode(code);
+  try{ localStorage.setItem('tlht_code', code); }catch(e){}
+
+  const fam=(...p)=>collection(db,'families',code,...p);
+
+  // trang thai (online/offline)
+  const qStatus=query(fam('status'), orderBy('ts','desc'), limit(1));
+  unsubs.push(onSnapshot(qStatus, snap=>{
+    if(snap.empty){ setStatus(null); return; }
+    setStatus(snap.docs[0].data());
+  }, err=>console.error(err)));
+
+  // metrics hom nay
+  const dayStart=new Date(); dayStart.setHours(0,0,0,0);
+  const qMetrics=query(fam('metrics'), where('ts','>=',dayStart.getTime()), orderBy('ts'), limit(500));
+  unsubs.push(onSnapshot(qMetrics, snap=>{
+    latestMetrics = snap.docs.map(d=>d.data());
+    renderMetrics(latestMetrics);
+  }, err=>console.error(err)));
+
+  // canh bao gan day
+  const qAlerts=query(fam('alerts'), orderBy('id','desc'), limit(50));
+  unsubs.push(onSnapshot(qAlerts, snap=>{
+    latestAlerts = snap.docs.map(d=>d.data());
+    renderAlerts(latestAlerts);
+  }, err=>console.error(err)));
+
+  // bao cao cuoi buoi
+  const qReports=query(fam('reports'), orderBy('t1','desc'), limit(20));
+  unsubs.push(onSnapshot(qReports, snap=>{
+    renderReports(snap.docs.map(d=>d.data()));
+  }, err=>console.error(err)));
 }
-function tickAll(){
-  runCountdown(TARGET_MAIN, 'main', document.getElementById('gridMain'), document.getElementById('doneMain'));
-  runCountdown(TARGET_GO, 'go', document.getElementById('gridGo'), document.getElementById('doneGo'));
+
+function setStatus(st){
+  const dot=document.getElementById('statusDot'), sub=document.getElementById('statusSub'), name=document.getElementById('studentName');
+  if(!st){ dot.style.background='var(--muted)'; sub.textContent='Chưa có dữ liệu - mở app trên máy học sinh và dán đúng mã gia đình.'; name.textContent='Học sinh'; return; }
+  name.textContent = st.name || 'Học sinh';
+  const fresh = Date.now()-st.ts < 90*1000;
+  const online = fresh && st.on;
+  dot.style.background = online ? 'var(--good)' : 'var(--muted)';
+  sub.textContent = online
+    ? 'Đang hoạt động'+(st.cam?' · camera bật':' · không dùng camera')+(st.demo?' · chế độ demo':'')
+    : 'Ngoại tuyến từ '+hhmm(st.ts);
 }
-setInterval(tickAll, 1000);
-tickAll();
 
-/* ============ Xây dựng lịch thi dạng thẻ ============ */
-var scheduleContainer = document.getElementById('scheduleContainer');
+function renderMetrics(rows){
+  const tiles=document.getElementById('tiles');
+  let studySec=0,entSec=0,browserSec=0,unkSec=0,focusSum=0,focusN=0,gaze={screen:0,down:0,away:0,none:0},gazeN=0;
+  for(const r of rows){
+    studySec+=r.studySec||0; entSec+=r.entSec||0; browserSec+=r.browserSec||0; unkSec+=r.unkSec||0;
+    if(typeof r.focusScore==='number'){ focusSum+=r.focusScore; focusN++; }
+    const gsum=(r.gazeScreenPct||0)+(r.gazeDownPct||0)+(r.gazeAwayPct||0)+(r.gazeNonePct||0);
+    if(gsum>0){ gaze.screen+=r.gazeScreenPct||0; gaze.down+=r.gazeDownPct||0; gaze.away+=r.gazeAwayPct||0; gaze.none+=r.gazeNonePct||0; gazeN++; }
+  }
+  const total=studySec+entSec+browserSec+unkSec;
+  const avgFocus = focusN? Math.round(focusSum/focusN) : null;
+  const alertsToday = latestAlerts.filter(a=>a.id>=new Date().setHours(0,0,0,0) && !a.wrong).length;
 
-EXAM.forEach(function(board){
-  var boardDiv = document.createElement('div');
-  boardDiv.className = 'board-block rise';
+  tiles.innerHTML = `
+    <div class="tile"><div class="lbl">Điểm tập trung TB</div>
+      <div class="val" style="color:${avgFocus===null?'var(--muted)':focusColor(avgFocus)}">${avgFocus===null?'—':avgFocus}</div>
+      <div class="sub">${avgFocus===null?'chưa có dữ liệu':'trên 100'}</div></div>
+    <div class="tile"><div class="lbl">Thời gian hoạt động</div>
+      <div class="val">${total?dur(total).split(' ').slice(0,2).join(' '):'—'}</div>
+      <div class="sub">tính từ 0:00 hôm nay</div></div>
+    <div class="tile"><div class="lbl">Giải trí</div>
+      <div class="val">${pct(entSec,total)}%</div>
+      <div class="sub">${entSec?dur(entSec):'0 giây'}</div></div>
+    <div class="tile"><div class="lbl">Cảnh báo hôm nay</div>
+      <div class="val" style="color:${alertsToday>0?'var(--warn)':'var(--ink)'}">${alertsToday}</div>
+      <div class="sub">chưa tính phản hồi "báo sai"</div></div>`;
 
-  var heading = document.createElement('div');
-  heading.className = 'board-heading';
-  heading.innerHTML = '<h3>Bảng ' + board.board + '</h3>' +
-    '<span class="board-pill">' + board.date + '</span>';
-  boardDiv.appendChild(heading);
+  // bieu do cham diem
+  drawFocusChart(rows);
 
-  board.sessions.forEach(function(session){
-    var sBlock = document.createElement('div');
-    sBlock.className = 'session-block';
+  // thanh loai hoat dong
+  const bar=document.getElementById('catBar'), leg=document.getElementById('catLegend');
+  if(!total){ bar.innerHTML=''; bar.style.background='var(--grid)'; leg.innerHTML='<span>Chưa có dữ liệu hôm nay.</span>'; }
+  else{
+    const cats=[['study',studySec],['browser',browserSec],['ent',entSec],['unk',unkSec]].filter(c=>c[1]>0);
+    bar.innerHTML = cats.map(([k,v])=>`<div style="width:${pct(v,total)}%;background:${CAT_COLOR[k]}" title="${CAT_LABEL[k]} ${pct(v,total)}%"></div>`).join('');
+    leg.innerHTML = cats.map(([k,v])=>`<span><i style="background:${CAT_COLOR[k]}"></i>${CAT_LABEL[k]} · ${dur(v)} (${pct(v,total)}%)</span>`).join('');
+  }
 
-    var head = document.createElement('div');
-    head.className = 'session-head';
-    head.innerHTML = '<b>' + session.period + '</b> · Thời gian làm bài ' + session.duration + ' phút' +
-      ' <span class="sh-time"><i class="far fa-clock"></i> ' + session.time + '</span>' +
-      (session.note ? '<div class="session-note"><i class="fas fa-circle-info"></i> ' + session.note + '</div>' : '');
-    sBlock.appendChild(head);
+  renderComments({studySec,entSec,browserSec,unkSec,total,avgFocus,gaze,gazeN,alertsToday});
+}
 
-    var grid = document.createElement('div');
-    grid.className = 'subject-grid';
-
-    session.subjects.forEach(function(subj){
-      var meta = SUBJECT_META[subj.name] || { icon:"fa-book", color:"#e67e22" };
-      var card = document.createElement('div');
-      card.className = 'subject-card';
-      card.style.setProperty('--sub-color', meta.color);
-      card.innerHTML = '<div class="subject-icon"><i class="fas ' + meta.icon + '"></i></div>' +
-        '<div class="subject-card-name">' + subj.name + '</div>';
-
-      card.addEventListener('mouseenter', function(e){ showTooltip(e, subj, session, board); });
-      card.addEventListener('mousemove', function(e){ moveTooltip(e); });
-      card.addEventListener('mouseleave', hideTooltip);
-      card.addEventListener('click', function(e){
-        e.stopPropagation();
-        if(activeCard === card){
-          hideTooltip();
-          activeCard = null;
-        } else {
-          showTooltip(e, subj, session, board);
-          activeCard = card;
-        }
-      });
-
-      grid.appendChild(card);
-    });
-
-    sBlock.appendChild(grid);
-    boardDiv.appendChild(sBlock);
+function drawFocusChart(rows){
+  const svg=document.getElementById('focusChart');
+  const W=860,H=200,padL=30,padR=14,padT=14,padB=26;
+  const pts=rows.filter(r=>typeof r.focusScore==='number');
+  document.getElementById('focusRange').textContent = pts.length? ('('+hhmm(pts[0].ts)+' – '+hhmm(pts[pts.length-1].ts)+')') : '';
+  if(!pts.length){ svg.innerHTML=`<text x="${W/2}" y="${H/2}" text-anchor="middle" font-size="13">Chưa có dữ liệu để vẽ biểu đồ.</text>`; return; }
+  const t0=pts[0].ts, t1=pts[pts.length-1].ts, tspan=Math.max(1,t1-t0);
+  const x=t=>padL+(W-padL-padR)*((t-t0)/tspan);
+  const y=v=>padT+(H-padT-padB)*(1-v/100);
+  let grid='', ticks='';
+  [0,25,50,75,100].forEach(v=>{
+    grid+=`<line x1="${padL}" y1="${y(v)}" x2="${W-padR}" y2="${y(v)}" stroke="var(--grid)" stroke-width="1"/>`;
+    ticks+=`<text x="${padL-6}" y="${y(v)+4}" text-anchor="end" font-size="11">${v}</text>`;
   });
-
-  scheduleContainer.appendChild(boardDiv);
-});
-
-/* ============ Tooltip theo chuột / chạm ============ */
-var tooltipEl = document.getElementById('floatingTooltip');
-var activeCard = null;
-function showTooltip(e, subj, session, board){
-  tooltipEl.innerHTML = '<b>' + subj.name + ' — Bảng ' + board.board + '</b>' +
-    session.period + ', ' + session.time + ' (' + session.duration + ' phút)<br>' + subj.format;
-  tooltipEl.classList.add('show');
-  moveTooltip(e);
+  const path=pts.map((p,i)=>(i?'L':'M')+x(p.ts).toFixed(1)+','+y(p.focusScore).toFixed(1)).join(' ');
+  const area=path+` L${x(pts[pts.length-1].ts).toFixed(1)},${y(0)} L${x(pts[0].ts).toFixed(1)},${y(0)} Z`;
+  const dots=pts.map(p=>`<circle cx="${x(p.ts).toFixed(1)}" cy="${y(p.focusScore).toFixed(1)}" r="2.6" fill="var(--accent)"><title>${hhmm(p.ts)} - ${p.focusScore} điểm${p.appName?(' - '+p.appName):''}</title></circle>`).join('');
+  const xlabels = [pts[0], pts[Math.floor(pts.length/2)], pts[pts.length-1]]
+    .map(p=>`<text x="${x(p.ts).toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="11">${hhmm(p.ts)}</text>`).join('');
+  svg.innerHTML = grid+ticks+xlabels
+    + `<path d="${area}" fill="var(--accent-soft)" opacity=".55"/>`
+    + `<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+    + dots;
 }
-function moveTooltip(e){
-  var x = e.clientX + 16;
-  var y = e.clientY + 16;
-  var maxX = window.innerWidth - 260;
-  var maxY = window.innerHeight - 120;
-  if(x > maxX) x = e.clientX - 256;
-  if(y > maxY) y = e.clientY - 100;
-  if(x < 8) x = 8;
-  if(y < 8) y = 8;
-  tooltipEl.style.left = x + 'px';
-  tooltipEl.style.top = y + 'px';
-}
-function hideTooltip(){ tooltipEl.classList.remove('show'); }
-document.addEventListener('click', function(){ hideTooltip(); activeCard = null; });
 
-/* ============ Danh sách công văn: nút mở + PDF hiển thị lần lượt ============ */
-var docsContainer = document.getElementById('docsContainer');
-DOCS.forEach(function(doc){
-  var item = document.createElement('div');
-  item.className = 'doc-item rise';
-
-  var card = document.createElement('a');
-  card.className = 'doc-card';
-  card.href = doc.file;
-  card.target = '_blank';
-  card.rel = 'noopener';
-  card.innerHTML =
-    '<div class="doc-icon"><i class="fas fa-file-pdf"></i></div>' +
-    '<div><div class="doc-title">' + doc.title + '</div><div class="doc-desc">' + doc.desc + '</div></div>' +
-    '<i class="fas fa-arrow-up-right-from-square doc-arrow"></i>';
-  item.appendChild(card);
-
-  var frameWrap = document.createElement('div');
-  frameWrap.className = 'pdf-frame-wrap';
-  frameWrap.innerHTML = '<iframe src="' + doc.file + '" title="' + doc.title + '" loading="lazy"></iframe>';
-  item.appendChild(frameWrap);
-
-  docsContainer.appendChild(item);
-});
-
-/* Scroll reveal */
-var obs = new IntersectionObserver(function(entries){
-  entries.forEach(function(en,i){
-    if(en.isIntersecting) setTimeout(function(){ en.target.classList.add('in'); }, i*60);
-  });
-}, { threshold:0.08, rootMargin:"0px 0px -30px 0px" });
-document.querySelectorAll('.rise').forEach(function(el){ obs.observe(el); });
-
-/* ── Dark / Light toggle ── */
-var htmlEl = document.documentElement;
-var themeIcon = document.getElementById('themeIcon');
-
-function applyTheme(theme){
-  htmlEl.setAttribute('data-theme', theme);
-  if(themeIcon){
-    themeIcon.classList.remove('fa-moon','fa-sun');
-    themeIcon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
+function renderComments({studySec,entSec,browserSec,unkSec,total,avgFocus,gaze,gazeN,alertsToday}){
+  const ul=document.getElementById('comments'); const li=[];
+  if(!total){ ul.innerHTML='<li>Chưa đủ dữ liệu hôm nay để nhận xét.</li>'; return; }
+  const entPct=pct(entSec,total);
+  if(entPct>=25) li.push(`Thời gian giải trí khá nhiều hôm nay (${entPct}%). Có thể thử học theo chu kỳ 25 phút học - 5 phút nghỉ, để giải trí sau khi xong bài.`);
+  else li.push(`Thời gian giải trí chiếm ${entPct}%, ở mức được kiểm soát khá tốt.`);
+  if(avgFocus!==null){
+    if(avgFocus>=70) li.push(`Điểm tập trung trung bình ${avgFocus}/100 - khá tốt.`);
+    else if(avgFocus>=40) li.push(`Điểm tập trung trung bình ${avgFocus}/100 - ở mức trung bình, có thể trao đổi thêm với em.`);
+    else li.push(`Điểm tập trung trung bình ${avgFocus}/100 - khá thấp, nên trò chuyện cùng em để tìm nguyên nhân (mệt, bài khó, mất tập trung...).`);
   }
-  try{ localStorage.setItem('hsg-hue-theme', theme); }catch(e){}
+  if(gazeN){
+    const avgAway=Math.round(gaze.away/gazeN), avgNone=Math.round(gaze.none/gazeN);
+    if(avgAway>=20) li.push(`Camera ước lượng em quay đi khỏi màn hình khá nhiều (trung bình ${avgAway}% thời gian có camera).`);
+    if(avgNone>=20) li.push(`Camera không thấy mặt em khá nhiều lúc (trung bình ${avgNone}%) - có thể do thiếu sáng, hoặc em rời bàn học.`);
+  }
+  if(alertsToday>0) li.push(`Có ${alertsToday} cảnh báo chưa được em phản hồi hoặc đã xác nhận hôm nay - xem chi tiết ở mục "Cảnh báo gần đây".`);
+  li.push('Lưu ý: đây là nhận xét tự động dựa trên quy tắc đơn giản từ số liệu, không phải chẩn đoán - hãy luôn trao đổi trực tiếp với em trước khi kết luận.');
+  ul.innerHTML = li.map(t=>`<li>${t}</li>`).join('');
 }
-function getInitialTheme(){
-  try{
-    var saved = localStorage.getItem('hsg-hue-theme');
-    if(saved) return saved;
-  }catch(e){}
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+function renderAlerts(rows){
+  const el=document.getElementById('alertsList');
+  if(!rows.length){ el.innerHTML='<div class="empty">Chưa có cảnh báo nào.</div>'; return; }
+  el.innerHTML = rows.map(a=>{
+    const type=ALERT_TYPE[a.c]||a.c;
+    const text = a.c==='app' ? `Đang dùng ${a.n}` : (a.c==='x' ? 'Không có mặt và không thao tác' : 'Thao tác chuột/phím bất thường kéo dài');
+    const wrong = a.wrong ? `<span class="tag wrong">em báo sai</span>` : '';
+    const reason = a.wrong ? `<div class="meta">Lý do em ghi: ${REASON_TEXT[a.reason]||a.reason||'(không chọn)'}${a.note?(' - '+a.note):''}</div>` : '';
+    return `<div class="row"><div class="time">${hhmm(a.id)}</div><div class="body">
+      <div class="main">${text} <span class="tag">${type}</span> ${wrong}</div>
+      <div class="meta">kéo dài ${dur(a.dur||0)}</div>${reason}
+      </div></div>`;
+  }).join('');
 }
-applyTheme(getInitialTheme());
-function toggleTheme(){
-  var current = htmlEl.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
+
+function renderReports(rows){
+  const el=document.getElementById('reportsList');
+  if(!rows.length){ el.innerHTML='<div class="empty">Chưa có báo cáo nào.</div>'; return; }
+  el.innerHTML = rows.map(r=>{
+    const d=new Date(r.t0);
+    return `<details><summary>${d.toLocaleDateString('vi-VN')} · ${hhmm(r.t0)} - ${hhmm(r.t1)}</summary><pre>${(r.text||'').replace(/</g,'&lt;')}</pre></details>`;
+  }).join('');
 }
-var themeBtn = document.getElementById('themeToggle');
-if(themeBtn) themeBtn.addEventListener('click', function(e){ e.stopPropagation(); toggleTheme(); });
 </script>
 </body>
 </html>
