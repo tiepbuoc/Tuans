@@ -398,6 +398,7 @@ QUY TẮC TRÌNH BÀY CÔNG THỨC TOÁN (bắt buộc tuân theo):
   + ({căn 2} x^2+1) nghĩa là căn bậc hai của 2, nhân với (x^2 + 1)
   + {can bac 3 cua x+1} nghĩa là căn bậc ba của (x+1)
   + {phan so a chia b} hoặc mô tả tương tự cho phân số nếu không viết được dạng a/b đơn giản
+- DẤU SO SÁNH: luôn viết bằng ký tự bàn phím thường: > < >= <= != (ví dụ "lớn hơn hoặc bằng" viết là >=, "nhỏ hơn hoặc bằng" viết là <=, "khác" viết là !=). TUYỆT ĐỐI KHÔNG dùng ký tự đặc biệt như ≥ ≤ ≠, và KHÔNG viết các dấu này bằng chữ trong {...}.
 - Không dùng chữ in nghiêng trong câu trả lời. Có thể dùng **chữ in đậm** (đánh dấu bằng 2 dấu sao) để nhấn mạnh kết quả/đáp án quan trọng.
 - Xuống dòng rõ ràng giữa các bước giải để dễ đọc.`;
 
@@ -839,11 +840,9 @@ async function handleDeleteCmd(commandId) {
 //   2) Giải lần lượt: ABCD mỗi lần 3 câu; đúng sai / trả lời ngắn / tự luận
 //      từng câu 1. Mỗi lần gửi toàn bộ ảnh + FIXED_PROMPT + "Hãy giải bài
 //      <dạng> số <khoảng> cho tôi." (y hệt mode Giải toán thường).
-//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superItems/i<N>
-//      (gồm nhãn + đáp án, 1 node duy nhất) rồi mới tăng super/doneCount để
-//      Casio mod hiện luôn, không đợi cả đề. Node /mathSession/super luôn NHỎ
-//      và cố định kích thước (commandId, phase, total, doneCount...) để Casio
-//      mod poll liên tục mà không phải tải lại cả danh sách.
+//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superAnswers/i<N>
+//      rồi mới thêm vào /mathSession/super/items/i<N> + tăng doneCount để
+//      Casio mod hiện luôn, không đợi cả đề.
 let superRunId = 0; // tăng mỗi khi có lệnh mới -> lượt đang chạy tự dừng
 
 const SUPER_ANALYZE_PROMPT = `Các ảnh đính kèm là ảnh chụp TOÀN BỘ một đề toán (có thể nhiều ảnh nối tiếp nhau). Hãy đọc kỹ tất cả các ảnh và đếm số câu hỏi theo từng loại:
@@ -879,7 +878,7 @@ function buildSuperItems(c) {
 async function handleSuperStart(commandId, modelFromDevice, runId) {
   const alive = () => runId === superRunId;
   const superRef = mathRef.child('super');
-  const itemsRef = mathRef.child('superItems');
+  const answersRef = mathRef.child('superAnswers');
   const model = modelFromDevice || selectedModel;
   const shortErr = e => String((e && e.message) || e).slice(0, 80);
 
@@ -889,7 +888,6 @@ async function handleSuperStart(commandId, modelFromDevice, runId) {
       setFirebaseStatus('bad', '⚠️ Super giải toán: chưa có ảnh nào');
       return;
     }
-    await itemsRef.remove(); // dọn mục của lượt trước (nếu còn)
     await superRef.set({ commandId, phase: 'analyzing', total: 0, doneCount: 0 });
     setFirebaseStatus('busy', `🔎 Super: đang phân tích đề (model: ${model})...`);
     cameraResultBox.className = '';
@@ -929,12 +927,12 @@ async function handleSuperStart(commandId, modelFromDevice, runId) {
       const failed = answer === null;
       const text = failed ? 'LỖI: ' + shortErr(err) : stripMarkdownForDevice(answer);
 
-      // Mục (nhãn + đáp án) ghi TRƯỚC, doneCount tăng SAU (thiết bị chỉ đọc khi mục đã có).
-      const item = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range, text };
-      if (failed) item.err = true;
-      await itemsRef.child('i' + k).set(item);
+      // Đáp án ghi TRƯỚC, mục danh sách ghi SAU (thiết bị chỉ đọc khi mục đã có).
+      await answersRef.child('i' + k).set(text);
       if (!alive()) return;
-      await superRef.update({ doneCount: k + 1 });
+      const meta = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range };
+      if (failed) meta.err = true;
+      await superRef.update({ ['items/i' + k]: meta, doneCount: k + 1 });
       if (!failed) { cameraResultBox.className = ''; cameraResultBox.innerHTML = formatAnswerHtml(answer); }
     }
 
