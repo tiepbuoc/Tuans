@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập Lịch sử 12 – Giữa kì I</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0ee;--card:#fff;--ink:#1b2530;--mut:#5d6b78;--line:#d5dad8;--acc:#27467f;--accbg:#e4eaf6;--ok:#23764a;--okbg:#e0f2e8;--bad:#b0372c;--badbg:#fbe6e3;--sel:#f3ecd9;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#141a20;--card:#1d252d;--ink:#e6eaee;--mut:#98a5b1;--line:#34404b;--acc:#8fb0ee;--accbg:#223250;--ok:#6fd09a;--okbg:#18372a;--bad:#f08b80;--badbg:#42211d;--sel:#3a3524;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;padding:0 0 60px}
+#app{max-width:760px;margin:0 auto;padding:20px 16px}
+h1{font:600 26px/1.25 Lora,Georgia,serif;margin:8px 0 4px}
+h2{font:600 18px/1.3 Lora,Georgia,serif;margin:0 0 10px}
+.mut{color:var(--mut);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.btn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 16px;font-weight:500}
+.btn:hover{border-color:var(--acc)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+@media(prefers-color-scheme:dark){.btn.pri{color:#10151b}}
+.btn[disabled]{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sp{flex:1}
+.topic{display:flex;gap:10px;align-items:flex-start;padding:7px 0;cursor:pointer}
+.topic input{margin-top:6px;accent-color:var(--acc)}
+.topic b{font-weight:600}
+.chap{margin:16px 0 2px;font-weight:700;color:var(--acc)}
+.opts label{display:flex;gap:8px;align-items:center;margin:6px 16px 6px 0;cursor:pointer}
+select{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+.bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--acc)}
+.tag{display:inline-block;font-size:13px;color:var(--mut);margin-bottom:8px}
+.q{font:500 18px/1.55 Lora,Georgia,serif;margin:0 0 6px}
+.ctx{border-left:3px solid var(--line);padding:2px 0 2px 12px;margin:8px 0;color:var(--ink);font-size:15px}
+table{border-collapse:collapse;margin:10px 0;font-size:14px;width:100%}
+td,th{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:var(--accbg)}
+.opt{display:flex;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:8px 0}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600}
+.opt.sel{background:var(--sel);border-color:var(--acc)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.opt[disabled]{cursor:default}
+.st{padding:10px 0;border-top:1px solid var(--line)}
+.st p{margin:0 0 8px}
+.tf{display:flex;gap:8px}
+.tf .opt{width:auto;margin:0;padding:6px 18px}
+.res{font-size:14px;margin-top:6px;font-weight:500}
+.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.chip{width:34px;height:30px;font-size:13px;border:1px solid var(--line);background:var(--card);border-radius:6px}
+.chip.cur{border:2px solid var(--acc);font-weight:700}
+.chip.done{background:var(--accbg)}
+.chip.ok{background:var(--okbg);border-color:var(--ok)}
+.chip.bad{background:var(--badbg);border-color:var(--bad)}
+.score{font:600 44px/1.1 Lora,Georgia,serif;margin:4px 0}
+.fb{font-size:14px;margin:10px 0 0;padding:8px 12px;border-radius:8px}
+.fb.ok{background:var(--okbg)}.fb.bad{background:var(--badbg)}
+</style>
+</head>
+<body>
+<div id="app"><p class="mut">Đang tải đề cương…</p></div>
+<script>
+const app=document.getElementById('app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const TFSCALE=[0,.1,.25,.5,1];
+const fmt=n=>(Math.round(n*100)/100).toString().replace('.',',');
+let D,S,CFG;
+
+fetch('questions.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(init).catch(loader);
+
+function loader(){
+  app.innerHTML=`<h1>Chọn file đề cương</h1><div class="card"><p>Trình duyệt không tự đọc được <b>questions.json</b> khi mở trang trực tiếp từ máy. Hãy chọn file này để bắt đầu (hoặc đặt cả hai file lên web hosting / chạy <code>python3 -m http.server</code>).</p><input type="file" id="f" accept=".json,application/json"></div>`;
+  document.getElementById('f').onchange=e=>{const fr=new FileReader();fr.onload=()=>{try{init(JSON.parse(fr.result))}catch(x){alert('File JSON không hợp lệ.')}};fr.readAsText(e.target.files[0])};
+}
+function init(d){D=d;document.title=d.title;CFG=store.get('cfg',{mode:'p',shq:true,sho:true,limit:0,wrongOnly:false,off:[]});home()}
+
+function topics(){
+  const t=[];
+  D.chapters.forEach(c=>{
+    t.push({h:`Chủ đề ${c.n}. ${c.title}`});
+    c.lessons.forEach(l=>t.push({key:'m'+l.n,label:`Bài ${l.n}. ${l.title}`,sub:'Trắc nghiệm nhiều lựa chọn',n:D.questions.filter(q=>q.type==='mcq'&&q.lesson===l.n).length}));
+    const n=D.questions.filter(q=>q.type==='tf'&&q.chapter===c.n).length;
+    if(n)t.push({key:'t'+c.n,label:`Trắc nghiệm đúng sai – Chủ đề ${c.n}`,sub:'Đọc tư liệu, chọn Đúng/Sai cho từng ý',n});
+  });
+  return t;
+}
+const topicKey=q=>q.type==='mcq'?'m'+q.lesson:'t'+q.chapter;
+
+function home(){
+  const wrong=store.get('wrong',[]);
+  let h=`<h1>${esc(D.title)}</h1><p class="mut">Năm học ${esc(D.year)} · ${D.questions.length} câu (${D.questions.filter(q=>q.type==='mcq').length} nhiều lựa chọn, ${D.questions.filter(q=>q.type==='tf').length} đúng sai)</p>
+  <div class="card"><div class="row"><h2 style="margin:0">Chọn phần cần ôn</h2><span class="sp"></span><button class="btn" data-a="all">Chọn hết</button><button class="btn" data-a="none">Bỏ hết</button></div>`;
+  topics().forEach(t=>{
+    if(t.h)h+=`<div class="chap">${esc(t.h)}</div>`;
+    else h+=`<label class="topic"><input type="checkbox" data-k="${t.key}" ${CFG.off.includes(t.key)?'':'checked'}><span><b>${esc(t.label)}</b> <span class="mut">(${t.n} câu)</span><br><span class="mut">${t.sub}</span></span></label>`;
+  });
+  h+=`</div><div class="card opts"><h2>Cách làm bài</h2>
+  <label><input type="radio" name="mode" value="p" ${CFG.mode==='p'?'checked':''}> Luyện tập: có đáp án ngay sau mỗi câu</label>
+  <label><input type="radio" name="mode" value="t" ${CFG.mode==='t'?'checked':''}> Thi thử: chỉ xem đáp án khi nộp bài</label>
+  <div style="height:8px"></div>
+  <label><input type="checkbox" id="shq" ${CFG.shq?'checked':''}> Xáo trộn thứ tự câu hỏi</label>
+  <label><input type="checkbox" id="sho" ${CFG.sho?'checked':''}> Xáo trộn đáp án A, B, C, D</label>
+  <label><input type="checkbox" id="wo" ${CFG.wrongOnly?'checked':''}> Chỉ ôn các câu từng làm sai (${wrong.length} câu)</label>
+  <label>Số câu: <select id="lim">${[[0,'Tất cả'],[10,'10 câu'],[20,'20 câu'],[40,'40 câu']].map(([v,t])=>`<option value="${v}" ${CFG.limit==v?'selected':''}>${t}</option>`).join('')}</select></label></div>
+  <div class="row"><button class="btn pri" id="go">Bắt đầu làm bài</button><span class="mut" id="cnt"></span></div>`;
+  if(D.essay&&D.essay.length)h+=`<div class="card"><h2>Phần tự luận (không có trong bản quiz)</h2>${D.essay.map(e=>`<div class="mut">${esc(e)}</div>`).join('')}</div>`;
+  app.innerHTML=h;
+  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;const g=id=>document.getElementById(id);CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.wrongOnly=g('wo').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);g('cnt').textContent=pool().length+' câu được chọn'};
+  app.querySelectorAll('input,select').forEach(x=>x.onchange=upd);
+  app.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{app.querySelectorAll('[data-k]').forEach(x=>x.checked=b.dataset.a==='all');upd()});
+  document.getElementById('go').onclick=start;upd();
+}
+function pool(){
+  const w=store.get('wrong',[]);
+  return D.questions.filter(q=>!CFG.off.includes(topicKey(q))&&(!CFG.wrongOnly||w.includes(q.id)));
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){
+  let qs=pool();
+  if(!qs.length){alert('Chưa có câu nào để làm. Hãy chọn thêm phần cần ôn.');return}
+  if(CFG.shq)qs=shuffle(qs);
+  if(CFG.limit)qs=qs.slice(0,CFG.limit);
+  qs=qs.map(q=>q.type==='mcq'&&CFG.sho?{...q,options:shuffle(q.options)}:q);
+  S={qs,i:0,ans:{},chk:{},mode:CFG.mode,done:false};
+  quiz();
+}
+const tfCount=(q,a)=>q.statements.filter(s=>a&&a[s.k]===s.a).length;
+const isOk=(q,a)=>q.type==='mcq'?a===q.answer:tfCount(q,a)===q.statements.length;
+const answered=(q,a)=>q.type==='mcq'?!!a:!!a&&q.statements.every(s=>s.k in a);
+const lessonName=n=>{for(const c of D.chapters){const l=c.lessons.find(x=>x.n===n);if(l)return `Bài ${l.n}`}return ''};
+
+function card(q,idx,reveal,locked){
+  const a=S.ans[q.id];
+  let h=`<div class="tag">Câu ${idx+1} · ${q.type==='mcq'?lessonName(q.lesson)+' · '+q.level:'Đúng/Sai · Chủ đề '+q.chapter}</div>`;
+  if(q.type==='tf'&&q.question)h+=`<p class="q">${esc(q.question)}</p>`;
+  if(q.type==='mcq')h+=`<p class="q">${esc(q.question)}</p>`;
+  (q.context||[]).forEach(c=>h+=`<div class="ctx">${esc(c)}</div>`);
+  if(q.table)h+=`<div style="overflow-x:auto"><table>${q.table.map((r,i)=>`<tr>${r.map(c=>i?`<td>${esc(c)}</td>`:`<th>${esc(c)}</th>`).join('')}</tr>`).join('')}</table></div>`;
+  if(q.type==='mcq'){
+    q.options.forEach((o,j)=>{
+      let c='opt';
+      if(reveal){if(o.k===q.answer)c+=' ok';else if(a===o.k)c+=' bad'}else if(a===o.k)c+=' sel';
+      h+=`<button class="${c}" data-o="${o.k}" ${locked?'disabled':''}><span class="k">${'ABCD'[j]}</span><span>${esc(o.t)}</span></button>`;
+    });
+    if(reveal)h+=`<div class="fb ${a===q.answer?'ok':'bad'}">${a===q.answer?'Chính xác.':(a?'Chưa đúng.':'Chưa trả lời.')} Đáp án đúng: <b>${'ABCD'[q.options.findIndex(o=>o.k===q.answer)]}. ${esc(q.options.find(o=>o.k===q.answer).t)}</b></div>`;
+  }else{
+    q.statements.forEach(s=>{
+      const v=a&&a[s.k];
+      const b=(val,txt)=>{let c='opt';if(reveal){if(s.a===val)c+=' ok';else if(v===val)c+=' bad'}else if(v===val)c+=' sel';return `<button class="${c}" data-s="${s.k}" data-v="${val}" ${locked?'disabled':''}>${txt}</button>`};
+      h+=`<div class="st"><p><b>${s.k})</b> ${esc(s.t)}</p><div class="tf">${b(true,'Đúng')}${b(false,'Sai')}</div>${reveal?`<div class="res ${v===s.a?'ok':'bad'}">${v===s.a?'Đúng':(v===undefined?'Chưa chọn':'Sai')} · đáp án: ${s.a?'Đúng':'Sai'}</div>`:''}</div>`;
+    });
+    if(reveal){const n=tfCount(q,a);h+=`<div class="fb ${n===4?'ok':'bad'}">Đúng ${n}/4 ý · ${fmt(TFSCALE[n])} điểm của câu này</div>`}
+  }
+  return h;
+}
+
+function quiz(){
+  const q=S.qs[S.i],a=S.ans[q.id],N=S.qs.length;
+  const reveal=S.mode==='p'&&S.chk[q.id];
+  const nDone=S.qs.filter(x=>answered(x,S.ans[x.id])).length;
+  let h=`<div class="row"><button class="btn" id="exit">Thoát</button><span class="sp"></span><span class="mut">Đã trả lời ${nDone}/${N}</span><button class="btn pri" id="fin">Nộp bài</button></div>
+  <div class="bar"><i style="width:${(S.i+1)/N*100}%"></i></div><div class="card" id="qc">${card(q,S.i,reveal,reveal)}</div>
+  <div class="row">`;
+  h+=`<button class="btn" id="prev" ${S.i?'':'disabled'}>Câu trước</button><span class="sp"></span>`;
+  if(S.mode==='p'&&!reveal&&q.type==='tf')h+=`<button class="btn pri" id="chk" ${answered(q,a)?'':'disabled'}>Kiểm tra</button>`;
+  h+=`<button class="btn ${reveal?'pri':''}" id="next" ${S.i<N-1?'':'disabled'}>Câu sau</button></div><div class="chips">`;
+  S.qs.forEach((x,j)=>{const ax=S.ans[x.id];let c='chip';if(S.mode==='p'&&S.chk[x.id])c+=isOk(x,ax)?' ok':' bad';else if(answered(x,ax))c+=' done';if(j===S.i)c+=' cur';h+=`<button class="${c}" data-j="${j}" aria-label="Câu ${j+1}">${j+1}</button>`});
+  app.innerHTML=h+'</div>';
+  const $=id=>document.getElementById(id);
+  $('exit').onclick=()=>{if(confirm('Thoát và bỏ bài đang làm?'))home()};
+  $('fin').onclick=finish;
+  $('prev').onclick=()=>{S.i--;quiz()};$('next').onclick=()=>{S.i++;quiz()};
+  const ck=document.getElementById('chk');if(ck)ck.onclick=()=>{S.chk[q.id]=true;quiz()};
+  app.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{S.i=+c.dataset.j;quiz()});
+  app.querySelectorAll('#qc [data-o]').forEach(b=>b.onclick=()=>{S.ans[q.id]=b.dataset.o;if(S.mode==='p')S.chk[q.id]=true;quiz()});
+  app.querySelectorAll('#qc [data-s]').forEach(b=>b.onclick=()=>{S.ans[q.id]={...(S.ans[q.id]||{}),[b.dataset.s]:b.dataset.v==='true'};quiz()});
+}
+document.addEventListener('keydown',e=>{
+  if(!S||S.done||!document.getElementById('qc')||/INPUT|SELECT/.test(e.target.tagName))return;
+  const q=S.qs[S.i];
+  if(e.key==='ArrowRight'&&S.i<S.qs.length-1){S.i++;quiz()}
+  else if(e.key==='ArrowLeft'&&S.i>0){S.i--;quiz()}
+  else if(q.type==='mcq'&&!(S.mode==='p'&&S.chk[q.id])&&/^[a-d1-4]$/i.test(e.key)){
+    const o=q.options['abcd1234'.indexOf(e.key.toLowerCase())%4];
+    if(o){S.ans[q.id]=o.k;if(S.mode==='p')S.chk[q.id]=true;quiz()}
+  }
+});
+
+function finish(){
+  const un=S.qs.filter(x=>!answered(x,S.ans[x.id])).length;
+  if(un&&!confirm(`Còn ${un} câu chưa trả lời. Vẫn nộp bài?`))return;
+  S.done=true;S.filter='all';
+  const wrong=new Set(store.get('wrong',[]));
+  S.qs.forEach(q=>isOk(q,S.ans[q.id])?wrong.delete(q.id):wrong.add(q.id));
+  store.set('wrong',[...wrong]);
+  result();
+}
+function result(){
+  let sc=0,full=0,part=0,none=0;
+  S.qs.forEach(q=>{const a=S.ans[q.id];if(q.type==='mcq'){if(a===q.answer){sc++;full++}else none++}else{const n=tfCount(q,a);sc+=TFSCALE[n];n===4?full++:n?part++:none++}});
+  const N=S.qs.length,list=S.qs.map((q,i)=>({q,i})).filter(({q})=>S.filter==='all'||!isOk(q,S.ans[q.id]));
+  let h=`<h1>Kết quả</h1><div class="card"><div class="score">${fmt(sc)} / ${N}</div><div class="mut">${Math.round(sc/N*100)}% · Đúng hoàn toàn ${full} · Đúng một phần ${part} · Sai ${none}</div>
+  <p class="mut">Câu Đúng/Sai tính theo thang: đúng 1 ý = 0,1 · 2 ý = 0,25 · 3 ý = 0,5 · 4 ý = 1 điểm.</p>
+  <div class="row"><button class="btn pri" id="redo" ${full===N?'disabled':''}>Làm lại các câu chưa đúng hoàn toàn</button><button class="btn" id="home">Về trang chủ</button></div></div>
+  <div class="row"><label class="opts"><select id="flt"><option value="all">Xem tất cả ${N} câu</option><option value="bad" ${S.filter==='bad'?'selected':''}>Chỉ xem câu chưa đúng (${N-full})</option></select></label></div>`;
+  list.forEach(({q,i})=>{h+=`<div class="card">${card(q,i,true,true)}</div>`});
+  app.innerHTML=h;window.scrollTo(0,0);
+  document.getElementById('home').onclick=home;
+  document.getElementById('flt').onchange=e=>{S.filter=e.target.value;result()};
+  document.getElementById('redo').onclick=()=>{
+    const qs=S.qs.filter(q=>!isOk(q,S.ans[q.id])).map(q=>({...q}));
+    S={qs:CFG.shq?shuffle(qs):qs,i:0,ans:{},chk:{},mode:S.mode,done:false};quiz();window.scrollTo(0,0);
+  };
+}
+</script>
+</body>
+</html>
