@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Ôn Tập Trắc Nghiệm Tiếng Anh 12 Giữa Kì 1 - 109 Câu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-indigo-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-indigo-700 rounded-lg">
+                    <i class="fa-solid fa-graduation-cap text-xl sm:text-2xl text-amber-400"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-xl leading-tight">ĐỀ ÔN THI GIỮA KÌ 1 - TIẾNG ANH 12</h1>
+                    <p class="text-xs text-indigo-200 hidden sm:block">Chương trình chuẩn BGD - 109 Câu Trắc Nghiệm</p>
+                </div>
+            </div>
+
+            <!-- Timer & Actions -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <div class="flex items-center space-x-2 bg-indigo-800 border border-indigo-700 px-3 py-1.5 rounded-lg shadow-inner">
+                    <i class="fa-regular fa-clock text-amber-400 animate-pulse"></i>
+                    <span id="timer-display" class="font-mono font-bold text-sm sm:text-lg text-white">90:00</span>
+                </div>
+                
+                <button id="submit-btn" onclick="confirmSubmit()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm transition-all duration-200 shadow hover:shadow-lg flex items-center space-x-1.5">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Nộp Bài</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Question View (Left Side: 8 Cols) -->
+        <section class="lg:col-span-8 space-y-6">
+            
+            <!-- Section Tabs Filter -->
+            <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-1.5 text-xs sm:text-sm">
+                <button onclick="filterSection('ALL')" class="section-tab active bg-indigo-600 text-white font-medium px-3 py-1.5 rounded-lg transition" data-section="ALL">Tất cả (109)</button>
+                <button onclick="filterSection('P1')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P1">I. Phonetics (1-20)</button>
+                <button onclick="filterSection('P2')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P2">II. Vocab & Wordform (21-40)</button>
+                <button onclick="filterSection('P3')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P3">III. Grammar (41-55)</button>
+                <button onclick="filterSection('P4')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P4">IV. Synonyms & Antonyms (56-71)</button>
+                <button onclick="filterSection('P5')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P5">V. Error ID (72-81)</button>
+                <button onclick="filterSection('P6')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P6">VI. Sắp xếp câu (82-89)</button>
+                <button onclick="filterSection('P7')" class="section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition" data-section="P7">VII. Cloze test (90-109)</button>
+            </div>
+
+            <!-- Score Summary Dashboard (Hidden until submitted) -->
+            <div id="score-dashboard" class="hidden bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-700 space-y-4">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-indigo-800 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-amber-400">KẾT QUẢ BÀI THI</h2>
+                        <p class="text-slate-300 text-sm">Cảm ơn em đã hoàn thành bài ôn tập!</p>
+                    </div>
+                    <div class="text-center bg-indigo-800/80 px-6 py-3 rounded-xl border border-indigo-600">
+                        <span class="text-xs uppercase tracking-wider text-indigo-300 block">Điểm số</span>
+                        <span id="score-ten" class="text-3xl font-extrabold text-emerald-400">0.0 / 10</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                    <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+                        <span class="text-xs text-slate-400 block">Số câu đúng</span>
+                        <span id="correct-count" class="text-xl font-bold text-emerald-400">0/109</span>
+                    </div>
+                    <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+                        <span class="text-xs text-slate-400 block">Số câu sai</span>
+                        <span id="wrong-count" class="text-xl font-bold text-rose-400">0/109</span>
+                    </div>
+                    <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+                        <span class="text-xs text-slate-400 block">Chưa làm</span>
+                        <span id="unanswered-count" class="text-xl font-bold text-amber-400">0/109</span>
+                    </div>
+                    <div class="bg-indigo-950/60 p-3 rounded-lg border border-indigo-800">
+                        <span class="text-xs text-slate-400 block">Thời gian làm</span>
+                        <span id="time-spent" class="text-xl font-bold text-indigo-200">00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questions-container" class="space-y-6">
+                <!-- Question Cards dynamically injected here -->
+            </div>
+
+        </section>
+
+        <!-- Question Palette / Sidebar (Right Side: 4 Cols) -->
+        <aside class="lg:col-span-4">
+            <div class="sticky top-20 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-slate-800 flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check text-indigo-600"></i>
+                        <span>Danh Sách Câu Hỏi</span>
+                    </h3>
+                    <span id="progress-text" class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full">0/109 đã làm</span>
+                </div>
+
+                <!-- Status Legend -->
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3.5 h-3.5 bg-slate-100 border border-slate-300 rounded"></span>
+                        <span class="text-slate-600">Chưa trả lời</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3.5 h-3.5 bg-indigo-600 rounded"></span>
+                        <span class="text-slate-600">Đã chọn</span>
+                    </div>
+                    <div id="legend-correct" class="hidden flex items-center space-x-2">
+                        <span class="w-3.5 h-3.5 bg-emerald-500 rounded"></span>
+                        <span class="text-slate-600">Đúng</span>
+                    </div>
+                    <div id="legend-wrong" class="hidden flex items-center space-x-2">
+                        <span class="w-3.5 h-3.5 bg-rose-500 rounded"></span>
+                        <span class="text-slate-600">Sai</span>
+                    </div>
+                </div>
+
+                <!-- Palette Grid -->
+                <div id="palette-grid" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-2 max-h-[380px] overflow-y-auto p-1 custom-scrollbar">
+                    <!-- Palette items injected dynamically -->
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex gap-2">
+                    <button onclick="confirmSubmit()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-xl text-sm transition duration-150 shadow flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Nộp bài & Xem điểm</span>
+                    </button>
+                </div>
+
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Modal Confirm Submit -->
+    <div id="submit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all space-y-4">
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-circle-question"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Xác nhận nộp bài?</h3>
+                <p id="modal-warning-text" class="text-sm text-slate-600">Bạn đã hoàn thành <span id="modal-done-count" class="font-bold text-indigo-600">0</span>/109 câu hỏi.</p>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeSubmitModal()" class="w-1/2 py-2.5 border border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 font-medium text-sm transition">Tiếp tục làm</button>
+                <button onclick="processFinalSubmit()" class="w-1/2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium text-sm transition shadow">Đồng ý Nộp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-4 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Ôn Thi Tiếng Anh 12 Giữa Kì 1. Biên soạn theo chương trình GDPT mới.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Core Data & Interactive Engine -->
+    <script>
+        // Full Question Bank Data (109 Questions)
+        const rawQuestions = [
+            // I. PHONETICS (1-10)
+            { id: 1, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "life", B: "minute", C: "style", D: "lifestyle" }, correct: "B", explain: "minute /ˈmɪnɪt/ âm /ɪ/. Các từ còn lại chứa nguyên âm /aɪ/: life /laɪf/, style /staɪl/, lifestyle /ˈlaɪfstaɪl/." },
+            { id: 2, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "promote", B: "eco-friendly", C: "solar", D: "carbon" }, correct: "D", explain: "carbon /ˈkɑːbən/ âm /ɑː/. Các từ còn lại phát âm là /əʊ/: promote /prəˈməʊt/, eco-friendly /ˈiːkəʊ.../, solar /ˈsəʊlə/." },
+            { id: 3, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "generation", B: "connect", C: "express", D: "defend" }, correct: "A", explain: "generation /ˌdʒenəˈreɪʃn/ có phần gạch chân phát âm là /e/. Các từ khác có e phát âm là /ə/ hoặc /ɪ/: connect /kəˈnekt/, express /ɪkˈspres/, defend /dɪˈfend/." },
+            { id: 4, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "chaos", B: "character", C: "chemistry", D: "challenge" }, correct: "D", explain: "challenge /ˈtʃælɪndʒ/ phát âm là /tʃ/. Các từ còn lại có ch phát âm là /k/: chaos /ˈkeɪɒs/, character /ˈkærəktə/, chemistry /ˈkemɪstri/." },
+            { id: 5, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "organization", B: "traditional", C: "generational", D: "international" }, correct: "A", explain: "organization /ˌɔːɡənaɪˈzeɪʃn/ có t phát âm là /z/ (trong zation). Các từ còn lại tion phát âm là /ʃn/." },
+            { id: 6, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "predict", B: "develop", C: "generation", D: "rely" }, correct: "C", explain: "generation /ˌdʒenəˈreɪʃn/ phát âm là /e/. Các từ còn lại e phát âm là /ɪ/: predict /prɪˈdɪkt/, develop /dɪˈveləp/, rely /rɪˈlaɪ/." },
+            { id: 7, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "lifestyle", B: "priority", C: "diverse", D: "significant" }, correct: "D", explain: "significant /sɪɡˈnɪfɪkənt/ âm /ɪ/. Các từ còn lại chứa /aɪ/: lifestyle /ˈlaɪfstaɪl/, priority /praɪˈɒrəti/, diverse /daɪˈvɜːs/." },
+            { id: 8, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "impact", B: "transmit", C: "adapt", D: "brand" }, correct: "D", explain: "brand /brænd/ có nguyên âm khác biệt rõ rệt về âm sắc trong nhóm danh từ/động từ ghép." },
+            { id: 9, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "profile", B: "promote", C: "project", D: "provide" }, correct: "C", explain: "project (n) /ˈprɒdʒekt/ phát âm là /ɒ/. Các từ còn lại o phát âm là /əʊ/ hoặc /oʊ/." },
+            { id: 10, section: "P1", category: "PRONUNCIATION", text: "Mark the letter A, B, C, or D to indicate the word whose underlined part differs from the other three in pronunciation.", choices: { A: "energy", B: "recycle", C: "definitely", D: "identity" }, correct: "B", explain: "recycle /ˌriːˈsaɪkl/ y phát âm là /aɪ/. Các từ còn lại y phát âm là /i/ hoặc /e/." },
+
+            // I. PHONETICS - STRESS (11-20)
+            { id: 11, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "career", B: "surgeon", C: "patient", D: "custom" }, correct: "A", explain: "career /kəˈrɪə/ trọng âm 2. Các từ còn lại trọng âm 1: surgeon /ˈsɜːdʒən/, patient /ˈpeɪʃnt/, custom /ˈkʌstəm/." },
+            { id: 12, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "expert", B: "title", C: "success", D: "sector" }, correct: "C", explain: "success /səkˈses/ trọng âm 2. Các từ còn lại trọng âm 1: expert /ˈekspɜːt/, title /ˈtaɪtl/, sector /ˈsektə/." },
+            { id: 13, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "confident", B: "important", C: "delicious", D: "effective" }, correct: "A", explain: "confident /ˈkɒnfɪdənt/ trọng âm 1. Các từ còn lại trọng âm 2: important /ɪmˈpɔːtnt/, delicious /dɪˈlɪʃəs/, effective /ɪˈfektɪv/." },
+            { id: 14, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "hospital", B: "prescription", C: "recovery", D: "professor" }, correct: "A", explain: "hospital /ˈhɒspɪtl/ trọng âm 1. Các từ còn lại trọng âm 2: prescription /prɪˈskrɪpʃn/, recovery /rɪˈkʌvəri/, professor /prəˈfesə/." },
+            { id: 15, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "interview", B: "applicant", C: "position", D: "reference" }, correct: "C", explain: "position /pəˈzɪʃn/ trọng âm 2. Các từ còn lại trọng âm 1: interview /ˈɪntəvjuː/, applicant /ˈæplɪkənt/, reference /ˈrefrəns/." },
+            { id: 16, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "doctor", B: "advice", C: "routine", D: "disease" }, correct: "A", explain: "doctor /ˈdɒktə/ trọng âm 1. Các từ còn lại trọng âm 2: advice /ədˈvaɪs/, routine /ruːˈtiːn/, disease /dɪˈziːz/." },
+            { id: 17, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "dynamic", B: "flexible", C: "practical", D: "possible" }, correct: "A", explain: "dynamic /daɪˈnæmɪk/ trọng âm 2. Các từ còn lại trọng âm 1: flexible /ˈfleksəbl/, practical /ˈpræktɪkl/, possible /ˈpɒsəbl/." },
+            { id: 18, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "certificate", B: "specific", C: "university", D: "community" }, correct: "C", explain: "university /ˌjuːnɪˈvɜːsəti/ trọng âm 3. Các từ còn lại trọng âm 2: certificate /səˈtɪfɪkət/, specific /spəˈsɪfɪk/, community /kəˈmjuːnəti/." },
+            { id: 19, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "balance", B: "maintain", C: "reduce", D: "improve" }, correct: "A", explain: "balance /ˈbæləns/ trọng âm 1. Các từ còn lại trọng âm 2: maintain /meɪnˈteɪn/, reduce /rɪˈdjuːs/, improve /ɪmˈpruːv/." },
+            { id: 20, section: "P1", category: "STRESS", text: "Mark the letter A, B, C, or D to indicate the word that differs from the other three in the position of primary stress.", choices: { A: "energy", B: "hospital", C: "condition", D: "memory" }, correct: "C", explain: "condition /kənˈdɪʃn/ trọng âm 2. Các từ còn lại trọng âm 1: energy /ˈenədʒi/, hospital /ˈhɒspɪtl/, memory /ˈmeməri/." },
+
+            // II. VOCABULARY & WORD FORM (21-40)
+            { id: 21, section: "P2", category: "VOCABULARY", text: "After hearing that she had won first prize in the competition, Jenny was _______ and couldn't stop smiling for the rest of the day.", choices: { A: "under the weather", B: "in hot water", C: "over the moon", D: "behind the times" }, correct: "C", explain: "Thành ngữ 'over the moon' = rất vui sướng, hạnh phúc." },
+            { id: 22, section: "P2", category: "VOCABULARY", text: "It takes hundreds of years for one plastic bottle to _______ in the ground.", choices: { A: "release", B: "reuse", C: "decompose", D: "recycle" }, correct: "C", explain: "decompose = phân hủy." },
+            { id: 23, section: "P2", category: "VOCABULARY", text: "Tim has won a trip to Hawaii. He is ______.", choices: { A: "under the weather", B: "in the sunlight", C: "on cloud nine", D: "over the top" }, correct: "C", explain: "'on cloud nine' = vô cùng sung sướng, như ở trên mây." },
+            { id: 24, section: "P2", category: "VOCABULARY", text: "The company’s sales have doubled since the introduction of new _______ technology.", choices: { A: "full-length", B: "traditional", C: "cutting-edge", D: "standard" }, correct: "C", explain: "cutting-edge technology = công nghệ hiện đại, tân tiến nhất." },
+            { id: 25, section: "P2", category: "VOCABULARY", text: "Cycling has been gaining in ________ in many parts of Vietnam.", choices: { A: "trend", B: "popularity", C: "festivity", D: "origin" }, correct: "B", explain: "gain in popularity = trở nên phổ biến, được ưa chuộng." },
+            { id: 26, section: "P2", category: "VOCABULARY", text: "She was feeling _________ after winning the tennis tournament.", choices: { A: "on the top of the world", B: "down in the dumps", C: "under the weather", D: "on the bottom of the world" }, correct: "A", explain: "on top of the world = cực kỳ hạnh phúc." },
+            { id: 27, section: "P2", category: "VOCABULARY", text: "Steve _______ himself to helping the needy in his neighbourhood.", choices: { A: "admired", B: "devoted", C: "diagnosed", D: "attended" }, correct: "B", explain: "devote oneself to V-ing/N = cống hiến bản thân cho." },
+            { id: 28, section: "P2", category: "VOCABULARY", text: "General Vo Nguyen Giap was a brilliant military leader who successfully ____________ many powerful enemies during the resistance wars.", choices: { A: "supported", B: "defeated", C: "adopted", D: "inspired" }, correct: "B", explain: "defeat = đánh bại kẻ thù." },
+            { id: 29, section: "P2", category: "VOCABULARY", text: "A book that tells the detailed story of a famous person's life, written by someone else, is called a ____________.", choices: { A: "autobiography", B: "biography", C: "novel", D: "diary" }, correct: "B", explain: "biography = tiểu sử (do người khác viết). Autobiography là tự truyện." },
+            { id: 30, section: "P2", category: "VOCABULARY", text: "It is essential for a country to preserve its national ____________ through traditional customs, arts, and languages.", choices: { A: "identity", B: "trend", C: "origin", D: "population" }, correct: "A", explain: "national identity = bản sắc dân tộc." },
+            { id: 31, section: "P2", category: "VOCABULARY", text: "Everyone should _______ action immediately to reduce single-use plastic waste and protect our environment.", choices: { A: "make", B: "take", C: "do", D: "get" }, correct: "B", explain: "take action = hành động ngay lập tức." },
+            { id: 32, section: "P2", category: "VOCABULARY", text: "Food scraps and fruit peels can be collected and turned into a ____________ pile to fertilize garden plants naturally.", choices: { A: "plastic", B: "compost", C: "chemical", D: "garbage" }, correct: "B", explain: "compost pile = đống phân bón hữu cơ." },
+            { id: 33, section: "P2", category: "VOCABULARY", text: "Maintaining a healthy ________ requires eating nutritious food and exercising regularly.", choices: { A: "routine", B: "habit", C: "lifestyle", D: "schedule" }, correct: "C", explain: "healthy lifestyle = lối sống lành mạnh." },
+            { id: 34, section: "P2", category: "VOCABULARY", text: "Lifelong learning helps individuals to adapt quickly to changes in the modern _______, especially with the rapid advancement of artificial intelligence.", choices: { A: "environment", B: "workplace", C: "atmosphere", D: "landscape" }, correct: "B", explain: "modern workplace = môi trường làm việc hiện đại." },
+            { id: 35, section: "P2", category: "VOCABULARY", text: "Immersion in a new culture helps people _______ their horizons and gain a deeper understanding of different traditions.", choices: { A: "widen", B: "extend", C: "broaden", D: "enlarge" }, correct: "C", explain: "broaden one's horizons = mở rộng tầm mắt, tri thức." },
+            { id: 36, section: "P2", category: "WORD FORM", text: "Steve Jobs made significant __________ to the development of modern technology, inspiring many young people around the world.", choices: { A: "contribute", B: "contribution", C: "contributions", D: "contributive" }, correct: "C", explain: "make significant contributions to = có những đóng góp quan trọng (danh từ số nhiều)." },
+            { id: 37, section: "P2", category: "WORD FORM", text: "Despite facing many difficulties, the young scientist remained __________ and continued working towards his goals.", choices: { A: "determination", B: "determine", C: "determined", D: "determinedly" }, correct: "C", explain: "Sau động từ nối 'remain' cần 1 tính từ (determined = quyết tâm)." },
+            { id: 38, section: "P2", category: "WORD FORM", text: "Learning about different customs and traditions helps students develop a greater __________ of cultural diversity.", choices: { A: "appreciate", B: "appreciation", C: "appreciative", D: "appreciatively" }, correct: "B", explain: "Sau tính từ 'greater' cần 1 danh từ (appreciation = sự trân trọng/hiểu biết)." },
+            { id: 39, section: "P2", category: "WORD FORM", text: "International festivals provide opportunities for people from different cultural backgrounds to live together __________.", choices: { A: "harmony", B: "harmonious", C: "harmoniously", D: "harmonise" }, correct: "C", explain: "Bổ nghĩa cho động từ 'live' cần 1 trạng từ (harmoniously = một cách hòa thuận)." },
+            { id: 40, section: "P2", category: "WORD FORM", text: "Using reusable bags instead of plastic ones is an __________ way to reduce plastic waste and protect the environment.", choices: { A: "effect", B: "effective", C: "effectively", D: "effectiveness" }, correct: "B", explain: "Trước danh từ 'way' cần 1 tính từ (effective = hiệu quả)." },
+
+            // III. GRAMMAR (41-55)
+            { id: 41, section: "P3", category: "GRAMMAR", text: "In 1986, Jobs _______ a small company, which later became Pixar Animation Studios.", choices: { A: "bought", B: "buys", C: "has bought", D: "will buy" }, correct: "A", explain: "In 1986 là mốc thời gian xác định trong quá khứ -> Dùng Thì quá khứ đơn (bought)." },
+            { id: 42, section: "P3", category: "GRAMMAR", text: "Her favourite pastime is playing ______ piano.", choices: { A: "an", B: "the", C: "a", D: "Ø (no article)" }, correct: "B", explain: "Dùng mạo từ 'the' trước tên các loại nhạc cụ (play the piano)." },
+            { id: 43, section: "P3", category: "GRAMMAR", text: "Many people are turning to cycling, _______ is a habit that reduces carbon emissions significantly.", choices: { A: "which", B: "what", C: "whom", D: "who" }, correct: "A", explain: "Mệnh đề quan hệ dùng 'which' đứng sau dấu phẩy để thay thế cho cả mệnh đề đằng trước." },
+            { id: 44, section: "P3", category: "GRAMMAR", text: "I think Tet is _______ most fascinating festival in Vietnam.", choices: { A: "the", B: "Ø (no article)", C: "an", D: "a" }, correct: "A", explain: "Dùng mạo từ 'the' trước hình thức so sánh nhất (the most fascinating)." },
+            { id: 45, section: "P3", category: "GRAMMAR", text: "Many celebrities adopt a green lifestyle, ______ helps the environment a lot.", choices: { A: "that", B: "what", C: "whose", D: "which" }, correct: "D", explain: "'which' thay thế cho mệnh đề đứng trước 'Many celebrities adopt a green lifestyle'." },
+            { id: 46, section: "P3", category: "GRAMMAR", text: "Many celebrities adopt a green lifestyle, _______ raise awareness of the public.", choices: { A: "that", B: "what", C: "whose", D: "which" }, correct: "D", explain: "'which' làm chủ ngữ thay cho cả vế trước trong mệnh đề quan hệ không xác định." },
+            { id: 47, section: "P3", category: "GRAMMAR", text: "He grew up in an orphanage in _____ United Kingdom.", choices: { A: "an", B: "a", C: "ϕ", D: "the" }, correct: "D", explain: "Đứng trước tên quốc gia dạng số nhiều/hợp chủng quốc như 'the United Kingdom' dùng 'the'." },
+            { id: 48, section: "P3", category: "GRAMMAR", text: "Remember to rinse _____ the food containers before recycling them.", choices: { A: "out", B: "over", C: "up", D: "away" }, correct: "A", explain: "rinse out = súc rửa sạch bên trong." },
+            { id: 49, section: "P3", category: "GRAMMAR", text: "She baked a cake for the party, _______ surprised everyone.", choices: { A: "that", B: "what", C: "whose", D: "which" }, correct: "D", explain: "'which' thay cho cả mệnh đề 'She baked a cake for the party'." },
+            { id: 50, section: "P3", category: "GRAMMAR", text: "He was sitting in the garden, reading ____ most interesting book about nature.", choices: { A: "an", B: "a", C: "the", D: "Ø" }, correct: "B", explain: "'a most' = 'a very' (một cuốn sách rất thú vị). Không có ý so sánh nhất cụ thể với tập hợp nào." },
+            { id: 51, section: "P3", category: "GRAMMAR", text: "I forgot to turn _____ the tap in the bathroom. It’s a waste of clean water.", choices: { A: "on", B: "off", C: "up", D: "down" }, correct: "B", explain: "turn off the tap = tắt vòi nước." },
+            { id: 52, section: "P3", category: "GRAMMAR", text: "I _______ about him when suddenly he came in.", choices: { A: "talk", B: "talked", C: "am talking", D: "was talking" }, correct: "D", explain: "Hành động đang diễn ra trong quá khứ (was talking) thì một hành động khác cắt ngang (came in)." },
+            { id: 53, section: "P3", category: "GRAMMAR", text: "I was revising for my civics class when my dad ____________ me about the volunteer job.", choices: { A: "tell", B: "was telling", C: "told", D: "had told" }, correct: "C", explain: "Hành động xen vào ở quá khứ dùng Quá khứ đơn (told)." },
+            { id: 54, section: "P3", category: "GRAMMAR", text: "When Tien _______ some photos of the wildlife reserve, it started to rain heavily.", choices: { A: "has taken", B: "was taking", C: "would take", D: "is taking" }, correct: "B", explain: "Hành động đang diễn ra tại mốc thời gian quá khứ chia Quá khứ tiếp diễn (was taking)." },
+            { id: 55, section: "P3", category: "GRAMMAR", text: "They had to ____________ their trip because of the bad weather.", choices: { A: "get through", B: "put off", C: "keep up with", D: "go over" }, correct: "B", explain: "put off = hoãn lại (delay)." },
+
+            // IV. SYNONYMS & ANTONYMS (56-71)
+            { id: 56, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: She decided to <u>devote</u> her life to helping poor children in remote areas.", choices: { A: "waste", B: "dedicate", C: "ignore", D: "forget" }, correct: "B", explain: "devote = dedicate (cống hiến, tận tụy)." },
+            { id: 57, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: Steve Jobs was respected for his <u>successes</u> in computer technology.", choices: { A: "achievements", B: "failures", C: "mistakes", D: "weaknesses" }, correct: "A", explain: "successes = achievements (thành tựu, thành công)." },
+            { id: 58, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: In multicultural societies, people <u>appreciate</u> the customs of others.", choices: { A: "dislike", B: "respect", C: "avoid", D: "complain" }, correct: "B", explain: "appreciate = respect (trân trọng, tôn trọng)." },
+            { id: 59, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: For environmental safety, we need to find ways to reduce <u>emission</u> of fumes and smoke factories.", choices: { A: "leak", B: "release", C: "poison", D: "pollutant" }, correct: "B", explain: "emission = release (sự phát thải, thải ra)." },
+            { id: 60, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: Although Albert Einstein lost interest in school as a child, he became known as a very <u>intelligent</u> person.", choices: { A: "genius", B: "scholar", C: "inventor", D: "thinker" }, correct: "A", explain: "intelligent ≈ genius (thông minh, thiên tài)." },
+            { id: 61, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: When it comes to <u>diversity</u>, language can be a bridge for building relationships...", choices: { A: "integration", B: "distinction", C: "identity", D: "variety" }, correct: "D", explain: "diversity = variety (sự đa dạng)." },
+            { id: 62, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: We must <u>reduce</u> the use of plastic bags to protect the environment.", choices: { A: "decrease", B: "reuse", C: "recycle", D: "produce" }, correct: "A", explain: "reduce = decrease (gắt giảm, giảm thiểu)." },
+            { id: 63, section: "P4", category: "SYNONYM", text: "Choose the word that is CLOSEST in meaning to the underlined word: His success <u>inspired</u> millions of young people to follow their dreams.", choices: { A: "motivated", B: "disappointed", C: "prevented", D: "frightened" }, correct: "A", explain: "inspired = motivated (truyền cảm hứng, động lực)." },
+            { id: 64, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: Mai is an <u>outgoing</u> student who enjoys meeting new people...", choices: { A: "active", B: "friendly", C: "shy", D: "confident" }, correct: "C", explain: "outgoing (cởi mở, hướng ngoại) >< shy (nhút nhát)." },
+            { id: 65, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: Using <u>renewable</u> energy helps protect the planet, while using fossil fuels can be harmful...", choices: { A: "dangerous", B: "safe", C: "toxic", D: "risky" }, correct: "B", explain: "Trong ngữ cảnh giúp bảo vệ hành tinh, năng lượng tái tạo mang tính safe >< harmful." },
+            { id: 66, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: Some students have to <u>drop out of</u> school because of financial problems.", choices: { A: "continue", B: "stop", C: "quit", D: "leave" }, correct: "A", explain: "drop out of (bỏ học) >< continue (tiếp tục)." },
+            { id: 67, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: Many countries in Europe have <u>removed</u> their borders to make travelling easier.", choices: { A: "boundaries", B: "frontiers", C: "limits", D: "connections" }, correct: "D", explain: "removed (dỡ bỏ rào cản) >< connections (kết nối rào lại) hoặc giữ biên giới." },
+            { id: 68, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: We should use more <u>eco-friendly</u> products to save the planet.", choices: { A: "harmful", B: "natural", C: "organic", D: "healthy" }, correct: "A", explain: "eco-friendly (thân thiện môi trường) >< harmful (có hại)." },
+            { id: 69, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: Factories must stop releasing chemicals that <u>contaminate</u> the water.", choices: { A: "clean", B: "damage", C: "poison", D: "destroy" }, correct: "A", explain: "contaminate (làm ô nhiễm) >< clean (làm sạch)." },
+            { id: 70, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: The 21st century has witnessed the formation of <u>multicultural</u> societies...", choices: { A: "continental", B: "global", C: "universal", D: "worldwide" }, correct: "A", explain: "multicultural (đa văn hóa toàn cầu) trái nghĩa với góc nhìn hẹp lục địa continental." },
+            { id: 71, section: "P4", category: "ANTONYM", text: "Choose the word that is OPPOSITE in meaning to the underlined word: If we continue to <u>deplete</u> our planet’s natural resources, we will damage the environment.", choices: { A: "use up", B: "add to", C: "reduce", D: "exhaust" }, correct: "B", explain: "deplete (cạn kiệt) >< add to (bổ sung thêm)." },
+
+            // V. ERROR IDENTIFICATION (72-80)
+            { id: 72, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: One of the national heroes I admire is Vo Thi Sau, who <u>was fighting</u> (C) bravely in the late 1940s.", choices: { A: "heroes", B: "admire", C: "was fighting", D: "bravely" }, correct: "C", explain: "Sửa 'was fighting' -> 'fought'. Sự kiện lịch sử trong quá khứ đã hoàn thành dùng Quá khứ đơn." },
+            { id: 73, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: <u>A</u> (A) most fascinating cultural celebration in the world is Rio de Janeiro’s Carnival.", choices: { A: "A", B: "fascinating", C: "in", D: "is" }, correct: "A", explain: "Sửa 'A' -> 'The' vì đứng trước so sánh nhất 'most fascinating' xác định." },
+            { id: 74, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: Vo Thi Sau was caught while she <u>carried out</u> (B) an attack against the enemy.", choices: { A: "caught", B: "carried out", C: "attack", D: "enemy" }, correct: "B", explain: "Sửa 'carried out' -> 'was carrying out'. Diễn tả hành động đang diễn ra sau 'while'." },
+            { id: 75, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: Some visitors to <u>Middle East</u> (B) got confused because of the conservative dress code...", choices: { A: "visitors", B: "Middle East", C: "confused", D: "especially" }, correct: "B", explain: "Sửa 'Middle East' -> 'the Middle East' (phải có mạo từ 'the' trước tên vùng địa lý này)." },
+            { id: 76, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: While I volunteered at the community project, I saw many people <u>with</u> (C) suffering and hardships.", choices: { A: "volunteered", B: "project", C: "with", D: "suffering" }, correct: "C", explain: "Bỏ 'with' hoặc thay bằng giới từ thích hợp; 'saw many people suffering' (rút gọn mệnh đề quan hệ)." },
+            { id: 77, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: After a hard-working day, I went to <u>the bed</u> (B) and had the most beautiful dream ever.", choices: { A: "hard-working", B: "the bed", C: "had", D: "ever" }, correct: "B", explain: "Sửa 'the bed' -> 'bed' (go to bed: đi ngủ, không dùng 'the')." },
+            { id: 78, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: Children should learn <u>to recycling</u> (A) from an early age so that they will be prepared...", choices: { A: "to recycling", B: "to deal", C: "with", D: "in" }, correct: "A", explain: "Sửa 'to recycling' -> 'to recycle' (learn to do sth)." },
+            { id: 79, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: Many students are taking part in the Green Campaign this year, <u>that</u> (B) shows that nowadays...", choices: { A: "in", B: "that", C: "are", D: "about" }, correct: "B", explain: "Sửa 'that' -> 'which'. Mệnh đề quan hệ không xác định sau dấu phẩy không dùng 'that'." },
+            { id: 80, section: "P5", category: "ERROR ID", text: "Choose the underlined part that needs correction: Many people neither believe in climate change nor want to understand what is happening <u>with</u> (C) the environment...", choices: { A: "in", B: "nor", C: "with", D: "which" }, correct: "C", explain: "Sửa 'happening with' -> 'happening to' (happen to sth/sb)." },
+            // EXTRA: error ID 10, sentence arrangement, cloze tests
+            {"id": 81, "section": "P5", "category": "ERROR ID", "text": "Choose the underlined part that needs correction: Instead of throwing the plastic bottles <u>over</u> (B), why don't you make some plant pots from them?", "choices": {"A": "of", "B": "over", "C": "don’t", "D": "from"}, "correct": "B", "explain": "Sửa 'over' -> 'away' (throw away: vứt bỏ)."},
+            {"id": 82, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Mai: That’s fantastic! He truly deserves the award after everything he’s done for poor children.<br>b. Lan: Did you hear that Mr. Thanh won the “Inspiring Teacher” award?<br>c. Lan: I feel so happy for him. He’s always been my role model.</span>", "choices": {"A": "c-b-a", "B": "b-a-c", "C": "a-b-c", "D": "b-c-a"}, "correct": "B", "explain": "Lan hỏi tin (b) → Mai phản hồi (a) → Lan bày tỏ cảm xúc (c)."},
+            {"id": 83, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Mai: Hi, Nam. Your book must be very interesting. What are you reading?<br>b. Mai: It is a useful book. I’ve read it twice.<br>c. Nam: I'm reading a really good book in English called Last Night I Dreamed of Peace: The Diary of Dang Thuy Tram.</span>", "choices": {"A": "c-a-b", "B": "c-b-a", "C": "b-c-a", "D": "a-c-b"}, "correct": "D", "explain": "Mai hỏi (a) → Nam trả lời tên sách (c) → Mai nhận xét (b)."},
+            {"id": 84, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Mia: I know I’ll love it! What about you—what are you excited about?<br>b. Mia: I can hardly contain my excitement for the trip next month!<br>c. Mia: I’m really looking forward to visiting the beaches and tasting the local dishes.<br>d. Lisa: The food there is incredible! You’re going to enjoy it so much.<br>e. Lisa: For sure! What are you most eager to experience?</span>", "choices": {"A": "d-e-a-b-c", "B": "d-b-a-e-c", "C": "b-e-c-d-a", "D": "c-e-d-b-a"}, "correct": "C", "explain": "Mia mở đầu (b) → Lisa hỏi (e) → Mia trả lời (c) → Lisa nhận xét món ăn (d) → Mia đáp lại (a)."},
+            {"id": 85, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Minh: That’s what makes his life story so admirable.<br>b. Hoa: I just watched a documentary about Nguyễn Ngọc Ký. His determination really touched me.<br>c. Minh: Oh yes, his story is so inspiring! It makes me proud to be Vietnamese.<br>d. Hoa: Absolutely! I love how he never gave up on learning despite his disability.</span>", "choices": {"A": "b-c-d-a", "B": "a-b-c-d", "C": "c-b-d-a", "D": "b-d-c-a"}, "correct": "A", "explain": "Hoa mở đầu (b) → Minh đồng cảm (c) → Hoa 'Absolutely!' (d) → Minh kết luận (a)."},
+            {"id": 86, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. As a result, hundreds of water bottles and single-use plastic containers are thrown away every day.<br>b. Besides, students often put containers with leftovers in them into the recycling bin.<br>c. It can lead to contaminating the recyclable waste.<br>d. This means our school produces a lot of plastic waste that goes to landfills and has a harmful effect on the environment.<br>e. Many students at our school buy bottled water or take away food.</span>", "choices": {"A": "d-e-b-c-a", "B": "d-b-c-e-a", "C": "e-a-c-b-d", "D": "e-a-b-c-d"}, "correct": "D", "explain": "Câu mở đầu e → a (As a result) → b (Besides) → c (It can lead to…, nói về việc bỏ hộp đựng thức ăn thừa vào thùng tái chế) → d (This means… kết luận). Đây là phương án hợp lý nhất trong 4 đáp án."},
+            {"id": 87, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Nowadays, one of the biggest environmental issues is plastic waste, which seriously affects our oceans and wildlife.<br>b. To solve this problem, people should reduce their use of single-use plastics and switch to reusable products.<br>c. As a result, if more people make this small change, there will be less plastic pollution in the environment.<br>d. Moreover, governments can encourage recycling programs and ban plastic bags in supermarkets.<br>e. In conclusion, reducing plastic waste requires both individual actions and government support.</span>", "choices": {"A": "a – b – d – c – e", "B": "b – a – d – c – e", "C": "a – b – c – d – e", "D": "a – d – b – c – e"}, "correct": "C", "explain": "Nêu vấn đề (a) → giải pháp cá nhân (b) → kết quả của thay đổi nhỏ (c) → bổ sung vai trò chính phủ (d) → kết luận (e)."},
+            {"id": 88, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Various cultural exchanges help visitors know more about our country.<br>b. First, promoting its culture and get to know other cultures.<br>c. Viet Nam has gained three main benefits since it joined different international organisations.<br>d. Finally, increasing both local and international tours.<br>e. Second, creating more educational opportunities for both Vietnamese and foreign students.<br>f. Our country has become one of the most popular destinations for foreign tourists in the region.</span>", "choices": {"A": "d – b – a – c – e – f", "B": "a – b – f – e – c - d", "C": "c – b – a – e – d – f", "D": "d – b – c – e – a – f"}, "correct": "C", "explain": "Câu chủ đề (c) → First (b) + giải thích (a) → Second (e) → Finally (d) → kết quả (f)."},
+            {"id": 89, "section": "P6", "category": "SẮP XẾP CÂU", "text": "Choose the correct arrangement of the sentences to make a meaningful dialogue/paragraph.<br><span class='font-normal text-slate-700'>a. Many students at our school buy bottled water or takeaway food.<br>b. This report describes the problem of single-use plastics in our school and suggests solutions to the problem.<br>c. This means our school produces a lot of plastic waste that goes to landfills and has a harmful effect on the environment.<br>d. As a result, hundreds of water bottles and single-use plastic containers are thrown away every day.<br>e. To solve this problem, we suggest that the school should provide more recycling bins and encourage reusing and recycling single-use plastics.</span>", "choices": {"A": "a – c – d – b – e", "B": "b – a – c – e – d", "C": "c – e – b – c – a – d", "D": "b – a – d – c – e"}, "correct": "D", "explain": "Giới thiệu báo cáo (b) → thực trạng (a) → hậu quả (d) → This means… (c) → giải pháp (e)."},
+            {"id": 90, "section": "P7", "category": "CLOZE TEST 1", "text": "Cloze test 1 – chọn đáp án đúng cho chỗ trống <b>(1)</b>:", "choices": {"A": "difference", "B": "differ", "C": "different", "D": "differently"}, "correct": "C", "explain": "Trước danh từ 'cultures' cần tính từ → different.", "passage": "<div class='font-bold text-center mb-2'>INTERNATIONAL CULTURAL FESTIVAL 2025</div>Come and join us for an exciting day at the International Cultural Festival held at Green Park this Sunday!<br>You will have a chance to explore the customs and traditions of people from <b>(1) ______</b> cultures around the world.<br>Visitors can taste delicious traditional food, try national costumes, and enjoy <b>(2) ______</b> shows performed by international artists.<br>Don’t miss the Art Exhibition showing paintings and photos of daily life in multicultural communities.<br>There will also be a “World Quiz” where students can test their knowledge about different cultures and <b>(3) ______</b> amazing prizes!<br>The festival aims to help people understand cultural diversity and promote <b>(4) ______</b> among nations.<br>Entrance is free, so bring your friends and family to experience the <b>(5) ______</b> of our multicultural world!", "passageOpen": true},
+            {"id": 91, "section": "P7", "category": "CLOZE TEST 1", "text": "Cloze test 1 – chọn đáp án đúng cho chỗ trống <b>(2)</b>:", "choices": {"A": "music", "B": "language", "C": "food", "D": "art"}, "correct": "A", "explain": "'music shows' (chương trình ca nhạc) hợp ngữ cảnh biểu diễn của nghệ sĩ quốc tế.", "passage": "<div class='font-bold text-center mb-2'>INTERNATIONAL CULTURAL FESTIVAL 2025</div>Come and join us for an exciting day at the International Cultural Festival held at Green Park this Sunday!<br>You will have a chance to explore the customs and traditions of people from <b>(1) ______</b> cultures around the world.<br>Visitors can taste delicious traditional food, try national costumes, and enjoy <b>(2) ______</b> shows performed by international artists.<br>Don’t miss the Art Exhibition showing paintings and photos of daily life in multicultural communities.<br>There will also be a “World Quiz” where students can test their knowledge about different cultures and <b>(3) ______</b> amazing prizes!<br>The festival aims to help people understand cultural diversity and promote <b>(4) ______</b> among nations.<br>Entrance is free, so bring your friends and family to experience the <b>(5) ______</b> of our multicultural world!", "passageOpen": false},
+            {"id": 92, "section": "P7", "category": "CLOZE TEST 1", "text": "Cloze test 1 – chọn đáp án đúng cho chỗ trống <b>(3)</b>:", "choices": {"A": "win", "B": "give", "C": "sell", "D": "borrow"}, "correct": "A", "explain": "win amazing prizes: giành giải thưởng.", "passage": "<div class='font-bold text-center mb-2'>INTERNATIONAL CULTURAL FESTIVAL 2025</div>Come and join us for an exciting day at the International Cultural Festival held at Green Park this Sunday!<br>You will have a chance to explore the customs and traditions of people from <b>(1) ______</b> cultures around the world.<br>Visitors can taste delicious traditional food, try national costumes, and enjoy <b>(2) ______</b> shows performed by international artists.<br>Don’t miss the Art Exhibition showing paintings and photos of daily life in multicultural communities.<br>There will also be a “World Quiz” where students can test their knowledge about different cultures and <b>(3) ______</b> amazing prizes!<br>The festival aims to help people understand cultural diversity and promote <b>(4) ______</b> among nations.<br>Entrance is free, so bring your friends and family to experience the <b>(5) ______</b> of our multicultural world!", "passageOpen": false},
+            {"id": 93, "section": "P7", "category": "CLOZE TEST 1", "text": "Cloze test 1 – chọn đáp án đúng cho chỗ trống <b>(4)</b>:", "choices": {"A": "peace", "B": "pollution", "C": "distance", "D": "success"}, "correct": "A", "explain": "promote peace among nations: thúc đẩy hòa bình giữa các quốc gia.", "passage": "<div class='font-bold text-center mb-2'>INTERNATIONAL CULTURAL FESTIVAL 2025</div>Come and join us for an exciting day at the International Cultural Festival held at Green Park this Sunday!<br>You will have a chance to explore the customs and traditions of people from <b>(1) ______</b> cultures around the world.<br>Visitors can taste delicious traditional food, try national costumes, and enjoy <b>(2) ______</b> shows performed by international artists.<br>Don’t miss the Art Exhibition showing paintings and photos of daily life in multicultural communities.<br>There will also be a “World Quiz” where students can test their knowledge about different cultures and <b>(3) ______</b> amazing prizes!<br>The festival aims to help people understand cultural diversity and promote <b>(4) ______</b> among nations.<br>Entrance is free, so bring your friends and family to experience the <b>(5) ______</b> of our multicultural world!", "passageOpen": false},
+            {"id": 94, "section": "P7", "category": "CLOZE TEST 1", "text": "Cloze test 1 – chọn đáp án đúng cho chỗ trống <b>(5)</b>:", "choices": {"A": "harmony", "B": "danger", "C": "poverty", "D": "mystery"}, "correct": "A", "explain": "experience the harmony of our multicultural world: sự hòa hợp của thế giới đa văn hóa.", "passage": "<div class='font-bold text-center mb-2'>INTERNATIONAL CULTURAL FESTIVAL 2025</div>Come and join us for an exciting day at the International Cultural Festival held at Green Park this Sunday!<br>You will have a chance to explore the customs and traditions of people from <b>(1) ______</b> cultures around the world.<br>Visitors can taste delicious traditional food, try national costumes, and enjoy <b>(2) ______</b> shows performed by international artists.<br>Don’t miss the Art Exhibition showing paintings and photos of daily life in multicultural communities.<br>There will also be a “World Quiz” where students can test their knowledge about different cultures and <b>(3) ______</b> amazing prizes!<br>The festival aims to help people understand cultural diversity and promote <b>(4) ______</b> among nations.<br>Entrance is free, so bring your friends and family to experience the <b>(5) ______</b> of our multicultural world!", "passageOpen": false},
+            {"id": 95, "section": "P7", "category": "CLOZE TEST 2", "text": "Cloze test 2 – chọn đáp án đúng cho chỗ trống <b>(1)</b>:", "choices": {"A": "effective most ways", "B": "ways most effective", "C": "most effective ways", "D": "most ways effective"}, "correct": "C", "explain": "one of the + so sánh nhất + danh từ số nhiều → the most effective ways.", "passage": "<div class='font-bold text-center mb-2'>THE IMPORTANCE OF RECYCLING</div>Recycling is one of the <b>(1) ______</b> to protect the environment and reduce waste. Many products, such as plastic bottles, cans, and paper, can be recycled and used again instead of being thrown away. By recycling, we can reduce the amount of waste that ends up in landfills, <b>(2) ______</b> reduce pollution and conserve natural resources.<br><br>There are many materials that can be <b>(3) ______</b>, but some other materials are often overlooked, such as electronic devices or old batteries. These items contain harmful chemicals that can harm the environment if not disposed of properly. It’s important <b>(4) ______</b> them to designated recycling centers.<br><br>In addition to reducing waste, recycling also helps save energy. It takes less energy to recycle materials than to produce new products from raw materials. This, <b>(5) ______</b> turn, helps lower carbon emissions and combats climate change.<br><br>While recycling seems like a small action, it has a large impact when practiced consistently by many people.", "passageOpen": true},
+            {"id": 96, "section": "P7", "category": "CLOZE TEST 2", "text": "Cloze test 2 – chọn đáp án đúng cho chỗ trống <b>(2)</b>:", "choices": {"A": "helped", "B": "which helps", "C": "which helping", "D": "is helped"}, "correct": "B", "explain": "Mệnh đề quan hệ không xác định: which helps (chỉ cả mệnh đề trước).", "passage": "<div class='font-bold text-center mb-2'>THE IMPORTANCE OF RECYCLING</div>Recycling is one of the <b>(1) ______</b> to protect the environment and reduce waste. Many products, such as plastic bottles, cans, and paper, can be recycled and used again instead of being thrown away. By recycling, we can reduce the amount of waste that ends up in landfills, <b>(2) ______</b> reduce pollution and conserve natural resources.<br><br>There are many materials that can be <b>(3) ______</b>, but some other materials are often overlooked, such as electronic devices or old batteries. These items contain harmful chemicals that can harm the environment if not disposed of properly. It’s important <b>(4) ______</b> them to designated recycling centers.<br><br>In addition to reducing waste, recycling also helps save energy. It takes less energy to recycle materials than to produce new products from raw materials. This, <b>(5) ______</b> turn, helps lower carbon emissions and combats climate change.<br><br>While recycling seems like a small action, it has a large impact when practiced consistently by many people.", "passageOpen": false},
+            {"id": 97, "section": "P7", "category": "CLOZE TEST 2", "text": "Cloze test 2 – chọn đáp án đúng cho chỗ trống <b>(3)</b>:", "choices": {"A": "recycled", "B": "reused", "C": "reduced", "D": "repeated"}, "correct": "A", "explain": "Cả đoạn nói về tái chế → many materials that can be recycled.", "passage": "<div class='font-bold text-center mb-2'>THE IMPORTANCE OF RECYCLING</div>Recycling is one of the <b>(1) ______</b> to protect the environment and reduce waste. Many products, such as plastic bottles, cans, and paper, can be recycled and used again instead of being thrown away. By recycling, we can reduce the amount of waste that ends up in landfills, <b>(2) ______</b> reduce pollution and conserve natural resources.<br><br>There are many materials that can be <b>(3) ______</b>, but some other materials are often overlooked, such as electronic devices or old batteries. These items contain harmful chemicals that can harm the environment if not disposed of properly. It’s important <b>(4) ______</b> them to designated recycling centers.<br><br>In addition to reducing waste, recycling also helps save energy. It takes less energy to recycle materials than to produce new products from raw materials. This, <b>(5) ______</b> turn, helps lower carbon emissions and combats climate change.<br><br>While recycling seems like a small action, it has a large impact when practiced consistently by many people.", "passageOpen": false},
+            {"id": 98, "section": "P7", "category": "CLOZE TEST 2", "text": "Cloze test 2 – chọn đáp án đúng cho chỗ trống <b>(4)</b>:", "choices": {"A": "take", "B": "taking", "C": "to take", "D": "to taking"}, "correct": "C", "explain": "It’s important + to V.", "passage": "<div class='font-bold text-center mb-2'>THE IMPORTANCE OF RECYCLING</div>Recycling is one of the <b>(1) ______</b> to protect the environment and reduce waste. Many products, such as plastic bottles, cans, and paper, can be recycled and used again instead of being thrown away. By recycling, we can reduce the amount of waste that ends up in landfills, <b>(2) ______</b> reduce pollution and conserve natural resources.<br><br>There are many materials that can be <b>(3) ______</b>, but some other materials are often overlooked, such as electronic devices or old batteries. These items contain harmful chemicals that can harm the environment if not disposed of properly. It’s important <b>(4) ______</b> them to designated recycling centers.<br><br>In addition to reducing waste, recycling also helps save energy. It takes less energy to recycle materials than to produce new products from raw materials. This, <b>(5) ______</b> turn, helps lower carbon emissions and combats climate change.<br><br>While recycling seems like a small action, it has a large impact when practiced consistently by many people.", "passageOpen": false},
+            {"id": 99, "section": "P7", "category": "CLOZE TEST 2", "text": "Cloze test 2 – chọn đáp án đúng cho chỗ trống <b>(5)</b>:", "choices": {"A": "on", "B": "in", "C": "as", "D": "for"}, "correct": "B", "explain": "in turn: lần lượt, đến lượt nó.", "passage": "<div class='font-bold text-center mb-2'>THE IMPORTANCE OF RECYCLING</div>Recycling is one of the <b>(1) ______</b> to protect the environment and reduce waste. Many products, such as plastic bottles, cans, and paper, can be recycled and used again instead of being thrown away. By recycling, we can reduce the amount of waste that ends up in landfills, <b>(2) ______</b> reduce pollution and conserve natural resources.<br><br>There are many materials that can be <b>(3) ______</b>, but some other materials are often overlooked, such as electronic devices or old batteries. These items contain harmful chemicals that can harm the environment if not disposed of properly. It’s important <b>(4) ______</b> them to designated recycling centers.<br><br>In addition to reducing waste, recycling also helps save energy. It takes less energy to recycle materials than to produce new products from raw materials. This, <b>(5) ______</b> turn, helps lower carbon emissions and combats climate change.<br><br>While recycling seems like a small action, it has a large impact when practiced consistently by many people.", "passageOpen": false},
+            {"id": 100, "section": "P7", "category": "CLOZE TEST 3", "text": "Cloze test 3 – chọn đáp án đúng cho chỗ trống <b>(1)</b>:", "choices": {"A": "footprint", "B": "footstep", "C": "hint", "D": "printer"}, "correct": "A", "explain": "carbon footprint: lượng khí thải carbon.", "passage": "<div class='font-bold text-center mb-2'>SAVE THE EARTH, ONE STEP AT A TIME!</div>Let's explore what we can do in our daily lives to help protect the environment.<br><b>Key Facts:</b> Every year, over 8 million tonnes of plastic enter our oceans, threatening marine life and ecosystems. Transport is a significant contributor to greenhouse gas emissions, especially air travel, which can account for up to 10% of your yearly carbon <b>(1) ______</b>.<br><b>What You Can Do:</b><br><b>Eat Sustainably</b>: Choose a plant-based diet when possible. Reducing meat and dairy consumption not only <b>(2) ______</b> on greenhouse gas emissions <b>(3) ______</b> also helps prevent deforestation for animal feed crops.<br><b>Reduce Waste</b>: Avoid single-use plastics. Opt for <b>(4) ______</b> bags, containers, and water bottles.<br><b>Travel Responsibly</b>: Whenever possible, walk or bike short distances. If traveling longer distances, consider public transport or trains instead of flights to save <b>(5) ______</b> large amount of carbon emissions.", "passageOpen": true},
+            {"id": 101, "section": "P7", "category": "CLOZE TEST 3", "text": "Cloze test 3 – chọn đáp án đúng cho chỗ trống <b>(2)</b>:", "choices": {"A": "gets down", "B": "cuts down", "C": "breaks up", "D": "breaks down"}, "correct": "B", "explain": "cut down on: cắt giảm.", "passage": "<div class='font-bold text-center mb-2'>SAVE THE EARTH, ONE STEP AT A TIME!</div>Let's explore what we can do in our daily lives to help protect the environment.<br><b>Key Facts:</b> Every year, over 8 million tonnes of plastic enter our oceans, threatening marine life and ecosystems. Transport is a significant contributor to greenhouse gas emissions, especially air travel, which can account for up to 10% of your yearly carbon <b>(1) ______</b>.<br><b>What You Can Do:</b><br><b>Eat Sustainably</b>: Choose a plant-based diet when possible. Reducing meat and dairy consumption not only <b>(2) ______</b> on greenhouse gas emissions <b>(3) ______</b> also helps prevent deforestation for animal feed crops.<br><b>Reduce Waste</b>: Avoid single-use plastics. Opt for <b>(4) ______</b> bags, containers, and water bottles.<br><b>Travel Responsibly</b>: Whenever possible, walk or bike short distances. If traveling longer distances, consider public transport or trains instead of flights to save <b>(5) ______</b> large amount of carbon emissions.", "passageOpen": false},
+            {"id": 102, "section": "P7", "category": "CLOZE TEST 3", "text": "Cloze test 3 – chọn đáp án đúng cho chỗ trống <b>(3)</b>:", "choices": {"A": "but", "B": "and", "C": "so", "D": "for"}, "correct": "A", "explain": "not only … but also …", "passage": "<div class='font-bold text-center mb-2'>SAVE THE EARTH, ONE STEP AT A TIME!</div>Let's explore what we can do in our daily lives to help protect the environment.<br><b>Key Facts:</b> Every year, over 8 million tonnes of plastic enter our oceans, threatening marine life and ecosystems. Transport is a significant contributor to greenhouse gas emissions, especially air travel, which can account for up to 10% of your yearly carbon <b>(1) ______</b>.<br><b>What You Can Do:</b><br><b>Eat Sustainably</b>: Choose a plant-based diet when possible. Reducing meat and dairy consumption not only <b>(2) ______</b> on greenhouse gas emissions <b>(3) ______</b> also helps prevent deforestation for animal feed crops.<br><b>Reduce Waste</b>: Avoid single-use plastics. Opt for <b>(4) ______</b> bags, containers, and water bottles.<br><b>Travel Responsibly</b>: Whenever possible, walk or bike short distances. If traveling longer distances, consider public transport or trains instead of flights to save <b>(5) ______</b> large amount of carbon emissions.", "passageOpen": false},
+            {"id": 103, "section": "P7", "category": "CLOZE TEST 3", "text": "Cloze test 3 – chọn đáp án đúng cho chỗ trống <b>(4)</b>:", "choices": {"A": "reusable", "B": "reuse", "C": "usage", "D": "reusably"}, "correct": "A", "explain": "Cần tính từ trước 'bags': reusable bags (túi tái sử dụng).", "passage": "<div class='font-bold text-center mb-2'>SAVE THE EARTH, ONE STEP AT A TIME!</div>Let's explore what we can do in our daily lives to help protect the environment.<br><b>Key Facts:</b> Every year, over 8 million tonnes of plastic enter our oceans, threatening marine life and ecosystems. Transport is a significant contributor to greenhouse gas emissions, especially air travel, which can account for up to 10% of your yearly carbon <b>(1) ______</b>.<br><b>What You Can Do:</b><br><b>Eat Sustainably</b>: Choose a plant-based diet when possible. Reducing meat and dairy consumption not only <b>(2) ______</b> on greenhouse gas emissions <b>(3) ______</b> also helps prevent deforestation for animal feed crops.<br><b>Reduce Waste</b>: Avoid single-use plastics. Opt for <b>(4) ______</b> bags, containers, and water bottles.<br><b>Travel Responsibly</b>: Whenever possible, walk or bike short distances. If traveling longer distances, consider public transport or trains instead of flights to save <b>(5) ______</b> large amount of carbon emissions.", "passageOpen": false},
+            {"id": 104, "section": "P7", "category": "CLOZE TEST 3", "text": "Cloze test 3 – chọn đáp án đúng cho chỗ trống <b>(5)</b>:", "choices": {"A": "a", "B": "an", "C": "∅", "D": "the"}, "correct": "A", "explain": "a large amount of: một lượng lớn.", "passage": "<div class='font-bold text-center mb-2'>SAVE THE EARTH, ONE STEP AT A TIME!</div>Let's explore what we can do in our daily lives to help protect the environment.<br><b>Key Facts:</b> Every year, over 8 million tonnes of plastic enter our oceans, threatening marine life and ecosystems. Transport is a significant contributor to greenhouse gas emissions, especially air travel, which can account for up to 10% of your yearly carbon <b>(1) ______</b>.<br><b>What You Can Do:</b><br><b>Eat Sustainably</b>: Choose a plant-based diet when possible. Reducing meat and dairy consumption not only <b>(2) ______</b> on greenhouse gas emissions <b>(3) ______</b> also helps prevent deforestation for animal feed crops.<br><b>Reduce Waste</b>: Avoid single-use plastics. Opt for <b>(4) ______</b> bags, containers, and water bottles.<br><b>Travel Responsibly</b>: Whenever possible, walk or bike short distances. If traveling longer distances, consider public transport or trains instead of flights to save <b>(5) ______</b> large amount of carbon emissions.", "passageOpen": false},
+            {"id": 105, "section": "P7", "category": "CLOZE TEST 4", "text": "Cloze test 4 – chọn đáp án đúng cho chỗ trống <b>(1)</b>:", "choices": {"A": "use", "B": "usefully", "C": "using", "D": "useful"}, "correct": "A", "explain": "Sau 'reduce' cần danh từ: reduce use of electricity.", "passage": "<div class='font-bold text-center mb-2'>GO GREEN, LIVE CLEAN!</div>These days, more and more people are becoming interested in green living, which encourages everyone to make lifestyle choices that are good for the planet.<br>One simple way to live more sustainably is to reduce <b>(1) ______</b> of electricity at home. For example, we can switch off lights when leaving a room and use energy-saving bulbs.<br>Another idea is to recycle and reuse materials whenever possible. By doing this, we help cut down on waste and <b>(2) ______</b> natural resources. Many young people also take part in environmental projects to plant trees or clean up beaches.<br>In addition, using public transport or riding bicycles instead of cars can <b>(3) ______</b> air pollution in cities.<br>Governments should also promote eco-friendly campaigns to raise people’s <b>(4) ______</b> about protecting the Earth.<br>Together, these small actions can make a big <b>(5) ______</b> and create a cleaner, greener future for everyone.", "passageOpen": true},
+            {"id": 106, "section": "P7", "category": "CLOZE TEST 4", "text": "Cloze test 4 – chọn đáp án đúng cho chỗ trống <b>(2)</b>:", "choices": {"A": "protect", "B": "pollute", "C": "produce", "D": "collect"}, "correct": "A", "explain": "protect natural resources: bảo vệ tài nguyên thiên nhiên.", "passage": "<div class='font-bold text-center mb-2'>GO GREEN, LIVE CLEAN!</div>These days, more and more people are becoming interested in green living, which encourages everyone to make lifestyle choices that are good for the planet.<br>One simple way to live more sustainably is to reduce <b>(1) ______</b> of electricity at home. For example, we can switch off lights when leaving a room and use energy-saving bulbs.<br>Another idea is to recycle and reuse materials whenever possible. By doing this, we help cut down on waste and <b>(2) ______</b> natural resources. Many young people also take part in environmental projects to plant trees or clean up beaches.<br>In addition, using public transport or riding bicycles instead of cars can <b>(3) ______</b> air pollution in cities.<br>Governments should also promote eco-friendly campaigns to raise people’s <b>(4) ______</b> about protecting the Earth.<br>Together, these small actions can make a big <b>(5) ______</b> and create a cleaner, greener future for everyone.", "passageOpen": false},
+            {"id": 107, "section": "P7", "category": "CLOZE TEST 4", "text": "Cloze test 4 – chọn đáp án đúng cho chỗ trống <b>(3)</b>:", "choices": {"A": "increase", "B": "prevent", "C": "reduce", "D": "control"}, "correct": "C", "explain": "reduce air pollution: giảm ô nhiễm không khí.", "passage": "<div class='font-bold text-center mb-2'>GO GREEN, LIVE CLEAN!</div>These days, more and more people are becoming interested in green living, which encourages everyone to make lifestyle choices that are good for the planet.<br>One simple way to live more sustainably is to reduce <b>(1) ______</b> of electricity at home. For example, we can switch off lights when leaving a room and use energy-saving bulbs.<br>Another idea is to recycle and reuse materials whenever possible. By doing this, we help cut down on waste and <b>(2) ______</b> natural resources. Many young people also take part in environmental projects to plant trees or clean up beaches.<br>In addition, using public transport or riding bicycles instead of cars can <b>(3) ______</b> air pollution in cities.<br>Governments should also promote eco-friendly campaigns to raise people’s <b>(4) ______</b> about protecting the Earth.<br>Together, these small actions can make a big <b>(5) ______</b> and create a cleaner, greener future for everyone.", "passageOpen": false},
+            {"id": 108, "section": "P7", "category": "CLOZE TEST 4", "text": "Cloze test 4 – chọn đáp án đúng cho chỗ trống <b>(4)</b>:", "choices": {"A": "knowledge", "B": "awareness", "C": "understanding", "D": "experience"}, "correct": "B", "explain": "raise people’s awareness about…: nâng cao nhận thức.", "passage": "<div class='font-bold text-center mb-2'>GO GREEN, LIVE CLEAN!</div>These days, more and more people are becoming interested in green living, which encourages everyone to make lifestyle choices that are good for the planet.<br>One simple way to live more sustainably is to reduce <b>(1) ______</b> of electricity at home. For example, we can switch off lights when leaving a room and use energy-saving bulbs.<br>Another idea is to recycle and reuse materials whenever possible. By doing this, we help cut down on waste and <b>(2) ______</b> natural resources. Many young people also take part in environmental projects to plant trees or clean up beaches.<br>In addition, using public transport or riding bicycles instead of cars can <b>(3) ______</b> air pollution in cities.<br>Governments should also promote eco-friendly campaigns to raise people’s <b>(4) ______</b> about protecting the Earth.<br>Together, these small actions can make a big <b>(5) ______</b> and create a cleaner, greener future for everyone.", "passageOpen": false},
+            {"id": 109, "section": "P7", "category": "CLOZE TEST 4", "text": "Cloze test 4 – chọn đáp án đúng cho chỗ trống <b>(5)</b>:", "choices": {"A": "change", "B": "effect", "C": "difference", "D": "way"}, "correct": "C", "explain": "make a big difference: tạo nên sự khác biệt lớn.", "passage": "<div class='font-bold text-center mb-2'>GO GREEN, LIVE CLEAN!</div>These days, more and more people are becoming interested in green living, which encourages everyone to make lifestyle choices that are good for the planet.<br>One simple way to live more sustainably is to reduce <b>(1) ______</b> of electricity at home. For example, we can switch off lights when leaving a room and use energy-saving bulbs.<br>Another idea is to recycle and reuse materials whenever possible. By doing this, we help cut down on waste and <b>(2) ______</b> natural resources. Many young people also take part in environmental projects to plant trees or clean up beaches.<br>In addition, using public transport or riding bicycles instead of cars can <b>(3) ______</b> air pollution in cities.<br>Governments should also promote eco-friendly campaigns to raise people’s <b>(4) ______</b> about protecting the Earth.<br>Together, these small actions can make a big <b>(5) ______</b> and create a cleaner, greener future for everyone.", "passageOpen": false}
+        ];
+
+        // State Management
+        let userAnswers = {};
+        let isSubmitted = false;
+        let timerSeconds = 90 * 60; // 90 mins
+        let timerInterval = null;
+        let activeFilter = 'ALL';
+
+        // Initialize App
+        window.onload = function() {
+            renderQuestions();
+            renderPalette();
+            startTimer();
+        };
+
+        // Render Questions based on Filter
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            const filtered = rawQuestions.filter(q => {
+                if (activeFilter === 'ALL') return true;
+                return q.section === activeFilter;
+            });
+
+            filtered.forEach((q) => {
+                const card = document.createElement('div');
+                card.id = `q-card-${q.id}`;
+                card.className = "bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all duration-200 hover:shadow-md";
+
+                const isSelected = (opt) => userAnswers[q.id] === opt;
+                
+                let answerDetailsHTML = '';
+                if (isSubmitted) {
+                    const isCorrect = userAnswers[q.id] === q.correct;
+                    answerDetailsHTML = `
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-xs sm:text-sm ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'} p-3.5 rounded-xl">
+                            <div class="font-bold flex items-center space-x-1.5 mb-1">
+                                <i class="fa-solid ${isCorrect ? 'fa-circle-check text-emerald-600' : 'fa-circle-xmark text-rose-600'}"></i>
+                                <span>${isCorrect ? 'Chính xác!' : 'Chưa đúng!'} Đáp án đúng: <strong class="text-indigo-700">${q.correct}</strong></span>
+                            </div>
+                            <p class="text-slate-700 mt-1"><strong>Giải thích:</strong> ${q.explain}</p>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 mb-3">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">
+                            Câu ${q.id} / 109
+                        </span>
+                        <span class="text-xs font-medium text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded">
+                            ${q.category}
+                        </span>
+                    </div>
+
+                    <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed mb-4">
+                        ${q.text}
+                    </p>
+                    ${q.passage ? `<details ${q.passageOpen ? 'open' : ''} class="mb-4 bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm leading-relaxed"><summary class="cursor-pointer font-semibold text-amber-800">Đoạn văn (bấm để mở/đóng)</summary><div class="mt-2 text-slate-700">${q.passage}</div></details>` : ''}
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${['A', 'B', 'C', 'D'].map(opt => {
+                            let optBg = "bg-slate-50 border-slate-200 hover:bg-indigo-50/50 hover:border-indigo-300";
+                            let optRadio = "border-slate-300 text-indigo-600";
+                            
+                            if (userAnswers[q.id] === opt) {
+                                optBg = "bg-indigo-50 border-indigo-600 text-indigo-900 font-medium shadow-sm";
+                                optRadio = "border-indigo-600 bg-indigo-600 text-white";
+                            }
+
+                            if (isSubmitted) {
+                                if (opt === q.correct) {
+                                    optBg = "bg-emerald-100 border-emerald-500 text-emerald-900 font-bold ring-2 ring-emerald-400/30";
+                                } else if (userAnswers[q.id] === opt && opt !== q.correct) {
+                                    optBg = "bg-rose-100 border-rose-500 text-rose-900 font-medium";
+                                }
+                            }
+
+                            return `
+                                <button onclick="selectAnswer(${q.id}, '${opt}')" ${isSubmitted ? 'disabled' : ''} 
+                                    class="w-full text-left p-3 rounded-xl border text-xs sm:text-sm transition-all duration-150 flex items-start space-x-3 ${optBg}">
+                                    <span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs shrink-0 mt-0.5 font-bold ${userAnswers[q.id] === opt ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-slate-400 bg-white text-slate-600'}">
+                                        ${opt}
+                                    </span>
+                                    <span class="break-words leading-tight">${q.choices[opt]}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    ${answerDetailsHTML}
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Render Question Palette Buttons
+        function renderPalette() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = '';
+
+            rawQuestions.forEach(q => {
+                const btn = document.createElement('button');
+                btn.id = `palette-btn-${q.id}`;
+                btn.onclick = () => scrollToQuestion(q.id);
+
+                let statusClass = "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200";
+
+                if (userAnswers[q.id]) {
+                    statusClass = "bg-indigo-600 text-white border-indigo-600 shadow-sm";
+                }
+
+                if (isSubmitted) {
+                    if (userAnswers[q.id] === q.correct) {
+                        statusClass = "bg-emerald-500 text-white border-emerald-500";
+                    } else {
+                        statusClass = "bg-rose-500 text-white border-rose-500";
+                    }
+                }
+
+                btn.className = `w-full h-9 rounded-lg font-semibold text-xs border flex items-center justify-center transition-all ${statusClass}`;
+                btn.innerText = q.id;
+                grid.appendChild(btn);
+            });
+
+            // Update answered counter
+            const count = Object.keys(userAnswers).length;
+            document.getElementById('progress-text').innerText = `${count}/109 đã làm`;
+        }
+
+        // Handle Selecting Answer
+        function selectAnswer(qId, option) {
+            if (isSubmitted) return;
+            userAnswers[qId] = option;
+            renderQuestions();
+            renderPalette();
+        }
+
+        // Filter Questions by Category/Section
+        function filterSection(sec) {
+            activeFilter = sec;
+            document.querySelectorAll('.section-tab').forEach(btn => {
+                if (btn.dataset.section === sec) {
+                    btn.className = "section-tab active bg-indigo-600 text-white font-medium px-3 py-1.5 rounded-lg transition";
+                } else {
+                    btn.className = "section-tab bg-slate-100 text-slate-700 hover:bg-slate-200 font-medium px-3 py-1.5 rounded-lg transition";
+                }
+            });
+            renderQuestions();
+        }
+
+        // Smooth Scroll to Question
+        function scrollToQuestion(id) {
+            // If question is hidden by filter, reset filter first
+            const q = rawQuestions.find(item => item.id === id);
+            if (activeFilter !== 'ALL' && q.section !== activeFilter) {
+                filterSection('ALL');
+            }
+
+            setTimeout(() => {
+                const el = document.getElementById(`q-card-${id}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('ring-2', 'ring-indigo-500');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500'), 1500);
+                }
+            }, 50);
+        }
+
+        // Timer Logic
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    processFinalSubmit();
+                    return;
+                }
+                timerSeconds--;
+                const mins = Math.floor(timerSeconds / 60);
+                const secs = timerSeconds % 60;
+                document.getElementById('timer-display').innerText = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Confirm Submit Modal
+        function confirmSubmit() {
+            if (isSubmitted) return;
+            const doneCount = Object.keys(userAnswers).length;
+            document.getElementById('modal-done-count').innerText = doneCount;
+            document.getElementById('submit-modal').classList.remove('hidden');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submit-modal').classList.add('hidden');
+        }
+
+        // Calculate and Show Final Results
+        function processFinalSubmit() {
+            closeSubmitModal();
+            if (isSubmitted) return;
+            
+            isSubmitted = true;
+            clearInterval(timerInterval);
+
+            let correctCount = 0;
+            rawQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const total = rawQuestions.length;
+            const scoreTen = ((correctCount / total) * 10).toFixed(1);
+            const wrongCount = total - correctCount - (total - Object.keys(userAnswers).length);
+            const unansweredCount = total - Object.keys(userAnswers).length;
+
+            // Calculate Time Spent
+            const spentSecs = (90 * 60) - timerSeconds;
+            const spentMins = Math.floor(spentSecs / 60);
+            const remainingSecs = spentSecs % 60;
+            const timeString = `${spentMins}m ${remainingSecs}s`;
+
+            // Display Score Dashboard
+            document.getElementById('score-ten').innerText = `${scoreTen} / 10`;
+            document.getElementById('correct-count').innerText = `${correctCount}/${total}`;
+            document.getElementById('wrong-count').innerText = `${wrongCount}/${total}`;
+            document.getElementById('unanswered-count').innerText = `${unansweredCount}/${total}`;
+            document.getElementById('time-spent').innerText = timeString;
+            document.getElementById('score-dashboard').classList.remove('hidden');
+
+            // Show legends for correct/wrong
+            document.getElementById('legend-correct').classList.remove('hidden');
+            document.getElementById('legend-wrong').classList.remove('hidden');
+
+            // Disable submit button
+            const subBtn = document.getElementById('submit-btn');
+            subBtn.disabled = true;
+            subBtn.className = "bg-slate-400 text-white font-semibold px-4 py-2 rounded-lg text-sm cursor-not-allowed opacity-75";
+            subBtn.innerText = "Đã Nộp Bài";
+
+            // Re-render UI with answers & explanations
+            renderQuestions();
+            renderPalette();
+
+            // Scroll to Top Dashboard
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
