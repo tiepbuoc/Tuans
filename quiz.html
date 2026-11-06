@@ -6,9 +6,9 @@
 <title>Ôn tập Lịch sử 12 – Giữa kì I</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{--bg:#eef0ee;--card:#fff;--ink:#1b2530;--mut:#5d6b78;--line:#d5dad8;--acc:#27467f;--accbg:#e4eaf6;--ok:#23764a;--okbg:#e0f2e8;--bad:#b0372c;--badbg:#fbe6e3;--sel:#f3ecd9;color-scheme:light}
-@media(prefers-color-scheme:dark){:root{--bg:#141a20;--card:#1d252d;--ink:#e6eaee;--mut:#98a5b1;--line:#34404b;--acc:#8fb0ee;--accbg:#223250;--ok:#6fd09a;--okbg:#18372a;--bad:#f08b80;--badbg:#42211d;--sel:#3a3524;color-scheme:dark}}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;padding:0 0 60px}
@@ -22,7 +22,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .btn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 16px;font-weight:500}
 .btn:hover{border-color:var(--acc)}
 .btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
-@media(prefers-color-scheme:dark){.btn.pri{color:#10151b}}
 .btn[disabled]{opacity:.45;cursor:default}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .sp{flex:1}
@@ -62,6 +61,14 @@ th{background:var(--accbg)}
 .score{font:600 44px/1.1 Lora,Georgia,serif;margin:4px 0}
 .fb{font-size:14px;margin:10px 0 0;padding:8px 12px;border-radius:8px}
 .fb.ok{background:var(--okbg)}.fb.bad{background:var(--badbg)}
+.gear{width:42px;height:42px;border-radius:50%;font-size:18px;padding:0}
+.modal{position:fixed;inset:0;background:rgba(20,30,40,.5);display:none;align-items:center;justify-content:center;padding:14px;z-index:10}
+.modal.open{display:flex}
+.panel{background:var(--bg);border-radius:12px;max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:6px 18px 18px}
+.ph{display:flex;align-items:center;position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:1}
+.ph h2{margin:0;flex:1}
+.hero{text-align:center;padding:34px 18px}
+.hero .btn{font-size:18px;padding:13px 34px}
 </style>
 </head>
 <body>
@@ -96,8 +103,11 @@ const topicKey=q=>q.type==='mcq'?'m'+q.lesson:'t'+q.chapter;
 
 function home(){
   const wrong=store.get('wrong',[]);
-  let h=`<h1>${esc(D.title)}</h1><p class="mut">Năm học ${esc(D.year)} · ${D.questions.length} câu (${D.questions.filter(q=>q.type==='mcq').length} nhiều lựa chọn, ${D.questions.filter(q=>q.type==='tf').length} đúng sai)</p>
-  <div class="card"><div class="row"><h2 style="margin:0">Chọn phần cần ôn</h2><span class="sp"></span><button class="btn" data-a="all">Chọn hết</button><button class="btn" data-a="none">Bỏ hết</button></div>`;
+  let h=`<div class="row"><div><h1>${esc(D.title)}</h1><p class="mut" style="margin:0">Năm học ${esc(D.year)} · ${D.questions.length} câu (${D.questions.filter(q=>q.type==='mcq').length} nhiều lựa chọn, ${D.questions.filter(q=>q.type==='tf').length} đúng sai)</p></div><span class="sp"></span><button class="btn gear" id="gear" aria-label="Cài đặt" title="Cài đặt"><i class="fas fa-cog"></i></button></div>
+  <div class="card hero"><p class="mut" id="cnt" style="margin-top:0"></p><button class="btn pri" id="go">Bắt đầu làm bài</button><p class="mut" style="margin-bottom:0">Chọn phần cần ôn và cách làm bài trong Cài đặt <i class="fas fa-cog"></i></p></div>`;
+  if(D.essay&&D.essay.length)h+=`<div class="card"><h2>Phần tự luận (không có trong bản quiz)</h2>${D.essay.map(e=>`<div class="mut">${esc(e)}</div>`).join('')}</div>`;
+  h+=`<div class="modal" id="modal"><div class="panel" role="dialog" aria-label="Cài đặt"><div class="ph"><h2>Cài đặt</h2><button class="btn pri" id="done">Xong</button></div>
+  <div class="card" style="margin-top:0"><div class="row"><h2 style="margin:0">Chọn phần cần ôn</h2><span class="sp"></span><button class="btn" data-a="all">Chọn hết</button><button class="btn" data-a="none">Bỏ hết</button></div>`;
   topics().forEach(t=>{
     if(t.h)h+=`<div class="chap">${esc(t.h)}</div>`;
     else h+=`<label class="topic"><input type="checkbox" data-k="${t.key}" ${CFG.off.includes(t.key)?'':'checked'}><span><b>${esc(t.label)}</b> <span class="mut">(${t.n} câu)</span><br><span class="mut">${t.sub}</span></span></label>`;
@@ -109,14 +119,16 @@ function home(){
   <label><input type="checkbox" id="shq" ${CFG.shq?'checked':''}> Xáo trộn thứ tự câu hỏi</label>
   <label><input type="checkbox" id="sho" ${CFG.sho?'checked':''}> Xáo trộn đáp án A, B, C, D</label>
   <label><input type="checkbox" id="wo" ${CFG.wrongOnly?'checked':''}> Chỉ ôn các câu từng làm sai (${wrong.length} câu)</label>
-  <label>Số câu: <select id="lim">${[[0,'Tất cả'],[10,'10 câu'],[20,'20 câu'],[40,'40 câu']].map(([v,t])=>`<option value="${v}" ${CFG.limit==v?'selected':''}>${t}</option>`).join('')}</select></label></div>
-  <div class="row"><button class="btn pri" id="go">Bắt đầu làm bài</button><span class="mut" id="cnt"></span></div>`;
-  if(D.essay&&D.essay.length)h+=`<div class="card"><h2>Phần tự luận (không có trong bản quiz)</h2>${D.essay.map(e=>`<div class="mut">${esc(e)}</div>`).join('')}</div>`;
+  <label>Số câu: <select id="lim">${[[0,'Tất cả'],[10,'10 câu'],[20,'20 câu'],[40,'40 câu']].map(([v,t])=>`<option value="${v}" ${CFG.limit==v?'selected':''}>${t}</option>`).join('')}</select></label></div></div></div>`;
   app.innerHTML=h;
-  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;const g=id=>document.getElementById(id);CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.wrongOnly=g('wo').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);g('cnt').textContent=pool().length+' câu được chọn'};
-  app.querySelectorAll('input,select').forEach(x=>x.onchange=upd);
+  const g=id=>document.getElementById(id);
+  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.wrongOnly=g('wo').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);const n=pool().length;g('cnt').textContent=(CFG.limit&&CFG.limit<n?CFG.limit:n)+' câu sẽ được làm · '+(CFG.mode==='p'?'Luyện tập':'Thi thử')};
+  app.querySelectorAll('.panel input,.panel select').forEach(x=>x.onchange=upd);
   app.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{app.querySelectorAll('[data-k]').forEach(x=>x.checked=b.dataset.a==='all');upd()});
-  document.getElementById('go').onclick=start;upd();
+  const m=g('modal'),close=()=>m.classList.remove('open');
+  g('gear').onclick=()=>m.classList.add('open');g('done').onclick=close;
+  m.onclick=e=>{if(e.target===m)close()};
+  g('go').onclick=start;upd();
 }
 function pool(){
   const w=store.get('wrong',[]);
@@ -184,6 +196,7 @@ function quiz(){
   app.querySelectorAll('#qc [data-s]').forEach(b=>b.onclick=()=>{S.ans[q.id]={...(S.ans[q.id]||{}),[b.dataset.s]:b.dataset.v==='true'};quiz()});
 }
 document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){const m=document.getElementById('modal');if(m)m.classList.remove('open')}
   if(!S||S.done||!document.getElementById('qc')||/INPUT|SELECT/.test(e.target.tagName))return;
   const q=S.qs[S.i];
   if(e.key==='ArrowRight'&&S.i<S.qs.length-1){S.i++;quiz()}
