@@ -87,7 +87,7 @@ function loader(){
   app.innerHTML=`<h1>Chọn file đề cương</h1><div class="card"><p>Trình duyệt không tự đọc được <b>questions.json</b> khi mở trang trực tiếp từ máy. Hãy chọn file này để bắt đầu (hoặc đặt cả hai file lên web hosting / chạy <code>python3 -m http.server</code>).</p><input type="file" id="f" accept=".json,application/json"></div>`;
   document.getElementById('f').onchange=e=>{const fr=new FileReader();fr.onload=()=>{try{init(JSON.parse(fr.result))}catch(x){alert('File JSON không hợp lệ.')}};fr.readAsText(e.target.files[0])};
 }
-function init(d){D=d;document.title=d.title;CFG=Object.assign({mode:'p',shuffle:false,shq:true,sho:true,limit:0,wrongOnly:false,off:[]},store.get('cfg',{}));home()}
+function init(d){D=d;document.title=d.title;CFG=Object.assign({mode:'p',sum:true,shuffle:false,shq:true,sho:true,limit:0,wrongOnly:false,off:[]},store.get('cfg',{}));home()}
 
 function topics(){
   const t=[];
@@ -120,11 +120,12 @@ function home(){
   <div style="margin-left:26px">
   <label><input type="checkbox" id="shq" ${CFG.shq?'checked':''}> Xáo trộn thứ tự câu hỏi</label>
   <label><input type="checkbox" id="sho" ${CFG.sho?'checked':''}> Xáo trộn đáp án A, B, C, D</label></div>
+  <label><input type="checkbox" id="sum" ${CFG.sum?'checked':''}> Hiện phần tổng kết kết quả khi nộp bài</label>
   <label><input type="checkbox" id="wo" ${CFG.wrongOnly?'checked':''}> Chỉ ôn các câu từng làm sai (${wrong.length} câu)</label>
   <label>Số câu: <select id="lim">${[[0,'Tất cả'],[10,'10 câu'],[20,'20 câu'],[40,'40 câu']].map(([v,t])=>`<option value="${v}" ${CFG.limit==v?'selected':''}>${t}</option>`).join('')}</select></label></div></div></div>`;
   app.innerHTML=h;
   const g=id=>document.getElementById(id);
-  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.shuffle=g('shf').checked;g('shq').disabled=g('sho').disabled=!CFG.shuffle;CFG.wrongOnly=g('wo').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);const n=pool().length;g('cnt').textContent=(CFG.limit&&CFG.limit<n?CFG.limit:n)+' câu sẽ được làm · '+(CFG.mode==='p'?'Luyện tập':'Thi thử')};
+  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.shuffle=g('shf').checked;g('shq').disabled=g('sho').disabled=!CFG.shuffle;CFG.wrongOnly=g('wo').checked;CFG.sum=g('sum').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);const n=pool().length;g('cnt').textContent=(CFG.limit&&CFG.limit<n?CFG.limit:n)+' câu sẽ được làm · '+(CFG.mode==='p'?'Luyện tập':'Thi thử')};
   app.querySelectorAll('.panel input,.panel select').forEach(x=>x.onchange=upd);
   app.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{app.querySelectorAll('[data-k]').forEach(x=>x.checked=b.dataset.a==='all');upd()});
   const m=g('modal'),close=()=>m.classList.remove('open');
@@ -222,10 +223,10 @@ function result(){
   let sc=0,full=0,part=0,none=0;
   S.qs.forEach(q=>{const a=S.ans[q.id];if(q.type==='mcq'){if(a===q.answer){sc++;full++}else none++}else{const n=tfCount(q,a);sc+=TFSCALE[n];n===4?full++:n?part++:none++}});
   const N=S.qs.length,list=S.qs.map((q,i)=>({q,i})).filter(({q})=>S.filter==='all'||!isOk(q,S.ans[q.id]));
-  let h=`<h1>Kết quả</h1><div class="card"><div class="score">${fmt(sc)} / ${N}</div><div class="mut">${Math.round(sc/N*100)}% · Đúng hoàn toàn ${full} · Đúng một phần ${part} · Sai ${none}</div>
-  <p class="mut">Câu Đúng/Sai tính theo thang: đúng 1 ý = 0,1 · 2 ý = 0,25 · 3 ý = 0,5 · 4 ý = 1 điểm.</p>
+  let h=`<h1>Kết quả</h1><div class="card">${CFG.sum?`<div class="score">${fmt(sc)} / ${N}</div><div class="mut">${Math.round(sc/N*100)}% · Đúng hoàn toàn ${full} · Đúng một phần ${part} · Sai ${none}</div>
+  <p class="mut">Câu Đúng/Sai tính theo thang: đúng 1 ý = 0,1 · 2 ý = 0,25 · 3 ý = 0,5 · 4 ý = 1 điểm.</p>`:`<p class="mut" style="margin-top:0">Đã nộp bài. Phần tổng kết điểm đang tắt trong Cài đặt.</p>`}
   <div class="row"><button class="btn pri" id="redo" ${full===N?'disabled':''}>Làm lại các câu chưa đúng hoàn toàn</button><button class="btn" id="home">Về trang chủ</button></div></div>
-  <div class="row"><label class="opts"><select id="flt"><option value="all">Xem tất cả ${N} câu</option><option value="bad" ${S.filter==='bad'?'selected':''}>Chỉ xem câu chưa đúng (${N-full})</option></select></label></div>`;
+  <div class="row"><label class="opts"><select id="flt"><option value="all">Xem tất cả ${N} câu</option><option value="bad" ${S.filter==='bad'?'selected':''}>Chỉ xem câu chưa đúng${CFG.sum?` (${N-full})`:''}</option></select></label></div>`;
   list.forEach(({q,i})=>{h+=`<div class="card">${card(q,i,true,true)}</div>`});
   app.innerHTML=h;window.scrollTo(0,0);
   document.getElementById('home').onclick=home;
