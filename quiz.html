@@ -87,7 +87,7 @@ function loader(){
   app.innerHTML=`<h1>Chọn file đề cương</h1><div class="card"><p>Trình duyệt không tự đọc được <b>questions.json</b> khi mở trang trực tiếp từ máy. Hãy chọn file này để bắt đầu (hoặc đặt cả hai file lên web hosting / chạy <code>python3 -m http.server</code>).</p><input type="file" id="f" accept=".json,application/json"></div>`;
   document.getElementById('f').onchange=e=>{const fr=new FileReader();fr.onload=()=>{try{init(JSON.parse(fr.result))}catch(x){alert('File JSON không hợp lệ.')}};fr.readAsText(e.target.files[0])};
 }
-function init(d){D=d;document.title=d.title;CFG=store.get('cfg',{mode:'p',shq:true,sho:true,limit:0,wrongOnly:false,off:[]});home()}
+function init(d){D=d;document.title=d.title;CFG=Object.assign({mode:'p',shuffle:false,shq:true,sho:true,limit:0,wrongOnly:false,off:[]},store.get('cfg',{}));home()}
 
 function topics(){
   const t=[];
@@ -116,13 +116,15 @@ function home(){
   <label><input type="radio" name="mode" value="p" ${CFG.mode==='p'?'checked':''}> Luyện tập: có đáp án ngay sau mỗi câu</label>
   <label><input type="radio" name="mode" value="t" ${CFG.mode==='t'?'checked':''}> Thi thử: chỉ xem đáp án khi nộp bài</label>
   <div style="height:8px"></div>
+  <label><input type="checkbox" id="shf" ${CFG.shuffle?'checked':''}> Xáo đề mỗi lần thi</label>
+  <div style="margin-left:26px">
   <label><input type="checkbox" id="shq" ${CFG.shq?'checked':''}> Xáo trộn thứ tự câu hỏi</label>
-  <label><input type="checkbox" id="sho" ${CFG.sho?'checked':''}> Xáo trộn đáp án A, B, C, D</label>
+  <label><input type="checkbox" id="sho" ${CFG.sho?'checked':''}> Xáo trộn đáp án A, B, C, D</label></div>
   <label><input type="checkbox" id="wo" ${CFG.wrongOnly?'checked':''}> Chỉ ôn các câu từng làm sai (${wrong.length} câu)</label>
   <label>Số câu: <select id="lim">${[[0,'Tất cả'],[10,'10 câu'],[20,'20 câu'],[40,'40 câu']].map(([v,t])=>`<option value="${v}" ${CFG.limit==v?'selected':''}>${t}</option>`).join('')}</select></label></div></div></div>`;
   app.innerHTML=h;
   const g=id=>document.getElementById(id);
-  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.wrongOnly=g('wo').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);const n=pool().length;g('cnt').textContent=(CFG.limit&&CFG.limit<n?CFG.limit:n)+' câu sẽ được làm · '+(CFG.mode==='p'?'Luyện tập':'Thi thử')};
+  const upd=()=>{CFG.off=[...app.querySelectorAll('[data-k]')].filter(x=>!x.checked).map(x=>x.dataset.k);CFG.mode=app.querySelector('[name=mode]:checked').value;CFG.shq=g('shq').checked;CFG.sho=g('sho').checked;CFG.shuffle=g('shf').checked;g('shq').disabled=g('sho').disabled=!CFG.shuffle;CFG.wrongOnly=g('wo').checked;CFG.limit=+g('lim').value;store.set('cfg',CFG);const n=pool().length;g('cnt').textContent=(CFG.limit&&CFG.limit<n?CFG.limit:n)+' câu sẽ được làm · '+(CFG.mode==='p'?'Luyện tập':'Thi thử')};
   app.querySelectorAll('.panel input,.panel select').forEach(x=>x.onchange=upd);
   app.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{app.querySelectorAll('[data-k]').forEach(x=>x.checked=b.dataset.a==='all');upd()});
   const m=g('modal'),close=()=>m.classList.remove('open');
@@ -138,9 +140,9 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function start(){
   let qs=pool();
   if(!qs.length){alert('Chưa có câu nào để làm. Hãy chọn thêm phần cần ôn.');return}
-  if(CFG.shq)qs=shuffle(qs);
+  if(CFG.shuffle&&CFG.shq)qs=shuffle(qs);
   if(CFG.limit)qs=qs.slice(0,CFG.limit);
-  qs=qs.map(q=>q.type==='mcq'&&CFG.sho?{...q,options:shuffle(q.options)}:q);
+  qs=qs.map(q=>q.type==='mcq'&&CFG.shuffle&&CFG.sho?{...q,options:shuffle(q.options)}:q);
   S={qs,i:0,ans:{},chk:{},mode:CFG.mode,done:false};
   quiz();
 }
@@ -230,7 +232,7 @@ function result(){
   document.getElementById('flt').onchange=e=>{S.filter=e.target.value;result()};
   document.getElementById('redo').onclick=()=>{
     const qs=S.qs.filter(q=>!isOk(q,S.ans[q.id])).map(q=>({...q}));
-    S={qs:CFG.shq?shuffle(qs):qs,i:0,ans:{},chk:{},mode:S.mode,done:false};quiz();window.scrollTo(0,0);
+    S={qs:CFG.shuffle&&CFG.shq?shuffle(qs):qs,i:0,ans:{},chk:{},mode:S.mode,done:false};quiz();window.scrollTo(0,0);
   };
 }
 </script>
