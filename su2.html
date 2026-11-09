@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Giải toán bằng ảnh — AI</title>
+<title>Giải bài bằng ảnh — AI</title>
 <style>
   :root {
     --bg: #1e1e1e;
@@ -284,46 +284,19 @@
 <body>
 
 <header>
-  <h1>Giải toán bằng ảnh</h1>
-  <select id="modelSelect" class="model-badge">
-    <option value="claude-fable-5-1">Claude Fable 5.1</option>
-    <option value="claude-fable-5">Claude Fable 5</option>
-    <option value="claude-sonnet-5">Claude Sonnet 5</option>
-  </select>
+  <h1>Giải bài bằng ảnh</h1>
 </header>
 
-<div id="tabs">
-  <button class="tab-btn active" data-tab="upload">📤 Tải ảnh lên</button>
-  <button class="tab-btn" data-tab="camera">📸 Camera AI (Casio)</button>
-</div>
-
-<!-- =============== TAB 1: TẢI ẢNH LÊN (giữ nguyên như bản gốc) =============== -->
-<div id="uploadPanel" class="panel active">
-  <div class="hint">Chỉ cần chụp/tải ảnh đề toán lên, AI sẽ tự giải — không cần gõ gì thêm.</div>
-
-  <div id="main">
-    <div id="dropZone">
-      📷 Bấm để chọn ảnh đề toán (có thể chọn nhiều ảnh cùng lúc)
-      <input type="file" id="fileInput" accept="image/*" multiple>
-    </div>
-
-    <div id="imgPreviewBar"></div>
-
-    <button id="solveBtn" class="primary" disabled>Giải bài</button>
-
-    <div id="resultBox" class="empty">Kết quả sẽ hiển thị ở đây sau khi bạn tải ảnh và bấm "Giải bài".</div>
-  </div>
-</div>
-
-<!-- =============== TAB 2: CAMERA AI (CASIO MOD) =============== -->
-<div id="cameraPanel" class="panel">
+<!-- =============== CAMERA AI (CASIO MOD) - giờ là chức năng DUY NHẤT =============== -->
+<div id="cameraPanel" class="panel active">
   <div class="hint">
-    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề toán. Trên Casio mod: vào mode
-    "Giải toán" sẽ hiện <b>chọn model AI</b> trước tiên (dùng UP/DOWN + OK) → sau đó bấm
+    Mở sẵn trang này trên điện thoại, bật camera và hướng vào đề bài. Trên Casio mod: vào mode
+    "Giải bài" → chọn <b>môn</b> (Toán / Lý / Tin / Hóa / Sinh, dùng UP/DOWN + OK) → bấm
     <b>OK</b> nhiều lần để chụp từng ảnh đề (chụp được nhiều ảnh cho 1 đề dài) → bấm <b>EXE</b> để
     chọn dạng bài (trắc nghiệm/đúng sai/trả lời ngắn/tự luận) → nhập số bài rồi bấm <b>OK</b> để
     giải. Xem xong có thể bấm <b>OK</b> để hỏi tiếp câu khác (ảnh vẫn giữ nguyên), <b>BACK</b> để
-    quay lại bước trước, hoặc <b>AC</b> để xoá hết và bắt đầu lại từ đầu.
+    quay lại bước trước, hoặc <b>AC</b> để xoá hết và bắt đầu lại từ đầu. Trang này không còn giải
+    trực tiếp - mọi yêu cầu giải đều đi qua thiết bị.
   </div>
 
   <div id="main">
@@ -361,6 +334,13 @@
     <button id="manualCaptureBtn" class="secondary" disabled>🧪 Chụp thử 1 ảnh (mô phỏng bấm OK ở Bước 1)</button>
 
     <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <select id="testSubjectSelect" class="model-badge">
+        <option value="toan">Toán</option>
+        <option value="ly">Lý</option>
+        <option value="tin">Tin</option>
+        <option value="hoa">Hóa</option>
+        <option value="sinh">Sinh</option>
+      </select>
       <select id="testTypeSelect" class="model-badge">
         <option value="trac_nghiem">Trắc nghiệm</option>
         <option value="dung_sai">Đúng sai</option>
@@ -370,7 +350,7 @@
       <input id="testRangeInput" type="text" placeholder="VD: 5 hoặc 1-12" class="model-badge" style="width:110px;">
       <button id="testSolveBtn" class="secondary">🧪 Giải thử (mô phỏng Bước 3)</button>
     </div>
-    <button id="testSuperBtn" class="secondary">🧪 Super giải thử (mô phỏng Super giải toán)</button>
+    <button id="testSuperBtn" class="secondary">🧪 Super giải thử (mô phỏng Super giải bài)</button>
     <button id="testDeleteBtn" class="secondary">🧪 Xoá hết &amp; bắt đầu lại (mô phỏng bấm AC)</button>
   </div>
 </div>
@@ -388,9 +368,24 @@
 // ==== Cấu hình cố định (dùng chung cho cả 2 tab) ====
 const BASE_URL = 'https://api.shopaikey.com';
 const API_KEY = 'sk-oQ6pVNE2opDGFIjYUJBGmce4zGebF3nMpXHOWWm9kenYc3m2';
-const FIXED_PROMPT = `Tôi đã, đang và sẽ gửi bạn các ảnh chụp của đề toán, hãy giải nó giúp tôi. Hãy giải 1 các từ từ, cẩn thận và đảm bảo không có sai sót, phải kiểm tra lại các câu đã. Cho tôi bảng tóm tắt đáp án ở dưới cùng của câu trả lời.
+// Model AI CỐ ĐỊNH duy nhất (không còn chọn model ở thiết bị hay ở trang này).
+const MODEL_NAME = 'claude-fable-5-1';
 
-QUY TẮC TRÌNH BÀY CÔNG THỨC TOÁN (bắt buộc tuân theo):
+// Các môn hỗ trợ - mã môn (khớp SUBJECT_CODES trong firmware) -> tên + ghi chú riêng.
+const SUBJECTS = {
+  toan: { name: 'toán', extra: '' },
+  ly:   { name: 'vật lí', extra: `\n\nLƯU Ý RIÊNG CHO MÔN VẬT LÍ: ghi rõ công thức áp dụng, thay số và ĐƠN VỊ ở kết quả cuối (viết đơn vị bằng chữ thường như m/s, kg, N, J).` },
+  tin:  { name: 'tin học', extra: `\n\nLƯU Ý RIÊNG CHO MÔN TIN HỌC: nếu cần viết mã hoặc giả mã thì viết dạng văn bản thuần, thụt lề bằng dấu cách, KHÔNG dùng khối mã markdown (không dùng ba dấu huyền). Với câu truy vấn/thuật toán, nêu ngắn gọn kết quả cuối.` },
+  hoa:  { name: 'hóa học', extra: `\n\nLƯU Ý RIÊNG CHO MÔN HÓA HỌC: viết công thức hóa học dạng chữ thường không có chỉ số dưới, ví dụ H2O, CO2, Fe2(SO4)3; điện tích viết như Fe^3+; mũi tên phản ứng viết là ->. Phương trình phản ứng phải được cân bằng.` },
+  sinh: { name: 'sinh học', extra: `\n\nLƯU Ý RIÊNG CHO MÔN SINH HỌC: nêu ngắn gọn cơ sở lí thuyết trước khi kết luận; kí hiệu gen/alen viết bình thường (Aa, XBXb); bài toán di truyền cần ghi rõ kiểu gen và tỉ lệ.` },
+};
+function getSubject(code) { return SUBJECTS[code] || SUBJECTS.toan; }
+
+function buildPrompt(subjectCode) {
+  const sub = getSubject(subjectCode);
+  return `Tôi đã, đang và sẽ gửi bạn các ảnh chụp của đề ${sub.name}, hãy giải nó giúp tôi. Hãy giải 1 các từ từ, cẩn thận và đảm bảo không có sai sót, phải kiểm tra lại các câu đã. Cho tôi bảng tóm tắt đáp án ở dưới cùng của câu trả lời.
+
+QUY TẮC TRÌNH BÀY CÔNG THỨC (bắt buộc tuân theo):
 - TUYỆT ĐỐI KHÔNG dùng cú pháp LaTeX (không \\frac, \\sqrt, \\sum, \\int, ^{...}, _{...}, $...$, \\[...\\], v.v).
 - Những phần gõ trực tiếp được bằng bàn phím thường (số, chữ cái, + - * / ^ ( ) = , .) thì cứ gõ bình thường, ví dụ x^2 nghĩa là x mũ 2.
 - Riêng những KÝ HIỆU/CẤU TRÚC không gõ trực tiếp được (căn, phân số, các chữ Hy Lạp như delta/anpha/pi, tổng, tích phân, giới hạn, ma trận...) thì viết bằng CHỮ THƯỜNG mô tả ký hiệu đó, đặt trong cặp ngoặc nhọn {...} ngay tại vị trí nó xuất hiện trong công thức. Ví dụ:
@@ -398,17 +393,9 @@ QUY TẮC TRÌNH BÀY CÔNG THỨC TOÁN (bắt buộc tuân theo):
   + ({căn 2} x^2+1) nghĩa là căn bậc hai của 2, nhân với (x^2 + 1)
   + {can bac 3 cua x+1} nghĩa là căn bậc ba của (x+1)
   + {phan so a chia b} hoặc mô tả tương tự cho phân số nếu không viết được dạng a/b đơn giản
-  + {lim x-> + vô cùng}
-- DẤU SO SÁNH: luôn viết bằng ký tự bàn phím thường: > < >= <= != (ví dụ "lớn hơn hoặc bằng" viết là >=, "nhỏ hơn hoặc bằng" viết là <=, "khác" viết là !=). TUYỆT ĐỐI KHÔNG dùng ký tự đặc biệt như ≥ ≤ ≠, và KHÔNG viết các dấu này bằng chữ trong {...}.
 - Không dùng chữ in nghiêng trong câu trả lời. Có thể dùng **chữ in đậm** (đánh dấu bằng 2 dấu sao) để nhấn mạnh kết quả/đáp án quan trọng.
-- Xuống dòng rõ ràng giữa các bước giải để dễ đọc.`;
-
-// ---- Chọn model AI (dùng chung cho cả 2 tab) ----
-const modelSelect = document.getElementById('modelSelect');
-let selectedModel = modelSelect.value; // mặc định lấy theo option đầu tiên trong HTML
-modelSelect.addEventListener('change', () => {
-  selectedModel = modelSelect.value;
-});
+- Xuống dòng rõ ràng giữa các bước giải để dễ đọc.${sub.extra}`;
+}
 
 // ---- Escape ký tự đặc biệt HTML trước khi tự chèn thẻ định dạng ----
 function escapeHtml(str) {
@@ -459,7 +446,7 @@ function stripMarkdownForDevice(raw) {
 
 // ---- Gọi Claude (cú pháp Anthropic Messages API) ----
 // images: mảng { base64, mediaType }
-// promptText: mặc định dùng FIXED_PROMPT (tab "Tải ảnh lên"); tab Camera AI
+// promptText: LUÔN do nơi gọi truyền vào (buildPrompt(môn) + câu lệnh số bài);
 // (Casio mod) truyền thêm câu "Hãy giải bài <dạng> số <khoảng> cho tôi."
 // nối vào cuối để AI biết chính xác cần giải phần nào của đề đã chụp.
 async function callClaude(modelName, images, promptText, opts) {
@@ -471,7 +458,7 @@ async function callClaude(modelName, images, promptText, opts) {
       source: { type: 'base64', media_type: img.mediaType, data: img.base64 }
     });
   });
-  contentBlocks.push({ type: 'text', text: promptText || FIXED_PROMPT });
+  contentBlocks.push({ type: 'text', text: promptText });
 
   const res = await fetch(`${BASE_URL}/v1/messages`, {
     method: 'POST',
@@ -499,102 +486,7 @@ async function callClaude(modelName, images, promptText, opts) {
 }
 
 // ==========================================================
-// TAB 1: TẢI ẢNH LÊN (logic y hệt bản gốc)
-// ==========================================================
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
-const previewBar = document.getElementById('imgPreviewBar');
-const solveBtn = document.getElementById('solveBtn');
-const resultBox = document.getElementById('resultBox');
-
-let pendingImages = []; // { base64, mediaType, dataUrl }
-
-dropZone.addEventListener('click', () => fileInput.click());
-dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.classList.remove('dragover');
-  handleFiles(Array.from(e.dataTransfer.files));
-});
-
-fileInput.addEventListener('change', (e) => {
-  handleFiles(Array.from(e.target.files));
-  fileInput.value = '';
-});
-
-async function handleFiles(files) {
-  for (const file of files) {
-    if (!file.type.startsWith('image/')) continue;
-    const dataUrl = await fileToDataURL(file);
-    const base64 = dataUrl.split(',')[1];
-    pendingImages.push({ base64, mediaType: file.type || 'image/png', dataUrl });
-  }
-  renderPreviews();
-}
-
-function fileToDataURL(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-function renderPreviews() {
-  previewBar.innerHTML = '';
-  pendingImages.forEach((img, idx) => {
-    const thumb = document.createElement('div');
-    thumb.className = 'preview-thumb';
-    thumb.innerHTML = `<img src="${img.dataUrl}"><button data-idx="${idx}">×</button>`;
-    thumb.querySelector('button').onclick = () => {
-      pendingImages.splice(idx, 1);
-      renderPreviews();
-    };
-    previewBar.appendChild(thumb);
-  });
-  solveBtn.disabled = pendingImages.length === 0;
-}
-
-solveBtn.addEventListener('click', solve);
-
-async function solve() {
-  if (pendingImages.length === 0) return;
-
-  solveBtn.disabled = true;
-  solveBtn.textContent = 'Đang giải...';
-  resultBox.className = '';
-  resultBox.textContent = 'AI đang xử lý ảnh, vui lòng chờ...';
-
-  try {
-    const answer = await callClaude(selectedModel, pendingImages);
-    resultBox.innerHTML = formatAnswerHtml(answer);
-  } catch (err) {
-    resultBox.className = 'error';
-    resultBox.textContent = 'Lỗi khi gọi API: ' + err.message;
-  } finally {
-    solveBtn.disabled = false;
-    solveBtn.textContent = 'Giải bài';
-  }
-}
-
-// ==========================================================
-// CHUYỂN TAB
-// ==========================================================
-const tabButtons = document.querySelectorAll('.tab-btn');
-const panels = { upload: document.getElementById('uploadPanel'), camera: document.getElementById('cameraPanel') };
-tabButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    tabButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    Object.values(panels).forEach(p => p.classList.remove('active'));
-    panels[btn.dataset.tab].classList.add('active');
-  });
-});
-
-// ==========================================================
-// TAB 2: CAMERA AI (CASIO MOD) — giao tiếp qua Firebase
+// CAMERA AI (CASIO MOD) — giao tiếp qua Firebase (chức năng duy nhất của trang)
 // ==========================================================
 // Khớp với cơ chế MỚI trong firmware (main.cpp, khối "MODE GIẢI TOÁN"):
 //   Bước 1 (CHỤP ẢNH):  mỗi lần Casio mod bấm OK -> gửi cmd="capture",
@@ -606,7 +498,7 @@ tabButtons.forEach(btn => {
 //                        rồi gửi cmd="solve" kèm 2 field đó. Trang này dùng
 //                        TOÀN BỘ camImages[] đã chụp (không xoá) + câu lệnh
 //                        "Hãy giải bài <dạng> số <khoảng> cho tôi." nối vào
-//                        FIXED_PROMPT, gọi Claude, ghi đáp án vào Firestore.
+//                        buildPrompt(môn), gọi Claude, ghi đáp án vào Firestore.
 //   AC (XOÁ HẾT):        Casio mod gửi cmd="delete" -> trang này xoá sạch
 //                        camImages[], quay về trạng thái ban đầu.
 //
@@ -617,10 +509,10 @@ tabButtons.forEach(btn => {
 //           commandId: <số>, photoCount: <số ảnh, chỉ cmd="capture"+"done">,
 //           questionType: "trac_nghiem"|"dung_sai"|"tra_loi_ngan"|"tu_luan"
 //               (chỉ cmd="solve"), questionRange: "<VD '5' hoặc '1-12'>"
-//               (chỉ cmd="solve"), model: "<mã model, VD 'claude-sonnet-5'>"
-//               (chỉ cmd="solve" - người dùng chọn ngay trên Casio mod ở
-//               Bước 0, dùng để gọi đúng model đó thay vì dropdown trên
-//               trang), error: "..." (chỉ khi status=error) }
+//               (chỉ cmd="solve"), subject: "toan"|"ly"|"tin"|"hoa"|"sinh"
+//               (chỉ cmd="solve" / "super_start" - môn chọn ở Bước 0 trên Casio
+//               mod), error: "..." (chỉ khi status=error) }
+//       Model AI cố định (MODEL_NAME), KHÔNG còn nhận từ thiết bị.
 //   (b) Firestore - document mathAnswers/current - lưu LỜI GIẢI một cách
 //       BỀN VỮNG, ghi đè mỗi lần giải xong (hoặc xoá rỗng khi cmd=delete,
 //       do CHÍNH Casio mod gọi thẳng Firestore, không qua trang này):
@@ -664,6 +556,7 @@ const cameraResultBox = document.getElementById('cameraResultBox');
 const lastPhotoThumb = document.getElementById('lastPhotoThumb');
 const photoCountEl = document.getElementById('photoCount');
 const testTypeSelect = document.getElementById('testTypeSelect');
+const testSubjectSelect = document.getElementById('testSubjectSelect');
 const testRangeInput = document.getElementById('testRangeInput');
 const testSolveBtn = document.getElementById('testSolveBtn');
 const testDeleteBtn = document.getElementById('testDeleteBtn');
@@ -781,7 +674,7 @@ async function handleCaptureCmd(commandId) {
 // ---- cmd="solve": dùng TOÀN BỘ camImages[] đã chụp + dạng bài/số bài do
 // Casio mod chọn để ghép thành 1 câu lệnh, gọi AI, rồi ghi đáp án vào
 // Firestore (bền vững) trước khi báo "done" ----
-async function handleSolveCmd(commandId, questionType, questionRange, modelFromDevice) {
+async function handleSolveCmd(commandId, questionType, questionRange, subjectCode) {
   if (camImages.length === 0) {
     setFirebaseStatus('bad', '⚠️ Casio mod yêu cầu giải nhưng chưa có ảnh nào');
     await mathRef.update({ status: 'error', commandId, error: 'Chua co anh nao duoc chup' });
@@ -791,18 +684,14 @@ async function handleSolveCmd(commandId, questionType, questionRange, modelFromD
     const typeText = QUESTION_TYPE_TEXT[questionType] || questionType || '';
     const rangeText = questionRange || '';
     const extraInstruction = `\n\nHãy giải bài ${typeText} số ${rangeText} cho tôi.`;
-    const fullPrompt = FIXED_PROMPT + extraInstruction;
-    // Model giờ được chọn ngay trên Casio mod (Bước 0) và gửi kèm trong lệnh
-    // "solve" (trường "model") - ưu tiên dùng model đó; chỉ dùng dropdown
-    // trên trang (selectedModel) làm phương án dự phòng (VD khi bấm nút
-    // test thủ công bên dưới, không đi qua Casio mod thật).
-    const modelToUse = modelFromDevice || selectedModel;
+    const fullPrompt = buildPrompt(subjectCode) + extraInstruction;
+    const subjectName = getSubject(subjectCode).name;
 
-    setFirebaseStatus('busy', `🤖 Đang giải bài ${typeText} số ${rangeText} (model: ${modelToUse})...`);
+    setFirebaseStatus('busy', `🤖 Đang giải bài ${subjectName} - ${typeText} số ${rangeText} (${MODEL_NAME})...`);
     cameraResultBox.className = '';
     cameraResultBox.textContent = 'AI đang giải, vui lòng chờ...';
 
-    const answer = await callClaude(modelToUse, camImages, fullPrompt);
+    const answer = await callClaude(MODEL_NAME, camImages, fullPrompt);
 
     // Ghi lời giải vào Firestore TRƯỚC (lưu bền vững), rồi mới báo "done"
     // trên Realtime Database - đảm bảo khi Casio mod thấy status=done thì
@@ -834,25 +723,28 @@ async function handleDeleteCmd(commandId) {
 }
 
 // ==========================================================
-// SUPER GIẢI TOÁN: phân tích đề -> giải lần lượt từng nhóm câu
+// SUPER GIẢI BÀI: phân tích đề -> giải lần lượt từng nhóm câu
 // ==========================================================
-// Casio mod gửi cmd="super_start" (+ model). Trang này:
+// Casio mod gửi cmd="super_start" (+ subject). Trang này:
 //   1) Gọi AI đọc TOÀN BỘ ảnh đã chụp -> JSON số câu từng loại.
 //   2) Giải lần lượt: ABCD mỗi lần 3 câu; đúng sai / trả lời ngắn / tự luận
-//      từng câu 1. Mỗi lần gửi toàn bộ ảnh + FIXED_PROMPT + "Hãy giải bài
-//      <dạng> số <khoảng> cho tôi." (y hệt mode Giải toán thường).
-//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superAnswers/i<N>
-//      rồi mới thêm vào /mathSession/super/items/i<N> + tăng doneCount để
+//      từng câu 1. Mỗi lần gửi toàn bộ ảnh + buildPrompt(môn) + "Hãy giải bài
+//      <dạng> số <khoảng> cho tôi." (y hệt mode Giải bài thường).
+//   3) Giải xong câu nào ghi NGAY câu đó lên /mathSession/superItems/i<N>
+//      = { label, typeLabel, range, err?, text } (1 request, khớp firmware
+//      superFetchItem()), rồi mới tăng /mathSession/super/doneCount để
 //      Casio mod hiện luôn, không đợi cả đề.
 let superRunId = 0; // tăng mỗi khi có lệnh mới -> lượt đang chạy tự dừng
 
-const SUPER_ANALYZE_PROMPT = `Các ảnh đính kèm là ảnh chụp TOÀN BỘ một đề toán (có thể nhiều ảnh nối tiếp nhau). Hãy đọc kỹ tất cả các ảnh và đếm số câu hỏi theo từng loại:
+function buildAnalyzePrompt(subjectCode) {
+  return `Các ảnh đính kèm là ảnh chụp TOÀN BỘ một đề ${getSubject(subjectCode).name} (có thể nhiều ảnh nối tiếp nhau). Hãy đọc kỹ tất cả các ảnh và đếm số câu hỏi theo từng loại:
 - abcd: câu trắc nghiệm nhiều lựa chọn (4 phương án A, B, C, D).
 - dungsai: câu đúng/sai (mỗi câu có các ý a), b), c), d) để chọn đúng hoặc sai). Mỗi CÂU tính là 1, không đếm từng ý.
 - tlngan: câu trả lời ngắn (điền kết quả, thường là một số).
 - tuluan: câu tự luận (trình bày lời giải). Nếu đề không có thì để 0.
 Chỉ trả về DUY NHẤT một đối tượng JSON, không giải thích, không dùng markdown, đúng dạng:
 {"abcd": <số>, "dungsai": <số>, "tlngan": <số>, "tuluan": <số>}`;
+}
 
 function parseSuperCounts(text) {
   const m = text.match(/\{[\s\S]*?\}/);
@@ -876,29 +768,29 @@ function buildSuperItems(c) {
   return items;
 }
 
-async function handleSuperStart(commandId, modelFromDevice, runId) {
+async function handleSuperStart(commandId, subjectCode, runId) {
   const alive = () => runId === superRunId;
   const superRef = mathRef.child('super');
-  const answersRef = mathRef.child('superAnswers');
-  const model = modelFromDevice || selectedModel;
+  const itemsRef = mathRef.child('superItems');
+  const model = MODEL_NAME;
   const shortErr = e => String((e && e.message) || e).slice(0, 80);
 
   try {
     if (camImages.length === 0) {
       await superRef.set({ commandId, phase: 'error', error: 'Chưa có ảnh nào được chụp' });
-      setFirebaseStatus('bad', '⚠️ Super giải toán: chưa có ảnh nào');
+      setFirebaseStatus('bad', '⚠️ Super giải bài: chưa có ảnh nào');
       return;
     }
     await superRef.set({ commandId, phase: 'analyzing', total: 0, doneCount: 0 });
-    setFirebaseStatus('busy', `🔎 Super: đang phân tích đề (model: ${model})...`);
+    setFirebaseStatus('busy', `🔎 Super: đang phân tích đề (${model})...`);
     cameraResultBox.className = '';
-    cameraResultBox.textContent = 'Super giải toán: AI đang đếm số câu của đề...';
+    cameraResultBox.textContent = 'Super giải bài: AI đang đếm số câu của đề...';
 
     // ---- Bước 3: phân tích đề (thử tối đa 2 lần nếu JSON hỏng) ----
     let counts = null, lastErr = null;
     for (let attempt = 0; attempt < 2 && !counts; attempt++) {
       try {
-        const txt = await callClaude(model, camImages, SUPER_ANALYZE_PROMPT, { maxTokens: 4000, effort: 'medium' });
+        const txt = await callClaude(model, camImages, buildAnalyzePrompt(subjectCode), { maxTokens: 4000, effort: 'medium' });
         counts = parseSuperCounts(txt);
       } catch (e) { lastErr = e; }
       if (!alive()) return;
@@ -916,7 +808,7 @@ async function handleSuperStart(commandId, modelFromDevice, runId) {
       if (!alive()) return;
       const it = items[k];
       const typeText = QUESTION_TYPE_TEXT[it.type];
-      const prompt = FIXED_PROMPT + `\n\nHãy giải bài ${typeText} số ${it.range} cho tôi.`;
+      const prompt = buildPrompt(subjectCode) + `\n\nHãy giải bài ${typeText} số ${it.range} cho tôi.`;
       setFirebaseStatus('busy', `🤖 Super: đang giải ${it.typeLabel} ${it.range} (${k + 1}/${items.length})...`);
 
       let answer = null, err = null;
@@ -928,23 +820,24 @@ async function handleSuperStart(commandId, modelFromDevice, runId) {
       const failed = answer === null;
       const text = failed ? 'LỖI: ' + shortErr(err) : stripMarkdownForDevice(answer);
 
-      // Đáp án ghi TRƯỚC, mục danh sách ghi SAU (thiết bị chỉ đọc khi mục đã có).
-      await answersRef.child('i' + k).set(text);
-      if (!alive()) return;
-      const meta = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range };
+      // Mục (nhãn + đáp án) ghi TRƯỚC vào superItems/i<k>, rồi mới tăng doneCount
+      // (thiết bị chỉ tải mục khi doneCount đã tăng) - khớp firmware superFetchItem().
+      const meta = { label: `${it.typeLabel} + ${it.range}${failed ? ' (!)' : ''}`, typeLabel: it.typeLabel, range: it.range, text };
       if (failed) meta.err = true;
-      await superRef.update({ ['items/i' + k]: meta, doneCount: k + 1 });
+      await itemsRef.child('i' + k).set(meta);
+      if (!alive()) return;
+      await superRef.update({ doneCount: k + 1 });
       if (!failed) { cameraResultBox.className = ''; cameraResultBox.innerHTML = formatAnswerHtml(answer); }
     }
 
     if (!alive()) return;
     await superRef.update({ phase: 'done' });
-    setFirebaseStatus('ok', `✅ Super giải toán xong ${items.length} mục`);
+    setFirebaseStatus('ok', `✅ Super giải bài xong ${items.length} mục`);
   } catch (err) {
     if (!alive()) return;
     try { await superRef.update({ phase: 'error', error: shortErr(err) }); } catch (e) { /* bỏ qua */ }
     cameraResultBox.className = 'error';
-    cameraResultBox.textContent = 'Super giải toán lỗi: ' + err.message;
+    cameraResultBox.textContent = 'Super giải bài lỗi: ' + err.message;
     setFirebaseStatus('bad', '❌ Super lỗi: ' + err.message);
   }
 }
@@ -971,13 +864,13 @@ mathRef.on('value', (snap) => {
     // Super giải toán đang chạy dở (nếu có) - tránh tốn token + ghi đè dữ liệu.
     superRunId++;
     if (data.cmd === 'super_start') {
-      handleSuperStart(data.commandId, data.model, superRunId);
+      handleSuperStart(data.commandId, data.subject, superRunId);
     } else if (data.cmd === 'super_cancel') {
-      setFirebaseStatus('ok', '⏹️ Casio mod đã huỷ Super giải toán');
+      setFirebaseStatus('ok', '⏹️ Casio mod đã huỷ Super giải bài');
     } else if (data.cmd === 'capture') {
       handleCaptureCmd(data.commandId);
     } else if (data.cmd === 'solve') {
-      handleSolveCmd(data.commandId, data.questionType, data.questionRange, data.model);
+      handleSolveCmd(data.commandId, data.questionType, data.questionRange, data.subject);
     } else if (data.cmd === 'delete') {
       handleDeleteCmd(data.commandId);
     }
@@ -996,12 +889,12 @@ testSolveBtn.addEventListener('click', () => {
   const questionType = testTypeSelect.value;
   const questionRange = testRangeInput.value.trim() || '1';
   const commandId = Date.now();
-  mathRef.set({ cmd: 'solve', status: 'requested', commandId, questionType, questionRange });
+  mathRef.set({ cmd: 'solve', status: 'requested', commandId, questionType, questionRange, subject: testSubjectSelect.value });
 });
 
 document.getElementById('testSuperBtn').addEventListener('click', () => {
   const commandId = Date.now();
-  mathRef.set({ cmd: 'super_start', status: 'requested', commandId, model: selectedModel });
+  mathRef.set({ cmd: 'super_start', status: 'requested', commandId, subject: testSubjectSelect.value });
 });
 
 testDeleteBtn.addEventListener('click', () => {
