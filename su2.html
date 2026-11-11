@@ -294,7 +294,7 @@
     "Giải bài" → chọn <b>môn</b> (Toán / Lý / Tin / Hóa / Sinh, dùng UP/DOWN + OK) → bấm
     <b>OK</b> nhiều lần để chụp từng ảnh đề (chụp được nhiều ảnh cho 1 đề dài) → bấm <b>EXE</b> để
     chọn dạng bài (trắc nghiệm/đúng sai/trả lời ngắn/tự luận) → nhập số bài rồi bấm <b>OK</b> →
-    chọn <b>model AI</b> và bấm <b>OK</b> để giải. Xem xong có thể bấm <b>OK</b> để hỏi tiếp câu khác (ảnh vẫn giữ nguyên), <b>BACK</b> để
+    chọn <b>model AI</b> → OK → chọn <b>tài liệu đính kèm</b> (không đính kèm / T1 / T2 / T3.docx) và bấm <b>OK</b> để giải. Mode <b>Extrem giải bài</b> giống Super nhưng chụp ảnh tự động (OK để bắt đầu) và có thêm mục cuối tổng hợp đáp án trắc nghiệm. Xem xong có thể bấm <b>OK</b> để hỏi tiếp câu khác (ảnh vẫn giữ nguyên), <b>BACK</b> để
     quay lại bước trước, hoặc <b>AC</b> để xoá hết và bắt đầu lại từ đầu. Trang này không còn giải
     trực tiếp - mọi yêu cầu giải đều đi qua thiết bị.
   </div>
@@ -348,6 +348,12 @@
         <option value="claude-opus-5-5">Claude Opus 5.5</option>
         <option value="gpt-6-sol">GPT-6 Sol</option>
       </select>
+      <select id="testAttachSelect" class="model-badge">
+        <option value="none">Không đính kèm</option>
+        <option value="T1">T1.docx</option>
+        <option value="T2">T2.docx</option>
+        <option value="T3">T3.docx</option>
+      </select>
       <select id="testTypeSelect" class="model-badge">
         <option value="trac_nghiem">Trắc nghiệm</option>
         <option value="dung_sai">Đúng sai</option>
@@ -358,6 +364,7 @@
       <button id="testSolveBtn" class="secondary">🧪 Giải thử (mô phỏng Bước 3)</button>
     </div>
     <button id="testSuperBtn" class="secondary">🧪 Super giải thử (mô phỏng Super giải bài)</button>
+    <button id="testExtremeBtn" class="secondary">🧪 Extrem giải thử (Super + tổng hợp TN)</button>
     <button id="testDeleteBtn" class="secondary">🧪 Xoá hết &amp; bắt đầu lại (mô phỏng bấm AC)</button>
   </div>
 </div>
@@ -370,6 +377,8 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<!-- Đọc chữ từ file .docx đính kèm (T1/T2/T3.docx) -->
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
 
 <script>
 // ==== Cấu hình cố định (dùng chung cho cả 2 tab) ====
@@ -388,6 +397,37 @@ const SUBJECTS = {
   sinh: { name: 'sinh học', extra: `\n\nLƯU Ý RIÊNG CHO MÔN SINH HỌC: nêu ngắn gọn cơ sở lí thuyết trước khi kết luận; kí hiệu gen/alen viết bình thường (Aa, XBXb); bài toán di truyền cần ghi rõ kiểu gen và tỉ lệ.` },
 };
 function getSubject(code) { return SUBJECTS[code] || SUBJECTS.toan; }
+
+// ---- Tài liệu đính kèm tuỳ chọn: T1.docx / T2.docx / T3.docx ----
+// Các file này nằm CÙNG CẤP với trang web này trong repo GitHub (đường dẫn
+// tương đối). Thiết bị gửi mã 'none'|'T1'|'T2'|'T3' trong trường "attachment".
+// Trang đọc chữ trong file (mammoth) rồi ghép vào đầu câu lệnh gửi AI; hình ảnh
+// bên trong file .docx KHÔNG được đọc. Mỗi file chỉ tải/đọc 1 lần (cache).
+const ATTACHMENTS = { T1: 'T1.docx', T2: 'T2.docx', T3: 'T3.docx' };
+const ATTACH_MAX_CHARS = 100000;
+const attachmentCache = {};
+
+async function loadAttachmentText(code) {
+  if (!code || code === 'none' || !ATTACHMENTS[code]) return '';
+  if (attachmentCache[code] !== undefined) return attachmentCache[code];
+  const file = ATTACHMENTS[code];
+  if (typeof mammoth === 'undefined') throw new Error('Chưa tải được thư viện đọc .docx (kiểm tra mạng)');
+  let res;
+  try { res = await fetch(file, { cache: 'no-cache' }); }
+  catch (e) { throw new Error(`Không tải được ${file} (mở trang qua GitHub Pages, không mở file trực tiếp)`); }
+  if (!res.ok) throw new Error(`Không tải được ${file} (HTTP ${res.status})`);
+  const out = await mammoth.extractRawText({ arrayBuffer: await res.arrayBuffer() });
+  let text = (out.value || '').trim();
+  if (!text) throw new Error(`${file} không có nội dung chữ`);
+  if (text.length > ATTACH_MAX_CHARS) text = text.slice(0, ATTACH_MAX_CHARS) + '\n[...đã cắt bớt vì quá dài]';
+  attachmentCache[code] = text;
+  return text;
+}
+
+function withAttachment(prompt, code, text) {
+  if (!text) return prompt;
+  return `Dưới đây là TÀI LIỆU ĐÍNH KÈM (${ATTACHMENTS[code]}). Hãy dùng làm căn cứ/tham khảo khi giải nếu liên quan đến đề.\n<<<TÀI LIỆU\n${text}\nHẾT TÀI LIỆU>>>\n\n` + prompt;
+}
 
 function buildPrompt(subjectCode) {
   const sub = getSubject(subjectCode);
@@ -520,7 +560,8 @@ async function callClaude(modelName, images, promptText, opts) {
 //               (chỉ cmd="solve"), subject: "toan"|"ly"|"tin"|"hoa"|"sinh"
 //               (chỉ cmd="solve" / "super_start" - môn chọn ở Bước 0 trên Casio
 //               mod), error: "..." (chỉ khi status=error) }
-//       model: "<mã model chọn ở Bước 4 trên Casio mod>" (chỉ cmd="solve" / "super_start"),
+//       model: "<mã model chọn ở Bước 4 trên Casio mod>" (chỉ cmd="solve" / "super_start" / "extreme_start"),
+//       attachment: "none"|"T1"|"T2"|"T3" (tài liệu đính kèm tuỳ chọn, cùng các lệnh trên),
 //       nếu thiếu thì dùng MODEL_NAME mặc định.
 //   (b) Firestore - document mathAnswers/current - lưu LỜI GIẢI một cách
 //       BỀN VỮNG, ghi đè mỗi lần giải xong (hoặc xoá rỗng khi cmd=delete,
@@ -567,6 +608,7 @@ const photoCountEl = document.getElementById('photoCount');
 const testTypeSelect = document.getElementById('testTypeSelect');
 const testSubjectSelect = document.getElementById('testSubjectSelect');
 const testModelSelect = document.getElementById('testModelSelect');
+const testAttachSelect = document.getElementById('testAttachSelect');
 const testRangeInput = document.getElementById('testRangeInput');
 const testSolveBtn = document.getElementById('testSolveBtn');
 const testDeleteBtn = document.getElementById('testDeleteBtn');
@@ -684,7 +726,7 @@ async function handleCaptureCmd(commandId) {
 // ---- cmd="solve": dùng TOÀN BỘ camImages[] đã chụp + dạng bài/số bài do
 // Casio mod chọn để ghép thành 1 câu lệnh, gọi AI, rồi ghi đáp án vào
 // Firestore (bền vững) trước khi báo "done" ----
-async function handleSolveCmd(commandId, questionType, questionRange, subjectCode, modelFromDevice) {
+async function handleSolveCmd(commandId, questionType, questionRange, subjectCode, modelFromDevice, attachmentCode) {
   if (camImages.length === 0) {
     setFirebaseStatus('bad', '⚠️ Casio mod yêu cầu giải nhưng chưa có ảnh nào');
     await mathRef.update({ status: 'error', commandId, error: 'Chua co anh nao duoc chup' });
@@ -694,11 +736,12 @@ async function handleSolveCmd(commandId, questionType, questionRange, subjectCod
     const typeText = QUESTION_TYPE_TEXT[questionType] || questionType || '';
     const rangeText = questionRange || '';
     const extraInstruction = `\n\nHãy giải bài ${typeText} số ${rangeText} cho tôi.`;
-    const fullPrompt = buildPrompt(subjectCode) + extraInstruction;
+    const attachText = await loadAttachmentText(attachmentCode);
+    const fullPrompt = withAttachment(buildPrompt(subjectCode) + extraInstruction, attachmentCode, attachText);
     const subjectName = getSubject(subjectCode).name;
     const modelToUse = modelFromDevice || MODEL_NAME;
 
-    setFirebaseStatus('busy', `🤖 Đang giải bài ${subjectName} - ${typeText} số ${rangeText} (${modelToUse})...`);
+    setFirebaseStatus('busy', `🤖 Đang giải bài ${subjectName} - ${typeText} số ${rangeText} (${modelToUse}${attachText ? ', ' + ATTACHMENTS[attachmentCode] : ''})...`);
     cameraResultBox.className = '';
     cameraResultBox.textContent = 'AI đang giải, vui lòng chờ...';
 
@@ -734,9 +777,11 @@ async function handleDeleteCmd(commandId) {
 }
 
 // ==========================================================
-// SUPER GIẢI BÀI: phân tích đề -> giải lần lượt từng nhóm câu
+// SUPER / EXTREM GIẢI BÀI: phân tích đề -> giải lần lượt từng nhóm câu
 // ==========================================================
-// Casio mod gửi cmd="super_start" (+ subject + model). Trang này:
+// Casio mod gửi cmd="super_start" hoặc cmd="extreme_start" (+ subject + model +
+// attachment). Extrem = Super + thiết bị chụp ảnh tự động (phía firmware) + thêm
+// 1 mục CUỐI "Tổng hợp TN" (xem buildSummaryPrompt) sau khi giải xong. Trang này:
 //   1) Gọi AI đọc TOÀN BỘ ảnh đã chụp -> JSON số câu từng loại.
 //   2) Giải lần lượt: ABCD mỗi lần 3 câu; đúng sai / trả lời ngắn / tự luận
 //      từng câu 1. Mỗi lần gửi toàn bộ ảnh + buildPrompt(môn) + "Hãy giải bài
@@ -779,23 +824,45 @@ function buildSuperItems(c) {
   return items;
 }
 
-async function handleSuperStart(commandId, subjectCode, modelFromDevice, runId) {
+function buildSummaryPrompt(subjectCode, parts) {
+  return `Dưới đây là các lời giải ĐÃ CÓ của phần trắc nghiệm trong một đề ${getSubject(subjectCode).name} (gồm ABCD, đúng sai, trả lời ngắn). Hãy đọc lại TOÀN BỘ rồi tổng hợp đáp án cuối cùng của TỪNG câu thành MỘT BẢNG TỔNG HỢP.
+
+YÊU CẦU ĐỊNH DẠNG (bắt buộc, màn hình thiết bị hẹp, chỉ hiển thị chữ thuần):
+- Chỉ dùng văn bản thuần, KHÔNG dùng markdown (không dấu *, #, không kẻ bảng bằng |---|).
+- Chia 3 phần, bỏ phần nào không có câu:
+PHẦN I - ABCD
+(mỗi dòng 3 câu, dạng: 1:A | 2:C | 3:B)
+PHẦN II - ĐÚNG SAI
+(mỗi câu 1 dòng, dạng: Câu 1: a-Đ b-S c-Đ d-S)
+PHẦN III - TRẢ LỜI NGẮN
+(mỗi câu 1 dòng, dạng: Câu 1: 12,5)
+- Nếu một câu bị lỗi hoặc không tìm thấy đáp án thì ghi dấu ?.
+- Chỉ lấy đáp án cuối cùng đã chốt trong lời giải, KHÔNG giải lại, KHÔNG thêm lời giải thích, KHÔNG tổng hợp câu tự luận.
+
+CÁC LỜI GIẢI:
+${parts.join('\n\n')}`;
+}
+
+async function handleSuperStart(commandId, subjectCode, modelFromDevice, attachmentCode, runId, extreme) {
   const alive = () => runId === superRunId;
   const superRef = mathRef.child('super');
   const itemsRef = mathRef.child('superItems');
   const model = modelFromDevice || MODEL_NAME;
+  const tag = extreme ? 'Extrem' : 'Super';
   const shortErr = e => String((e && e.message) || e).slice(0, 80);
 
   try {
     if (camImages.length === 0) {
       await superRef.set({ commandId, phase: 'error', error: 'Chưa có ảnh nào được chụp' });
-      setFirebaseStatus('bad', '⚠️ Super giải bài: chưa có ảnh nào');
+      setFirebaseStatus('bad', `⚠️ ${tag} giải bài: chưa có ảnh nào`);
       return;
     }
     await superRef.set({ commandId, phase: 'analyzing', total: 0, doneCount: 0 });
-    setFirebaseStatus('busy', `🔎 Super: đang phân tích đề (${model})...`);
+    // Tải tài liệu đính kèm (nếu có) ngay từ đầu để báo lỗi sớm.
+    const attachText = await loadAttachmentText(attachmentCode);
+    setFirebaseStatus('busy', `🔎 ${tag}: đang phân tích đề (${model}${attachText ? ', ' + ATTACHMENTS[attachmentCode] : ''})...`);
     cameraResultBox.className = '';
-    cameraResultBox.textContent = 'Super giải bài: AI đang đếm số câu của đề...';
+    cameraResultBox.textContent = `${tag} giải bài: AI đang đếm số câu của đề...`;
 
     // ---- Bước 3: phân tích đề (thử tối đa 2 lần nếu JSON hỏng) ----
     let counts = null, lastErr = null;
@@ -811,7 +878,10 @@ async function handleSuperStart(commandId, subjectCode, modelFromDevice, runId) 
     const items = buildSuperItems(counts);
     if (items.length === 0) throw new Error('Không tìm thấy câu hỏi nào trong đề');
 
-    await superRef.update({ phase: 'solving', total: items.length, counts });
+    // Extrem: nếu có câu trắc nghiệm (ABCD/đúng sai/trả lời ngắn) thì thêm 1 mục cuối "Tổng hợp TN".
+    const hasSummary = !!extreme && (counts.abcd + counts.dungsai + counts.tlngan) > 0;
+    const summaryParts = []; // lời giải của các mục trắc nghiệm, gom lại cho bước tổng hợp
+    await superRef.update({ phase: 'solving', total: items.length + (hasSummary ? 1 : 0), counts });
     if (!alive()) return;
 
     // ---- Bước 4: giải lần lượt ----
@@ -819,8 +889,8 @@ async function handleSuperStart(commandId, subjectCode, modelFromDevice, runId) 
       if (!alive()) return;
       const it = items[k];
       const typeText = QUESTION_TYPE_TEXT[it.type];
-      const prompt = buildPrompt(subjectCode) + `\n\nHãy giải bài ${typeText} số ${it.range} cho tôi.`;
-      setFirebaseStatus('busy', `🤖 Super: đang giải ${it.typeLabel} ${it.range} (${k + 1}/${items.length})...`);
+      const prompt = withAttachment(buildPrompt(subjectCode) + `\n\nHãy giải bài ${typeText} số ${it.range} cho tôi.`, attachmentCode, attachText);
+      setFirebaseStatus('busy', `🤖 ${tag}: đang giải ${it.typeLabel} ${it.range} (${k + 1}/${items.length})...`);
 
       let answer = null, err = null;
       for (let attempt = 0; attempt < 2 && answer === null; attempt++) {
@@ -839,17 +909,39 @@ async function handleSuperStart(commandId, subjectCode, modelFromDevice, runId) 
       if (!alive()) return;
       await superRef.update({ doneCount: k + 1 });
       if (!failed) { cameraResultBox.className = ''; cameraResultBox.innerHTML = formatAnswerHtml(answer); }
+      if (it.type !== 'tu_luan') summaryParts.push(`[${it.typeLabel} ${it.range}]\n${text}`);
+    }
+
+    // ---- Extrem: mục cuối - AI đọc lại các lời giải trắc nghiệm, ghi ra bảng tổng hợp ----
+    if (hasSummary) {
+      if (!alive()) return;
+      setFirebaseStatus('busy', `📋 ${tag}: đang tổng hợp đáp án trắc nghiệm...`);
+      const sumPrompt = buildSummaryPrompt(subjectCode, summaryParts);
+      let sumAns = null, sumErr = null;
+      for (let attempt = 0; attempt < 2 && sumAns === null; attempt++) {
+        try { sumAns = await callClaude(model, [], sumPrompt, { maxTokens: 8000, effort: 'medium' }); }
+        catch (e) { sumErr = e; }
+        if (!alive()) return;
+      }
+      const sumFailed = sumAns === null;
+      const sumText = sumFailed ? 'LỖI: ' + shortErr(sumErr) : stripMarkdownForDevice(sumAns);
+      const sumMeta = { label: `Tổng hợp TN${sumFailed ? ' (!)' : ''}`, typeLabel: 'Tổng hợp', range: 'TN', text: sumText };
+      if (sumFailed) sumMeta.err = true;
+      await itemsRef.child('i' + items.length).set(sumMeta);
+      if (!alive()) return;
+      await superRef.update({ doneCount: items.length + 1 });
+      if (!sumFailed) { cameraResultBox.className = ''; cameraResultBox.innerHTML = formatAnswerHtml(sumAns); }
     }
 
     if (!alive()) return;
     await superRef.update({ phase: 'done' });
-    setFirebaseStatus('ok', `✅ Super giải bài xong ${items.length} mục`);
+    setFirebaseStatus('ok', `✅ ${tag} giải bài xong ${items.length}${hasSummary ? ' + tổng hợp' : ''} mục`);
   } catch (err) {
     if (!alive()) return;
     try { await superRef.update({ phase: 'error', error: shortErr(err) }); } catch (e) { /* bỏ qua */ }
     cameraResultBox.className = 'error';
-    cameraResultBox.textContent = 'Super giải bài lỗi: ' + err.message;
-    setFirebaseStatus('bad', '❌ Super lỗi: ' + err.message);
+    cameraResultBox.textContent = `${tag} giải bài lỗi: ` + err.message;
+    setFirebaseStatus('bad', `❌ ${tag} lỗi: ` + err.message);
   }
 }
 
@@ -874,14 +966,14 @@ mathRef.on('value', (snap) => {
     // Bất kỳ lệnh mới nào (capture/solve/delete/super_cancel...) đều huỷ lượt
     // Super giải toán đang chạy dở (nếu có) - tránh tốn token + ghi đè dữ liệu.
     superRunId++;
-    if (data.cmd === 'super_start') {
-      handleSuperStart(data.commandId, data.subject, data.model, superRunId);
+    if (data.cmd === 'super_start' || data.cmd === 'extreme_start') {
+      handleSuperStart(data.commandId, data.subject, data.model, data.attachment, superRunId, data.cmd === 'extreme_start');
     } else if (data.cmd === 'super_cancel') {
-      setFirebaseStatus('ok', '⏹️ Casio mod đã huỷ Super giải bài');
+      setFirebaseStatus('ok', '⏹️ Casio mod đã huỷ Super/Extrem giải bài');
     } else if (data.cmd === 'capture') {
       handleCaptureCmd(data.commandId);
     } else if (data.cmd === 'solve') {
-      handleSolveCmd(data.commandId, data.questionType, data.questionRange, data.subject, data.model);
+      handleSolveCmd(data.commandId, data.questionType, data.questionRange, data.subject, data.model, data.attachment);
     } else if (data.cmd === 'delete') {
       handleDeleteCmd(data.commandId);
     }
@@ -900,12 +992,17 @@ testSolveBtn.addEventListener('click', () => {
   const questionType = testTypeSelect.value;
   const questionRange = testRangeInput.value.trim() || '1';
   const commandId = Date.now();
-  mathRef.set({ cmd: 'solve', status: 'requested', commandId, questionType, questionRange, subject: testSubjectSelect.value, model: testModelSelect.value });
+  mathRef.set({ cmd: 'solve', status: 'requested', commandId, questionType, questionRange, subject: testSubjectSelect.value, model: testModelSelect.value, attachment: testAttachSelect.value });
 });
 
 document.getElementById('testSuperBtn').addEventListener('click', () => {
   const commandId = Date.now();
-  mathRef.set({ cmd: 'super_start', status: 'requested', commandId, subject: testSubjectSelect.value, model: testModelSelect.value });
+  mathRef.set({ cmd: 'super_start', status: 'requested', commandId, subject: testSubjectSelect.value, model: testModelSelect.value, attachment: testAttachSelect.value });
+});
+
+document.getElementById('testExtremeBtn').addEventListener('click', () => {
+  const commandId = Date.now();
+  mathRef.set({ cmd: 'extreme_start', status: 'requested', commandId, subject: testSubjectSelect.value, model: testModelSelect.value, attachment: testAttachSelect.value });
 });
 
 testDeleteBtn.addEventListener('click', () => {
